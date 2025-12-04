@@ -446,7 +446,7 @@ from .services.news_service import fetch_news_and_events
 
 # HOME VIEW START
 
-@login_required(login_url='login')
+
 def home_view(request):
     articles = fetch_news_and_events(symbols="AAPL", limit=5)
 
