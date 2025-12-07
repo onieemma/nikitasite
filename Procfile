@@ -1,2 +1,1 @@
-web: gunicorn nikitasite.wsgi:application --bind 0.0.0.0:$PORT
-
+web: gunicorn nikitastite.wsgi --log-file -
