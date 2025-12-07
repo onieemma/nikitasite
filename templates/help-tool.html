@@ -330,10 +330,10 @@
         </button>
         <div class="help-dropdown" id="helpDropdown">
             <div class="help-dropdown-header">Select an Option</div>
-            <a onclick="openPopup('contact')">
-                <span class="option-icon">📧</span>
-                <span class="option-text">Contact Us</span>
-            </a>
+            <a onclick="openContactPopup()">
+    <span class="option-icon">📧</span>
+    <span class="option-text">Contact Us</span>
+</a>
             <a onclick="openPopup('listings')">
                 <span class="option-icon">🏠</span>
                 <span class="option-text">View Listings</span>
@@ -372,39 +372,18 @@
     <!-- Contact Us Popup -->
     <div class="popup-modal" id="contactPopup">
         <div class="popup-wrapper">
-            <div class="popup-header">
-                <h2 class="popup-title">Contact Us</h2>
-                <button class="close-popup" onclick="closePopup('contactPopup')">×</button>
-            </div>
-            <div class="popup-body">
-                <div class="popup-section">
-                    <h3>Get in Touch</h3>
-                    <p>We'd love to hear from you! Reach out to our team with any questions or inquiries about properties in our portfolio.</p>
-                </div>
-                <div class="popup-form">
-                    <form onsubmit="handleSubmit(event)">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="+1 (555) 000-0000" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Message</label>
-                            <textarea placeholder="Tell us how we can help..." required></textarea>
-                        </div>
-                        <button type="submit" class="popup-button">Send Message</button>
-                    </form>
-                </div>
-            </div>
+            
         </div>
     </div>
+
+<script>
+function openContactPopup() {
+    const popupOverlay = document.getElementById('popupOverlay');
+    if (popupOverlay) {
+        popupOverlay.classList.add('active');
+    }
+}
+</script>
 
     <!-- View Listings Popup -->
     <div class="popup-modal" id="listingsPopup">
