@@ -1,0 +1,788 @@
+ {% extends 'main.html' %}
+ {% load static %}
+
+
+    <title>forsale </title>
+
+
+    {% block content %}
+
+
+
+    <style>
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+/* ===========================
+   HERO SECTION
+===========================*/
+=
+
+.hero-sales::after {
+    content: "";
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    inset: 0;
+}
+
+.hero-content-sales {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.hero-content-sales h1 {
+    font-size: 50px;
+    margin-bottom: 25px;
+}
+
+/* SEARCH BAR */
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    width: 600px;
+    background: white;
+    border-radius: 50px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+}
+
+.search-box input {
+    width: 70%;
+    padding: 15px 20px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-box button {
+    width: 30%;
+    border: none;
+    background: #0d7a68;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ===========================
+   FILTER BUTTONS
+===========================*/
+.filter-section {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.filter-controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1px solid #0d7a68;
+    background: white;
+    cursor: pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #0d7a68;
+    color: white;
+}
+
+/* ===========================
+   PROPERTIES GRID
+===========================*/
+.properties-section {
+    padding: 50px 20px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.property-card {
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0px 5px 25px rgba(0,0,0,0.1);
+    transition: transform .3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-5px);
+}
+
+.property-image {
+    position: relative;
+}
+
+.property-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.property-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 15px;
+    background: #0d7a68;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.property-info {
+    padding: 20px;
+}
+
+.property-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0d7a68;
+}
+
+.property-agent {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #777;
+}
+
+.property-specs {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.spec-item {
+    text-align: center;
+}
+
+.spec-value {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.property-address {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+.property-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-view {
+    flex: 1;
+    padding: 10px 15px;
+    background: #0d7a68;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-favorite {
+    background: none;
+    border: none;
+    font-size: 22px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.btn-favorite.active {
+    color: red;
+}
+
+/* ===========================
+   MAP SECTION
+===========================*/
+.map-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.map-container {
+    max-width: 1000px;
+    height: 450px;
+    margin: auto;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===========================
+   CONTACT POPUP
+===========================*/
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-container {
+    background: white;
+    width: 700px;
+    max-width: 90%;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.close-btn {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* ===========================
+   FOOTER
+===========================*/
+.footer {
+    background: #0d7a68;
+    padding: 50px 20px;
+    color: white;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.footer-col h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin: 6px 0;
+}
+
+.footer-col ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-links a {
+    color: white;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+/* ===========================
+   RESPONSIVE
+===========================*/
+@media (max-width: 768px) {
+    .search-box {
+        width: 90%;
+    }
+
+    .hero-sales h1 {
+        font-size: 35px;
+    }
+}
+
+
+    </style>
+  
+</head>
+<body>
+
+
+ 
+
+   <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero-sales">
+        <div class="hero-content-sales">
+            <h1>Your Next Property</h1>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Search property, city, or Zip">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FILTER SECTION ===== -->
+ <div class="filter-section">
+        <div class="filter-controls">
+            <button class="filter-btn active">All Properties</button>
+            <button class="filter-btn">Price: Low to High</button>
+            <button class="filter-btn">Recently Added</button>
+            <button class="filter-btn">3+ Bedrooms</button>
+            <button class="filter-btn">2+ Bathrooms</button>
+        </div>
+    </div>  
+
+    
+
+   
+    <!-- ===== PROPERTIES SECTION ===== -->
+    {% comment %} <section class="properties-section">
+        <div class="section-header">
+            <h2>Available Properties</h2>
+            <p>Explore our exclusive collection of homes in Houston, USA, Nigeria, and Ghana</p>
+        </div>
+
+        <div class="properties-grid" id="propertiesGrid">
+            <!-- Properties will be populated here -->
+        </div>
+
+        <div class="load-more-container">
+            <button class="btn-load-more">Load More Properties</button>
+        </div>
+    </section> {% endcomment %}
+
+    <style>
+.har-listing-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.har-listing-wrapper h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.har-listing-container {
+    width: 100%;
+    height: 220vh;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.har-listing-container iframe {
+    width: 100%;
+    height: 220vh;
+    border: none;
+}
+</style>
+
+  <div class="har-listing-container">
+        <iframe 
+            src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=715851&mlsorgid=1&allmls=n" 
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- ===== MAP SECTION ===== -->
+    <section class="map-section">
+        <h2>Find Properties in Texas</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447401.063024316!2d-107.0819858420861!3d31.968598607380985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b8f0011c9f8b%3A0x3d9b9f39f4c95ff0!2sTexas%2C%20USA!5e0!3m2!1sen!2sus!4v1698329000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+
+
+
+
+
+             <!-- EMAIL -->
+{% include 'email.html' %}
+
+
+
+        <!-- FOOTER -->
+{% include 'footer.html' %}
+
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add active state to TOC based on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('.content-section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.toc-list a').forEach(link => {
+                link.style.color = link.getAttribute('href').slice(1) === current 
+                    ? '#0d7a68' 
+                    : '#0b5d50';
+                link.style.fontWeight = link.getAttribute('href').slice(1) === current 
+                    ? '700' 
+                    : '500';
+            });
+        });
+    </script>
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+        <!-- JAVASCRIPT FILES - Deferred for better performance -->
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/bootstrap.bundle.min.js"></script>
+        <script defer src="js/jquery.sticky.js"></script>
+        <script defer src="js/aos.js"></script>
+        <script defer src="js/jquery.magnific-popup.min.js"></script>
+        <script defer src="js/magnific-popup-options.js"></script>
+        <script defer src="js/scrollspy.min.js"></script>
+        <script defer src="js/custom.js"></script>
+
+<script>
+// Navbar scroll & logo change
+
+
+// MOBILE MENU
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeMenu = document.querySelector('.close-mobile-menu');
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+});
+
+closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+});
+
+// MOBILE SUBMENU ACCORDION
+document.querySelectorAll('.mobile-dropdown > a').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = item.parentElement;
+        parent.classList.toggle('open');
+    });
+});
+
+// Hero text rotation
+document.addEventListener("DOMContentLoaded", function() {
+    const h3Texts = [
+        "Welcome to", "Discover", "Explore", "Experience",
+        "Join Us at", "Your Gateway to", "Find Your", "Step Into"
+    ];
+
+    const h1Texts = [
+        "Nikita Global Realty", "Dream Homes", "Luxury Properties", "Global Estates",
+        "Premier Realty", "Trusted Homes", "Exclusive Listings", "Elite Properties"
+    ];
+
+    let index = 0;
+
+    function updateHeroText() {
+        const h3 = document.getElementById("hero-h3");
+        const h1 = document.getElementById("hero-h1");
+
+        if (!h3 || !h1) return;
+
+        // Animate h3 drop down
+        h3.style.transform = "translateY(-20px)";
+        h3.style.opacity = "0";
+
+        setTimeout(() => {
+            // Update text
+            h3.textContent = h3Texts[index];
+            h1.textContent = h1Texts[index];
+
+            // Drop-in effect
+            h3.style.transform = "translateY(0)";
+            h3.style.opacity = "1";
+
+            // Next index
+            index = (index + 1) % h3Texts.length;
+        }, 500);
+    }
+
+    // Initial call
+    updateHeroText();
+
+    // Rotate every 4 seconds
+    setInterval(updateHeroText, 4000);
+});
+
+
+
+     // Sample property data
+        const properties = [
+            {
+                id: 1,
+                price: '$550,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 3,
+                baths: 3,
+                sqft: '2,470',
+                address: '108 W 10th 1/2 Street, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=300&fit=crop'
+            },
+            {
+                id: 2,
+                price: '$450,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 4,
+                baths: 2,
+                sqft: '3,100',
+                address: '235 Oak Lane, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop'
+            },
+            {
+                id: 3,
+                price: '$675,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 5,
+                baths: 3,
+                sqft: '3,850',
+                address: '512 Maple Drive, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=300&fit=crop'
+            },
+            {
+                id: 4,
+                price: '$380,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 3,
+                baths: 2,
+                sqft: '2,200',
+                address: '789 Pine Street, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=300&fit=crop'
+            },
+            {
+                id: 5,
+                price: '$520,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 4,
+                baths: 3,
+                sqft: '2,950',
+                address: '321 Cedar Avenue, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=300&fit=crop'
+            },
+            {
+                id: 6,
+                price: '$625,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 5,
+                baths: 2,
+                sqft: '3,400',
+                address: '654 Elm Road, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=300&fit=crop'
+            },
+            {
+                id: 7,
+                price: '$495,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 3,
+                baths: 2,
+                sqft: '2,600',
+                address: '147 Birch Lane, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop'
+            },
+            {
+                id: 8,
+                price: '$710,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 5,
+                baths: 4,
+                sqft: '4,100',
+                address: '963 Walnut Court, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=300&fit=crop'
+            },
+            {
+                id: 9,
+                price: '$420,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 2,
+                baths: 2,
+                sqft: '1,950',
+                address: '741 Spruce Street, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=300&fit=crop'
+            },
+            {
+                id: 10,
+                price: '$580,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 4,
+                baths: 3,
+                sqft: '3,200',
+                address: '852 Willow Drive, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=300&fit=crop'
+            },
+            {
+                id: 11,
+                price: '$655,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 5,
+                baths: 3,
+                sqft: '3,700',
+                address: '369 Ash Boulevard, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=300&fit=crop'
+            },
+            {
+                id: 12,
+                price: '$505,000',
+                agent: 'Listed by Nikita Global Realty',
+                beds: 3,
+                baths: 3,
+                sqft: '2,750',
+                address: '258 Poplar Lane, Houston, TX',
+                image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop'
+            }
+        ];
+
+        // Render properties
+        function renderProperties() {
+            const grid = document.getElementById('propertiesGrid');
+            grid.innerHTML = properties.map(prop => `
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="${prop.image}" alt="Property">
+                        <div class="property-badge">For Sale</div>
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">${prop.price}</div>
+                        <div class="property-agent">${prop.agent}</div>
+                        <div class="property-specs">
+                            <div class="spec-item">
+                                <div class="spec-value">${prop.beds}</div>
+                                <div class="spec-label">Beds</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-value">${prop.baths}</div>
+                                <div class="spec-label">Baths</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-value">${prop.sqft}</div>
+                                <div class="spec-label">Sqft</div>
+                            </div>
+                        </div>
+                        <div class="property-address">${prop.address}</div>
+                        <div class="property-action">
+                            <button class="btn-view">View Details</button>
+                            <button class="btn-favorite"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners to favorite buttons
+            document.querySelectorAll('.btn-favorite').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    if(this.classList.contains('active')) {
+                        this.innerHTML = '<i class="fas fa-heart"></i>';
+                    } else {
+                        this.innerHTML = '<i class="far fa-heart"></i>';
+                    }
+                });
+            });
+        }
+
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrolled + '%';
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Load more functionality
+        document.querySelector('.btn-load-more').addEventListener('click', function() {
+            renderProperties();
+            this.textContent = 'All Properties Loaded';
+            this.disabled = true;
+        });
+
+        // Initialize
+        renderProperties();
+
+        // Search functionality
+        document.querySelector('.search-box button').addEventListener('click', function() {
+            const searchValue = document.querySelector('.search-box input').value;
+            alert('Searching for: ' + searchValue);
+        });
+</script>
+
+
+
+
+
+
+{% endblock %}

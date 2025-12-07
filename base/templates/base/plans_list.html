@@ -1,0 +1,39 @@
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Investment Plans</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }
+    .title { font-weight: 700; margin-bottom: .25rem; }
+    .meta { color: #64748b; font-size: .9rem; margin-bottom: .5rem; }
+    .cta { background: #2563eb; color: white; padding: .5rem .75rem; border-radius: 6px; text-decoration: none; display: inline-block; }
+  </style>
+</head>
+<body>
+  <h1>Investment Plan</h1>
+  <p>We help you make smart real estate investment decisions with data-driven strategies and long-term financial growth planning.</p>
+
+  <div class="grid">
+    {% for plan in plans %}
+      <div class="card">
+        <div class="title">{{ plan.title }}</div>
+        <div class="meta">
+          ROI: {{ plan.roi_percentage }}% · Duration: {{ plan.duration_years }} years · Min: {{ plan.minimum_amount }}
+          <br>Risk: {{ plan.risk_level }}
+        </div>
+        <p>{{ plan.description|truncatechars:140 }}</p>
+      
+        <a class="cta" href="{% url 'base:investment' plan.pk %}">Start Investing</a>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
+
+{% endblock %}
