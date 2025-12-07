@@ -2,20 +2,26 @@
 {% load static%}
 
 
+
+
 <!-- POPUP -->
  <div class="popup-overlay" id="popupOverlay">
     <div class="popup-container">
-        <div class="popup-header">
+        <div class="popup-header" style="display: flex;">
             <button class="close-btn" id="closeBtn">&times;</button>
-            <h2>Contact Us</h2>
-            <p>Fill out this short form and we'll get back to you quickly.</p>
+            
+            <div class="c-fill" style="width:100%;">
+                <h2>Contact Us</h2>
+                     <p>Fill out this short form and we'll get back to you quickly.</p>
+            </div>
+           
         </div>
 
         <div class="popup-content">
             <div class="form-section">
-                <div class="form-group">
+                <div class="form-group" >
                     <label>Do You Have Real Estate Questions?</label>
-                    <p class="agent-description" style="margin-bottom: 20px;">Whether you're buying, selling, or renting, I'm here to help with all your real estate needs. Get professional answers fast!</p>
+                    <p class="agent-description" style="margin-bottom: 20px; padding-top:20px;">Whether you're buying, selling, or renting, I'm here to help with all your real estate needs. Get professional answers fast!</p>
                 </div>
 
                 <!-- Success/Error Messages -->
@@ -39,6 +45,12 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="country">Country *</label>
+                        <input type="text" id="country" name="country" required>
+                    </div>
+
+
+                    <div class="form-group">
                         <label for="comments">Comments</label>
                         <textarea id="comments" name="comments"></textarea>
                     </div>
@@ -52,8 +64,16 @@
                 </form>
             </div>
                 
-            <div class="agent-section">
-                <div class="agent-photo"><img src="{% static 'images/emailprofile.jpg' %}" alt="My Image" width="200" height="150"></div>
+            <div class="agent-section" style="padding-top:50px;">
+               <div class="agent-photo">
+    <img src="{% static 'images/emailprofile.jpg' %}" 
+         alt="My Image" 
+         width="200" 
+         height="150" 
+         style="border-radius: 5px;">
+</div>
+
+
                 <div class="agent-info">
                     <div class="agent-name">Oyenike Nikki Oyelakin</div>
                     <div class="agent-company">Nikita Global Realty</div>
@@ -61,7 +81,7 @@
                     <div class="agent-links">
                         <a href="tel:213-274-1231" class="ag">213-274-1231</a> 
                    
-                        <a href="https://www.har.com/oyenike-oyelakin/agent_Oyelakin" target="_blank" class="agent">Email</a>
+                        <a href="https://www.har.com/oyenike-oyelakin/agent_Oyelakin" target="_blank" class="agent">Contact Agent</a>
                     </div>
                 </div>
             </div>
