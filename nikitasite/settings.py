@@ -19,7 +19,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["nikitaglobalrealt.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Session settings
@@ -247,3 +247,4 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
