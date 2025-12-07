@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -245,4 +245,5 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 # GOOGLE GEMINI API
 # ============================================================================
+
 GEMINI_API_KEY = config('GEMINI_API_KEY')
