@@ -15,9 +15,9 @@
             <!-- 2. Contact -->
             <div class="footer-col">
                 <h4 >CONTACT</h4>
-                <p>Nikita Global Realty</p>
+            
                 
-                <p>16010 Barkers Point Lane, #555 Houston Tx 77079 <br> Phone: +18329622241 <br>  Email: info@nikitaglobalrealty.com</p>
+                <p>Address: <br> 16010 Barkers Point Lane, #555 Houston Tx 77079 <br> Phone: <br> +18329622241 <br>  Email: <br> info@nikitaglobalrealty.com</p>
                 
             </div>
 
@@ -30,7 +30,7 @@
                     <li><a href="https://www.har.com/idx/mls/search?sitetype=aws&cid=715851&mlsorgid=1&allmls=n&for_sale=1', '_blank'">MLS Search</a></li>
                     <li><a href="'https://www.har.com/idx/neighborhood/search?sitetype=aws&cid=715851', '_blank">Neighborhoods</a></li>
                     <li><a href="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=715851" target="_blank">Home valuation</a></li>
-                    <li><a href="#contact">Testimonials</a></li>
+                      <li>   <a href="{% url 'index' %}#testimonial-section">Testimonials</a></li>
                     <li><a href="{% url 'market' %}">Market Reports</a></li>
                     <li><a href="{% url 'home_buy' %}">Buy</a></li>
                     <li><a href="{% url 'homesell' %}">Sell</a></li>
@@ -63,9 +63,9 @@
 
             <!-- 3. Footer Links -->
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
+               
                 <a href="{% url 'terms' %}">Terms & Conditions</a>
-                <a href="#">Sitemap</a>
+                <a href="{% url 'sitemap' %}">Sitemap</a>
             </div>
         </div>
 
