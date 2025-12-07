@@ -1,0 +1,192 @@
+  {% extends 'main.html' %}
+ {% load static %}
+
+
+    <title>about</title>
+
+
+    {% block content %}
+
+
+
+
+
+
+
+  <!-- HERO SECTION -->
+  <section class="about-hero">
+    <div class="about-hero-content">
+      <h1>About Us</h1>
+      <p style='color: white;'>Discover why Nikita Global Realty is the trusted partner for your global property journey.</p>
+    </div>
+  </section>
+
+  <!-- NIKITA PARAGRAPH SECTION -->
+  <section class="nikita-section">
+    <h2>Nikita Global Realty</h2>
+    <p>At Nikita Global Realty, we make owning a home across the globe simple, seamless, and accessible. With a carefully curated selection of properties and an easy-to-use platform, we empower homebuyers to find their dream property anywhere in the world. Our team of experts provides guidance, insights, and support every step of the way, ensuring that your journey to homeownership is smooth and stress-free.</p>
+  </section>
+
+  <!-- VIDEO SECTION -->
+  <section class="video-section">
+    <h2>Learn More About Us</h2>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Nikita Global Realty Video" allowfullscreen></iframe>
+    </div>
+  </section>
+
+</body>
+</html>
+
+
+
+
+
+   
+
+        <!-- FOOTER -->
+        
+{% include 'footer.html' %}
+
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add active state to TOC based on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('.content-section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.toc-list a').forEach(link => {
+                link.style.color = link.getAttribute('href').slice(1) === current 
+                    ? '#0d7a68' 
+                    : '#0b5d50';
+                link.style.fontWeight = link.getAttribute('href').slice(1) === current 
+                    ? '700' 
+                    : '500';
+            });
+        });
+    </script>
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+        <!-- JAVASCRIPT FILES - Deferred for better performance -->
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/bootstrap.bundle.min.js"></script>
+        <script defer src="js/jquery.sticky.js"></script>
+        <script defer src="js/aos.js"></script>
+        <script defer src="js/jquery.magnific-popup.min.js"></script>
+        <script defer src="js/magnific-popup-options.js"></script>
+        <script defer src="js/scrollspy.min.js"></script>
+        <script defer src="js/custom.js"></script>
+
+<script>
+// Navbar scroll & logo change
+const navbar = document.querySelector('.overlay-navbar');
+const logo = document.querySelector('.overlay-navbar .logo img');
+const defaultLogo = logo.src;
+const scrolledLogo = logo.dataset.logo;
+
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+        logo.src = scrolledLogo;
+    } else {
+        navbar.classList.remove('scrolled');
+        logo.src = defaultLogo;
+    }
+});
+
+// MOBILE MENU
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeMenu = document.querySelector('.close-mobile-menu');
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+});
+
+closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+});
+
+// MOBILE SUBMENU ACCORDION
+document.querySelectorAll('.mobile-dropdown > a').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = item.parentElement;
+        parent.classList.toggle('open');
+    });
+});
+
+// Hero text rotation
+document.addEventListener("DOMContentLoaded", function() {
+    const h3Texts = [
+        "Welcome to", "Discover", "Explore", "Experience",
+        "Join Us at", "Your Gateway to", "Find Your", "Step Into"
+    ];
+
+    const h1Texts = [
+        "Nikita Global Realty", "Dream Homes", "Luxury Properties", "Global Estates",
+        "Premier Realty", "Trusted Homes", "Exclusive Listings", "Elite Properties"
+    ];
+
+    let index = 0;
+
+    function updateHeroText() {
+        const h3 = document.getElementById("hero-h3");
+        const h1 = document.getElementById("hero-h1");
+
+        if (!h3 || !h1) return;
+
+        // Animate h3 drop down
+        h3.style.transform = "translateY(-20px)";
+        h3.style.opacity = "0";
+
+        setTimeout(() => {
+            // Update text
+            h3.textContent = h3Texts[index];
+            h1.textContent = h1Texts[index];
+
+            // Drop-in effect
+            h3.style.transform = "translateY(0)";
+            h3.style.opacity = "1";
+
+            // Next index
+            index = (index + 1) % h3Texts.length;
+        }, 500);
+    }
+
+    // Initial call
+    updateHeroText();
+
+    // Rotate every 4 seconds
+    setInterval(updateHeroText, 4000);
+});
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,1077 @@
+ {% extends 'main.html' %}
+{% load static %}
+    <title>nikita global realty</title>
+    {% block content %}
+
+            
+                                                                                                                                                                                                                                                                                          
+        <main>    
+          
+           
+          <!-- NAVBAR -->
+
+
+          <!-- HERO -->
+            <section class="hero" id="hero">
+ <div class="heroText">
+  
+    <h3 id="hero-h3">Welcome to</h3>
+    <h1 id="hero-h1">Nikita Global Realty</h1>
+    <h2 class="hero-tagline">Trust. Excellence. Global.</h2>
+    <a href="book-appointment" class="btn-book">Book an Appointment</a>
+</div>
+
+                <div class="videoWrapper">
+                    <video autoplay loop muted playsinline class="custom-video" preload="metadata" 
+        poster="{% static 'images/Whisk_4fb9f13bd1c73abb764495cb18a9e133dr.jpeg' %}">
+        
+        <source src="{% static 'videos/house.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+                </div>
+                <div class="overlay"></div>
+            </section>   
+            
+
+              <!-- HERO-APPOINTMENT -->
+<!-- OVERLAY -->
+<div id="appointmentOverlay" class="appointment-overlay" aria-hidden="true"></div>
+
+<!-- SLIDE-OUT PANEL -->
+<aside id="appointmentPanel" class="appointment-panel" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="panel-header">
+    <h2>Book Appointment</h2>
+    <button id="closeAppointment" class="close-btn">×</button>
+  </div>
+<form id="appointmentForm" class="appointment-form" novalidate>
+    {% csrf_token %}
+    
+    <!-- Success/Error Messages -->
+    <div id="appointmentMessage" style="display: none; padding: 15px; border-radius: 8px; margin-bottom: 20px;"></div>
+    
+    <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input id="fullName" name="fullName" type="text" placeholder="Enter your full name" required>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone *</label>
+            <input id="phone" name="phone" type="tel" placeholder="+1 555 555 5555" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="date">Date *</label>
+            <input id="date" name="date" type="date" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Time *</label>
+            <input id="time" name="time" type="time" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="type">Appointment Type *</label>
+        <select id="type" name="type" required>
+            <option value="">-- Select --</option>
+            <option>Home Selling Consultation</option>
+            <option>Home Buying Consultation</option>
+            <option>Property Viewing</option>
+            <option>General Inquiry</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="message">Message (optional)</label>
+        <textarea id="message" name="message" placeholder="Any details we should know?"></textarea>
+    </div>
+
+    <button type="submit" class="appointment-btn" id="appointmentSubmitBtn">Submit Appointment</button>
+    <p id="appointmentStatus" class="appointment-status" aria-live="polite"></p>
+</form>
+
+<script>
+document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = document.getElementById('appointmentSubmitBtn');
+    const messageDiv = document.getElementById('appointmentMessage');
+    const statusP = document.getElementById('appointmentStatus');
+    const formData = new FormData(form);
+    
+    // Get CSRF token
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Disable submit button
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    
+    // Clear previous messages
+    messageDiv.style.display = 'none';
+    statusP.textContent = '';
+    
+    // Send AJAX request
+    fetch('/appointment/submit/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        messageDiv.style.display = 'block';
+        
+        if (data.success) {
+            // Success message
+            messageDiv.style.backgroundColor = '#d4edda';
+            messageDiv.style.color = '#155724';
+            messageDiv.style.border = '1px solid #c3e6cb';
+            messageDiv.innerHTML = `
+                <strong>✓ Appointment Submitted!</strong><br>
+                ${data.message}<br>
+                <small><strong>Date:</strong> ${data.appointment_date} at ${data.appointment_time}</small>
+            `;
+            
+            // Reset form
+            form.reset();
+            
+            // Update status
+            statusP.textContent = 'Appointment successfully submitted!';
+            statusP.style.color = '#155724';
+            
+        } else {
+            // Error message
+            messageDiv.style.backgroundColor = '#f8d7da';
+            messageDiv.style.color = '#721c24';
+            messageDiv.style.border = '1px solid #f5c6cb';
+            messageDiv.innerHTML = `<strong>✗ Error!</strong><br>${data.message}`;
+            
+            statusP.textContent = 'Please fix the errors and try again.';
+            statusP.style.color = '#721c24';
+        }
+        
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Appointment';
+        
+        // Scroll to message
+        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        messageDiv.style.display = 'block';
+        messageDiv.style.backgroundColor = '#f8d7da';
+        messageDiv.style.color = '#721c24';
+        messageDiv.style.border = '1px solid #f5c6cb';
+        messageDiv.innerHTML = '<strong>✗ Error!</strong><br>Something went wrong. Please try again.';
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Appointment';
+        
+        statusP.textContent = 'Network error. Please try again.';
+        statusP.style.color = '#721c24';
+    });
+});
+
+// Set minimum date to today
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+});
+</script>
+</aside>
+
+
+
+
+
+            <!-- AWARDED -->
+          <section class="recognized-section">
+  <div class="container">
+    <h3 class="award-section">Recognized & Awarded</h3>
+    <div class="logo-slider">
+      <div class="logos">
+        <img src="{% static 'images/kindpng_3642613.png' %}" alt="Brand 1" loading="lazy" width="150" height="80">
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 2" loading="lazy" width="150" height="80">
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 3" loading="lazy" width="150" height="80">
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 4" loading="lazy" width="150" height="80">
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 5" loading="lazy" width="150" height="80">
+
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 7" loading="lazy" width="150" height="80">
+<img src="{% static 'images/kindpng_4937806.png' %}" alt="Brand 8" loading="lazy" width="150" height="80">
+
+      </div>
+    </div>
+  </div>
+</section>
+
+            <!-- NIKITA EXPERIENCE -->
+            <section class="section-padding pb-0" id="about">
+                <div class="container mb-5 pb-lg-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="mb-3" data-aos="fade-up">Nikita Experience</h2>
+                        </div>
+
+                        <div class="col-lg-6 col-12 mt-3 mb-lg-5">
+                            <p class="me-4" data-aos="fade-up" data-aos-delay="300">Nikita Global Realty is an international real estate firm headquartered 16010 Barkers Point Lane, #555 Houston Tx 77079. The company provides a wide range of residential and commercial real estate services across the United States, Nigeria, and Ghana. Consumers continue to find value in working with <a href="https://www.har.com/oyenike-oyelakin/agent_Oyelakin?renew=1" class="har-in">Nikita experienced agent</a> who guide them through every stage of the real estate process, from <a href="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=715851&allmls=n&mlsorgid=1" class="har-in">property acquisition</a> to closing.</p>
+                        </div>
+
+                        <div class="col-lg-6 col-12 mt-lg-3 mb-lg-5">
+                            <p data-aos="fade-up" data-aos-delay="500" class="me-9">Along the way, clients can explore <a href="https://www.har.com/idx/mls/listing?sitetype=aws&cid=715851&mlsorgid=1&allmls=n" class="har-in">our current listings</a> to discover available opportunities and gain even greater confidence by viewing <a href="https://www.har.com/idx/mls/sold/listing?sitetype=aws&cid=715851&allmls=n&mlsorgid=1" class="har-in">our sold listings</a>, which showcase the trust and success we've built with our clients. Our team's expertise in financing, contracts, and market analysis ensures smooth and successful transactions for all clients.</p>
+                        </div>
+                    </div>
+
+<div class="property-menu">   
+  <div class="property-cta">
+    <a href="{% url 'forsale' %}" class="menu-item">Buy</a>         
+    <a href="{% url 'rental' %}" class="menu-item">Rent</a>       
+    <a href="{% url 'homesell' %}" class="menu-item" id="sold">Sell</a>
+    <span class="highlight"></span>
+  </div>     
+</div>
+                </div>
+            </section>  
+
+                 <div class="marquee">
+  <div class="marquee-content">
+    WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp;
+  </div>
+</div>         
+            
+            <!-- SCORE CARD -->
+ <section class="score-card-section section-padding" id="score-cards">
+  <div class="background-overlay"></div>
+  <div class="color-overlay"></div>
+
+  <div class="container-score">
+    <div class="score-wrapper">
+      <div class=" text-center mb-5"  >
+        <h2 class="mb-5" style="color: white; position: relative;">Homes Sold Worldwide</h2>
+        <p style="color: white; max-width: 700px; margin: 0 auto; text-align: center;">
+    See our achievements in USA, Nigeria, and Ghana. Each number represents homes successfully sold by Nikita Global Realty.
+</p>
+
+      </div>
+
+      <div class="score-cards-grid">
+        <div class="score-card">
+          <h3 class="counter" data-target="128">0</h3>
+          <p>USA</p>
+        </div>
+        <div class="score-card">
+          <h3 class="counter" data-target="95">0</h3>
+          <p>Nigeria</p>
+        </div>
+        <div class="score-card">
+          <h3 class="counter" data-target="72">0</h3>
+          <p>Ghana</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+                <!-- OUR HOMES -->
+
+
+<style>
+.har-listing-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.har-listing-wrapper h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.har-listing-container {
+    width: 100%;
+    height: 170vh;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.har-listing-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+</style>
+
+
+    <div class="container-homes">
+        <div class="header">
+            <div class="logo">Nikita Global Realty</div>
+            <h1>Premium Properties Worldwide</h1>
+            <p>Discover exceptional homes and investments across global markets</p>
+        </div>
+
+<div class="har-listing-wrapper">
+
+    <div class="har-listing-container">
+        <iframe 
+            src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=715851&mlsorgid=1&allmls=n" 
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+
+</div>
+
+        <div id="sectors-container"></div>
+
+{% include 'base/_properties.html' %}
+
+
+
+
+
+    
+
+
+
+            <!-- MARQUEE -->
+                <div class="marquee">
+  <div class="marquee-content">
+    WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp; WELCOME TO NIKITA GLOBAL REALTY &nbsp;•&nbsp;
+  </div>
+</div> 
+
+                <!-- CEO -->
+<section class="ceo-section section-padding" id="ceo-section" >
+  <div class="container-ceo">
+      <div class="ceo-content">
+      <span class="ceo-role">CEO Of Nikita Global Realty</span>
+      <h1 class="ceo-name">Oyenike 'Nikki' Oyelakin</h1>
+      <p class="ceo-short" > <b>
+          Oyenike "Nikki" Oyelakin is a real estate surveyor and valuator, a licensed Realtor in Houston, and a member of the National Association of Realtors in the USA. She graduated in Estate Management from The Polytechnic of Ibadan and completed her postgraduate studies at Covenant University, Ota-Nigeria. With nearly twenty years of experience in real estate, she has been recognized by the "Real Estate Group" and previously served as Chief Operating Officer at Adron Homes before relocating to the United States. Nikki currently works with Coldwell Banker, one of the top brokerage firms in the USA, where she remains among the top Realtors.
+      </b>
+     
+      </p>
+      <p class="ceo-full hidden" >
+       <b>A devoted mother and hardworking professional, she has received numerous certificates for performance, including audits, reporting, and client satisfaction. Passionate and caring, Nikki founded the Nikki Oyelakin and Friends Foundation, which supports the less privileged, empowers women and widows, and helps ordinary citizens achieve their dreams. She is also the principal partner of Castles and Covens LLC, with offices in Houston, TX, USA, and Lagos State, Nigeria. A devout Christian and family-oriented, Nikki is committed to making a positive impact in the lives of those around her.</b> 
+      </p>
+      <button class="ceo-toggle">Learn More</button>
+    </div>
+  </div>
+                </section>
+
+            <!-- BUY -->
+            <div class="moving-cards">
+  <div class="cards-track">
+    <a class="card" href="{% url 'buywithus' %}">
+      <img src="{% static 'images/buywithus.png' %}" alt="Buy With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Buy With Us</div>
+    </a>
+    <a class="card" href="{% url 'homesell' %}">
+      <img src="{% static 'images/sellwithus.png' %}" alt="Sell With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Sell With Us</div>
+    </a>
+    <a class="card" href="{% url 'rental' %}">
+      <img src="{% static 'images/rentwithus.png' %}" alt="Rent With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Rent With Us</div>
+    </a>
+  <a class="card" href="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=715851" target="_blank">
+    <img src="{% static 'images/homeworth.jpeg' %}" alt="Your Home Worth" loading="lazy" width="400" height="300">
+    <div class="overlay">Your Home Worth</div>
+  </a>
+
+  <a class="card" href="{% url 'buywithus' %}">
+      <img src="{% static 'images/buywithus.png' %}" alt="Buy With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Buy With Us</div>
+    </a>
+    <a class="card" href="{% url 'homesell' %}">
+      <img src="{% static 'images/sellwithus.png' %}" alt="Sell With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Sell With Us</div>
+    </a>
+    <a class="card" href="{% url 'rental' %}">
+      <img src="{% static 'images/rentwithus.png' %}" alt="Rent With Us" loading="lazy" width="400" height="300">
+      <div class="overlay">Rent With Us</div>
+    </a>
+  <a class="card" href="https://www.har.com/idx/mls/homevalue/search?sitetype=aws&cid=715851" target="_blank">
+    <img src="{% static 'images/homeworth.jpeg' %}" alt="Your Home Worth" loading="lazy" width="400" height="300">
+    <div class="overlay">Your Home Worth</div>
+  </a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+            <!-- OUR SERVICES -->
+<section class="services-section">
+  <div class="services-container">
+    <h2 class="services-title">Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Investment Plan</h3>
+        <p>We help you make smart real estate investment decisions with data-driven strategies and long-term financial growth planning.</p>
+        <a onclick="openContactPopup()"  class="service-btn">
+   
+    <span class="option-text">Start Investing</span>
+</a>
+      </div>
+
+
+
+
+<script>
+function openContactPopup() {
+    const popupOverlay = document.getElementById('popupOverlay');
+    if (popupOverlay) {
+        popupOverlay.classList.add('active');
+    }
+}
+</script>
+
+
+
+<style>
+.chat-popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  max-height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+  flex-direction: column;
+  transform: translate(-50%, -50%); /* centers the popup */
+}
+
+.chat-header {
+  background: #0b5d50;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-messages {
+  padding: 10px;
+  height: 250px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-input {
+  display: flex;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.chat-input button {
+  padding: 10px;
+  border: none;
+  background: #0b5d50;
+  color: white;
+  cursor: pointer;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message.user {
+  text-align: right;
+  color: #333;
+}
+
+.message.assistant {
+  text-align: left;
+  color: #0b5d50;
+}
+
+#close-chat {
+  width: 30px;               /* slightly bigger for better click */
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3); /* glassy effect */
+  backdrop-filter: blur(5px);           /* glass blur */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;         /* makes it circular */
+  color: #333;                /* color of the × */
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;    /* centers the × */
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#close-chat:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+</style>
+
+
+<!-- Chat Popup -->
+<div id="chat-popup" class="chat-popup">
+  <div class="chat-header">
+    <span>Nikki Estate Assistant</span>
+    <button id="close-chat">&times;</button>
+  </div>
+  <div id="chat-messages" class="chat-messages"></div>
+  <div class="chat-input">
+    <input type="text" id="chat-input" placeholder="Type your question..."/>
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
+<!-- Button that triggers the chat -->
+<div class="service-card">
+  <div class="service-icon">🏡</div>
+  <h3>Expert Advice</h3>
+  <p>Get expert direction on buying, selling, or renting properties with confidence and clarity at every stage.</p>
+  <button class="service-btn" id="open-chat-btn">Get Expert Advice</button>
+</div>
+
+
+
+
+
+
+      <div class="service-card">
+        <div class="service-icon">💳</div>
+        <h3>Mortgage Guide</h3>
+        <p>Understand mortgage options, rates, and approvals with simplified step-by-step guidance tailored to your needs.</p>
+             <a onclick="openContactPopup()"  class="service-btn">
+   
+    <span class="option-text">Explore Option</span>
+</a>
+            
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🛡️</div>
+        <h3>Insurance Guidance</h3>
+        <p>Protect your home and assets with the right insurance plans designed for peace of mind and long-term security.</p>
+              <a onclick="openContactPopup()"  class="service-btn">
+   
+    <span class="option-text">Protect Your Home</span>
+</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">💼</div>
+        <h3>Build Your Wealth</h3>
+        <p>Learn smart wealth-building strategies through real estate, savings, and financial tools for future success.</p>
+        <a href="{% url 'wealth_books' %}" class="service-btn">Get Books</a>
+      </div>
+    </div>
+
+<div class="property-menu">   
+  <div class="property-cta">
+    <a href="{% url 'forsale' %}" class="menu-item">Buy</a>         
+    <a href="{% url 'rental' %}" class="menu-item">Rent</a>       
+    <a href="{% url 'homesell' %}" class="menu-item" id="sold">Sell</a>
+    <span class="highlight"></span>
+  </div>     
+</div>
+  </div>
+</section>
+
+            <!-- TESTIMONIALS -->
+        <section class="testimonial-section" id='testimonial-section'>
+  <div class="testimonial-wrapper">
+    <h2 class="testimonial-heading">Testimonial</h2>
+    <div class="testimonial-container">
+      <div class="testimonial">
+        <div class="thumb"><img src="{% static 'images/tes.jpeg' %} " alt="Client 1" loading="lazy" width="80" height="80"></div>
+        <p>"“Working with Nikita Global Realty was an absolute pleasure! They made buying my first home seamless and stress-free. Their team is professional, knowledgeable, and truly cares about their clients.”"</p>
+        <span>- Sophia Martinez</span>
+      </div>
+
+      <div class="testimonial">
+        <div class="thumb"><img src="{% static 'images/test 2.jpeg' %}" alt="Client 2" loading="lazy" width="80" height="80"></div>
+        <p> “I highly recommend Nikita Global Realty. They helped me sell my property quickly at a great price, and their guidance throughout the process was invaluable"</p>
+        <span>- James Okafor</span>
+      </div>
+
+      <div class="testimonial">
+        <div class="thumb"><img src="{% static 'images/teseee4.jpeg' %}" alt="Client 3" loading="lazy" width="80" height="80"></div>
+        <p> – “Nikita Global Realty goes above and beyond for their clients. Their attention to detail and dedication helped me find the perfect investment property. I couldn’t be happier!”</p>
+        <span>- Linda Chen</span>
+      </div>
+
+      <div class="testimonial">
+        <div class="thumb"><img src="{% static 'images/test 1.jpeg' %}" alt="Client 4" loading="lazy" width="80" height="80"></div>
+        <p>“From start to finish, Nikita Global Realty provided exceptional service. Their team is responsive, transparent, and highly skilled in navigating the real estate market."</p>
+        <span>-Michaelle Thompson </span>
+      </div>
+    </div>
+
+    <p class="more-reviews">More Reviews</p>
+    <div class="testimonial-logos">
+      <a href="https://www.google.com/search?q=Nikita+Global+Realty" target="_blank" rel="noopener">
+        <img src="{% static 'images/google.png' %}" alt="GOOGLE Logo" width="150" height="auto" style="display:block; margin:0 auto;">
+      </a>
+      <a href="https://www.har.com/" target="_blank" rel="noopener">
+        <img src="{% static 'images/har.png' %}" alt="HAR Logo" width="150" height="auto" style="display:block; margin:0 auto;">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE -->
+
+
+ <!-- BLOG -->
+
+<section class="news section-padding" id="news">
+    <div class="container">
+        <div class="row">
+            <!-- Section Header -->
+           
+            {% if large_news %}
+<div class="col-lg-6 col-12 mb-5 mb-lg-0">
+    <div class="news-thumb" data-aos="fade-up">
+        <a href="{{ large_news.url }}" class="news-image-hover news-image-hover-warning">
+            <img src="{{ large_news.image_url }}" class="img-fluid large-news-image news-image" alt="News article">
+        </a>
+        <div class="news-category bg-warning text-white">News</div>
+        <div class="news-text-info">
+            <h5 class="news-title">
+                <a href="{{ large_news.url }}" class="news-title-link">{{ large_news.title }}</a>
+            </h5>
+            <span class="text-muted">{{ large_news.published_at }}</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="col-lg-6 col-12">
+    {% for item in small_news %}
+    <div class="news-thumb news-two-column d-flex flex-column flex-lg-row" data-aos="fade-up">
+        <div class="news-top w-100">
+            <a href="{{ item.url }}" class="news-image-hover news-image-hover-primary">
+                <img src="{{ item.image_url }}" class="img-fluid news-image" alt="Events">
+            </a>
+            <div class="news-category bg-primary text-white">Events</div>
+        </div>
+        <div class="news-bottom w-100">
+            <div class="news-text-info">
+                <h5 class="news-title">
+                    <a href="{{ item.url }}" class="news-title-link">{{ item.title }}</a>
+                </h5>
+                <span class="text-muted">{{ item.published_at }}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div> 
+
+            <!-- Property Menu -->
+
+            
+            <div class="col-12 mt-5">
+               <div class="property-menu">   
+  <div class="property-cta">
+    <a href="{% url 'forsale' %}" class="menu-item">Buy</a>         
+    <a href="{% url 'rental' %}" class="menu-item">Rent</a>       
+    <a href="{% url 'homesell' %}" class="menu-item" id="sold">Sell</a>
+    <span class="highlight"></span>
+  </div>     
+</div>
+            </div>
+
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</section>
+
+<div class='har-listing-wrapper'>
+<div class="container">
+
+    <iframe 
+        src="https://www.har.com/oyenike-oyelakin/agent_Oyelakin?renew=1"
+        width="100%" 
+        height="3200vh" 
+        style="border:none; overflow:hidden;">
+    </iframe>
+
+</div>
+</div>
+
+
+
+            <!-- MAPS -->
+           <section class="google-map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447401.063024316!2d-107.0819858420861!3d31.968598607380985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b8f0011c9f8b%3A0x3d9b9f39f4c95ff0!2sTexas%2C%20USA!5e0!3m2!1sen!2sus!4v1698329000000!5m2!1sen!2sus"
+                    class="map-iframe"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </section>
+
+        </main>
+        {% include 'email.html' %}
+        {% include 'footer.html' %}
+
+
+        <!-- JAVASCRIPT FILES - Deferred for better performance -->
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/bootstrap.bundle.min.js"></script>
+        <script defer src="js/jquery.sticky.js"></script>
+        <script defer src="js/aos.js"></script>
+        <script defer src="js/jquery.magnific-popup.min.js"></script>
+        <script defer src="js/magnific-popup-options.js"></script>
+        <script defer src="js/scrollspy.min.js"></script>
+        <script defer src="js/custom.js"></script>
+
+<script>
+// Navbar scroll & logo change
+const navbar = document.querySelector('.overlay-navbar');
+const logo = document.querySelector('.overlay-navbar .logo img');
+const defaultLogo = logo.src;
+const scrolledLogo = logo.dataset.logo;
+
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+        logo.src = scrolledLogo;
+    } else {
+        navbar.classList.remove('scrolled');
+        logo.src = defaultLogo;
+    }
+});
+
+// MOBILE MENU
+
+
+// Hero text rotation
+document.addEventListener("DOMContentLoaded", function() {
+    const h3Texts = [
+        "Welcome to", "Discover", "Explore", "Experience",
+        "Join Us at", "Your Gateway to", "Find Your", "Step Into"
+    ];
+
+    const h1Texts = [
+        "Nikita Global Realty", "Dream Homes", "Luxury Properties", "Global Estates",
+        "Premier Realty", "Trusted Homes", "Exclusive Listings", "Elite Properties"
+    ];
+
+    let index = 0;
+
+    function updateHeroText() {
+        const h3 = document.getElementById("hero-h3");
+        const h1 = document.getElementById("hero-h1");
+
+        if (!h3 || !h1) return;
+
+        // Animate h3 drop down
+        h3.style.transform = "translateY(-20px)";
+        h3.style.opacity = "0";
+
+        setTimeout(() => {
+            // Update text
+            h3.textContent = h3Texts[index];
+            h1.textContent = h1Texts[index];
+
+            // Drop-in effect
+            h3.style.transform = "translateY(0)";
+            h3.style.opacity = "1";
+
+            // Next index
+            index = (index + 1) % h3Texts.length;
+        }, 500);
+    }
+
+    // Initial call
+    updateHeroText();
+
+    // Rotate every 4 seconds
+    setInterval(updateHeroText, 4000);
+});
+</script>
+
+<script>
+// Counter animation with Intersection Observer
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll('.counter');
+
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5
+  };
+
+  const startCount = (counter) => {
+    const target = +counter.getAttribute('data-target');
+    let count = 0;
+    const increment = Math.ceil(target / 200);
+    
+    const updateCount = () => {
+      count += increment;
+      if (count < target) {
+        counter.textContent = count;
+        requestAnimationFrame(updateCount);
+      } else {
+        counter.textContent = target;
+      }
+    };
+    updateCount();
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startCount(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, options);
+
+  counters.forEach(counter => {
+    observer.observe(counter);
+  });
+});
+</script>
+
+<script>
+// CEO toggle
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleBtn = document.querySelector('.ceo-toggle');
+  const fullText = document.querySelector('.ceo-full');
+
+  if (toggleBtn && fullText) {
+    toggleBtn.addEventListener('click', () => {
+      fullText.style.display = fullText.style.display === 'block' ? 'none' : 'block';
+      toggleBtn.textContent = fullText.style.display === 'block' ? 'Show Less' : 'Learn More';
+    });
+  }
+});
+</script>
+
+<script>
+// Lazy YouTube video loading
+document.addEventListener("DOMContentLoaded", function() {
+  const lazyVideos = document.querySelectorAll('.lazy-youtube');
+  
+  lazyVideos.forEach(video => {
+    video.addEventListener('click', function() {
+      const videoId = this.getAttribute('data-video-id');
+      const iframe = document.createElement('iframe');
+      
+      iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('width', '560');
+      iframe.setAttribute('height', '315');
+      
+      this.innerHTML = '';
+      this.appendChild(iframe);
+    });
+  });
+});
+</script>
+
+<script>
+// Disable video autoplay on mobile for better performance
+if (window.innerWidth < 768) {
+    document.addEventListener("DOMContentLoaded", function() {
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            video.removeAttribute('autoplay');
+            video.pause();
+        });
+    });
+}
+
+document.querySelectorAll('.video-grid .lazy-youtube').forEach(item => {
+    item.addEventListener('click', function () {
+        const videoId = this.dataset.videoId;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+
+        this.innerHTML = '';
+        this.appendChild(iframe);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('.custom-video');
+    video.play().catch(() => {
+        console.log('Video autoplay blocked on mobile');
+    });
+});
+
+
+// appointment
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const openLink = document.querySelector('.btn-book'); // your hero link
+  const closeBtn = document.getElementById('closeAppointment');
+  const panel = document.getElementById('appointmentPanel');
+  const overlay = document.getElementById('appointmentOverlay');
+  const form = document.getElementById('appointmentForm');
+  const status = document.getElementById('appointmentStatus');
+
+  function openPanel(e) {
+    e.preventDefault(); // stop default link navigation
+    panel.classList.add('open');
+    overlay.classList.add('show');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    overlay.classList.remove('show');
+  }
+
+  openLink.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  overlay.addEventListener('click', closePanel);
+
+  // close on ESC key
+  document.addEventListener('keydown', function(e) {
+    if(e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+  });
+
+  // Optional: simple form submit simulation
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.textContent = 'Appointment submitted successfully!';
+    form.reset();
+    setTimeout(closePanel, 1500); // auto-close after 1.5s
+  });
+});
+
+
+// NIKITA HOMES
+
+  
+
+</script>
+
+<script>
+const chatPopup = document.getElementById('chat-popup');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+const openChatBtn = document.getElementById('open-chat-btn');
+const closeChatBtn = document.getElementById('close-chat');
+
+openChatBtn.onclick = () => chatPopup.style.display = 'flex';
+closeChatBtn.onclick = () => chatPopup.style.display = 'none';
+
+// Function to append messages to chat
+function addMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}`;
+    msgDiv.textContent = text;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Function to send message to backend
+async function sendMessage() {
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+
+    addMessage(userMessage, 'user');
+    chatInput.value = '';
+
+    try {
+        const response = await fetch('/api/chat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                messages: [{role: 'user', content: userMessage}]
+            })
+        });
+
+        const data = await response.json();
+        if (data.error) {
+            addMessage("Error: " + data.error, 'assistant');
+        } else {
+            const answer = data.content[0].text;
+            addMessage(answer, 'assistant');
+        }
+    } catch (err) {
+        addMessage("Request failed: " + err, 'assistant');
+    }
+}
+
+// Event listeners
+sendBtn.onclick = sendMessage;
+chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// CSRF helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+
+
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container" style="padding:50px;">
+    <h1>Site Map</h1>
+    <p>Quick links to all pages on our website:</p>
+
+    <h2>Main Sections</h2>
+    <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'properties_list' %}">Properties</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'signup' %}">Register</a></li>
+        <li><a href="{% url '#contact' %}">Contact</a></li>
+    </ul>
+
+    <h2>Sectors</h2>
+    <ul>
+        {% for sector in sectors %}
+        <li><a href="{% url 'properties_list' %}#{{ sector.slug }}">{{ sector.name }}</a></li>
+        {% empty %}
+        <li>No sectors found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Properties</h2>
+    <ul>
+        {% for property in properties %}
+        <li><a href="{% url 'property_detail' property.id %}">{{ property.title }}</a></li>
+        {% empty %}
+        <li>No properties found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
