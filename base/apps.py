@@ -8,6 +8,12 @@ class BaseConfig(AppConfig):
     name = 'base'
 
     def ready(self):
-        from base.tasks import fetch_news_task
+        import base.tasks
+
+        # from base.tasks import fetch_news_task
         # Run every 1 hour
-        fetch_news_task(repeat=3600)
+        # fetch_news_task(repeat=3600)
+
+
+
+
