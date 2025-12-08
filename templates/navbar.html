@@ -1,5 +1,13 @@
 {% load static %}
 
+     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+<link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
+
+
+    <link rel="icon" type="image/png" href="{% static 'images/digital_icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/nikita.css' %}">
+
 <nav class="overlay-navbar">
     <div class="nav-container">
         <a href="{% url 'index' %}" class="logo">
@@ -30,9 +38,9 @@
                             <li><a href="{% url 'forsale' %}">For Sale</a></li>
                             <li><a href="{% url 'home_buy' %}">Home Buying</a></li>
                             <li><a href="{% url 'homesell' %}">Home Selling</a></li>
-                            <li><a href="financing.html">Home Financing</a></li>
-                            <li><a href="trends.html">Market Trends</a></li>
-                            <li><a href="estate-news.html">Real Estate News</a></li>
+                            <li><a href="{% url 'home_financing' %}l">Home Financing</a></li>
+                             <li><a href="{% url 'market' %}">Market Reports</a></li>
+                            <li><a href="{% url 'news-list' %}">Real Estate News</a></li>
                             <li><a href="{% url 'rental' %}">Rental</a></li>
                         </ul>
                     </li>
@@ -50,8 +58,13 @@
                     <a href="#" style="color:#f0f0f3; font-weight:600;">
                         {{ user.first_name|default:user.username }}
                     </a>
+                    
+
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'logout' %}">Logout</a></li>
+                        <li><a href="http://127.0.0.1:8000/admin" style="color:#f0f0f3; font-weight:600;">
+                       Member only
+                    </a></li>
                     </ul>
                 </li>
             {% endif %}
@@ -81,8 +94,8 @@
                         <ul class="mobile-submenu">
                             <li><a href="{% url 'home_buy' %}">Home Buying</a></li>
                             <li><a href="{% url 'homesell' %}">Home Selling</a></li>
-                            <li><a href="financing.html">Home Financing</a></li>
-                            <li><a href="trends.html">Market Trends</a></li>
+                            <li><a href="{% url 'home_financing' %}">Home Financing</a></li>
+                            <li><a href="{% url 'market' %}">Market Reports</a></li>
                             <li><a href="estate-news.html">Real Estate News</a></li>
                             <li><a href="{% url 'rental' %}">Rental</a></li>
                         </ul>
