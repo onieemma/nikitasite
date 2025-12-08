@@ -6,6 +6,12 @@ from pathlib import Path
 import os
 from decouple import config
 
+import dj_database_url
+
+
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -95,11 +101,20 @@ WSGI_APPLICATION = 'nikitasite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
@@ -201,6 +216,15 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = True  # Set to True in production with HTTPS
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com'
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
+
 # ============================================================================
 # REST FRAMEWORK
 # ============================================================================
@@ -255,6 +279,7 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
 
 
 
