@@ -114,9 +114,9 @@ WSGI_APPLICATION = 'nikitasite.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
+        default='sqlite:///db.sqlite3',  # fallback for local dev
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True              # only works for PostgreSQL
     )
 }
 
@@ -282,6 +282,7 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
 
 
 
