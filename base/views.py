@@ -942,7 +942,7 @@ def home_buy_view(request):
 
 def home_buy_view(request):
     context = {}
-    return render(request, "base/home_sellin.html", context)
+    return render(request, "base/home_selling.html", context)
 
 def nikita_homes_view(request):
     context = {}
@@ -1002,5 +1002,6 @@ def chat_assistant(request):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
 
 
