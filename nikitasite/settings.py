@@ -102,8 +102,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'nikitasite.wsgi.application'
 
 
-Database
-https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -282,6 +282,7 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
 
 
 
