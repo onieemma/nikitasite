@@ -1,0 +1,257 @@
+
+{% load static%}
+
+<link rel="stylesheet" href="{% static 'css/nikita.css' %}">
+
+
+<!-- POPUP -->
+ <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-container">
+        <div class="popup-header" style="display: flex;">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            
+            <div class="c-fill" style="width:100%;">
+                <h2>Contact Us</h2>
+                     <p>Fill out this short form and we'll get back to you quickly.</p>
+            </div>
+           
+        </div>
+
+        <div class="popup-content">
+            <div class="form-section">
+                <div class="form-group" >
+                    <label>Do You Have Real Estate Questions?</label>
+                    <p class="agent-description" style="margin-bottom: 20px; padding-top:20px;">Whether you're buying, selling, or renting, I'm here to help with all your real estate needs. Get professional answers fast!</p>
+                </div>
+
+                <!-- Success/Error Messages -->
+                <div id="formMessage" style="display: none; padding: 15px; border-radius: 8px; margin-bottom: 20px;"></div>
+
+                <form id="contactForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country *</label>
+                        <input type="text" id="country" name="country" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <textarea id="comments" name="comments"></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="human" name="human" required>
+                        <label for="human">I am human *</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Submit Inquiry</button>
+                </form>
+            </div>
+                
+            <div class="agent-section" style="padding-top:50px;">
+               <div class="agent-photo">
+                
+    <img src="{% static 'images/profile.jpeg' %}" 
+         alt="My Image" 
+         width="200" 
+         height="200" 
+         style="border-radius: 5px;">
+
+          
+</div>
+
+
+                <div class="agent-info" style='padding-top:30px;'>
+                    <div class="agent-name">Oyenike Nikki Oyelakin</div>
+                    <div class="agent-company">Nikita Global Realty</div>
+                    <div class="agent-address">16010 Barkers Point Lane, <br> #555 Houston Tx 77079</div>
+                    <div class="agent-links">
+                        <a href="tel:213-274-1231" class="ag">213-274-1231</a> 
+                   
+                        <a href="https://www.har.com/oyenike-oyelakin/agent_Oyelakin" target="_blank" class="agent">Contact Agent</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('formMessage');
+    const formData = new FormData(form);
+    
+    // Get CSRF token
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    // Disable submit button
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    
+    // Send AJAX request
+    fetch('/contact/submit/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        messageDiv.style.display = 'block';
+        
+        if (data.success) {
+            // Success message
+            messageDiv.style.backgroundColor = '#d4edda';
+            messageDiv.style.color = '#155724';
+            messageDiv.style.border = '1px solid #c3e6cb';
+            messageDiv.innerHTML = `
+                <strong>Success!</strong><br>
+                ${data.message}<br>
+                <small>Submitted on: ${data.submitted_at}</small>
+            `;
+            
+            // Reset form
+            form.reset();
+            
+            // Auto-close popup after 3 seconds
+            setTimeout(function() {
+                document.getElementById('popupOverlay').style.display = 'none';
+                messageDiv.style.display = 'none';
+            }, 3000);
+            
+        } else {
+            // Error message
+            messageDiv.style.backgroundColor = '#f8d7da';
+            messageDiv.style.color = '#721c24';
+            messageDiv.style.border = '1px solid #f5c6cb';
+            messageDiv.innerHTML = `<strong>Error!</strong><br>${data.message}`;
+        }
+        
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Inquiry';
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        messageDiv.style.display = 'block';
+        messageDiv.style.backgroundColor = '#f8d7da';
+        messageDiv.style.color = '#721c24';
+        messageDiv.style.border = '1px solid #f5c6cb';
+        messageDiv.innerHTML = '<strong>Error!</strong><br>Something went wrong. Please try again.';
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Inquiry';
+    });
+});
+</script> 
+
+
+
+
+<script>
+    const popupOverlay = document.getElementById('popupOverlay');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // Initial popup delay (3 seconds on page load)
+    setTimeout(() => popupOverlay.classList.add('active'), 3000);
+
+    // Recurring popup every 10 minutes
+    setInterval(() => popupOverlay.classList.add('active'), 600000);
+
+    // Close popup
+    closeBtn.addEventListener('click', () => popupOverlay.classList.remove('active'));
+    popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) popupOverlay.classList.remove('active');
+    });
+
+    // Escape key closes popup
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') popupOverlay.classList.remove('active');
+    });
+</script>
+
+
+
+
+{% comment %} 
+    <script>
+        const popupOverlay = document.getElementById('popupOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const contactForm = document.getElementById('contactForm');
+
+        // Initial popup delay (3 seconds on page load)
+        let initialPopupTimeout = setTimeout(() => {
+            showPopup();
+        }, 3000);
+
+        // Recurring popup (every 10 minutes = 600000ms)
+        let recurringPopupInterval = setInterval(() => {
+            showPopup();
+        }, 600000);
+
+        function showPopup() {
+            popupOverlay.classList.add('active');
+        }
+
+        function hidePopup() {
+            popupOverlay.classList.remove('active');
+        }
+
+        closeBtn.addEventListener('click', hidePopup);
+
+        // Close popup when clicking outside the container
+        popupOverlay.addEventListener('click', (e) => {
+            if (e.target === popupOverlay) {
+                hidePopup();
+            }
+        });
+
+        // Handle form submission
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                comments: document.getElementById('comments').value,
+            };
+
+            console.log('Form submitted:', formData);
+            alert('Thank you for your inquiry! We will get back to you shortly.');
+            
+            // Reset form
+            contactForm.reset();
+            hidePopup();
+        });
+
+        // Escape key to close popup
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                hidePopup();
+            }
+        });
+    </script> {% endcomment %}
