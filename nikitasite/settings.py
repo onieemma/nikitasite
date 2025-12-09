@@ -33,7 +33,10 @@ DEBUG = 'RENDER' not in os.environ
 import os
 
 if os.environ.get('RENDER'):
-    ALLOWED_HOSTS = ['onrender.com']
+    ALLOWED_HOSTS = ['onrender.com',
+                    'localhost', 
+                     '127.0.0.1',
+                    'nikitasite-s25p.onrender.com']
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -287,6 +290,7 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
 
 
 
