@@ -30,7 +30,12 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = 'RENDER' not in os.environ
 
 
-ALLOWED_HOSTS = ["https://nikitasite-s25p.onrender.com"]
+import os
+
+if os.environ.get('RENDER'):
+    ALLOWED_HOSTS = ['onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Session settings
@@ -282,6 +287,7 @@ INQUIRY_EMAIL = 'admin@nikitastite.com'
 # ============================================================================
 
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+
 
 
 
