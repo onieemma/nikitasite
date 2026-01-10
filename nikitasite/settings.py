@@ -1,4 +1,3 @@
-# 
 
 
 
@@ -22,24 +21,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG')
+# ==============================================================================
+# SECURITY SETTINGS
+# ==============================================================================
 
-DEBUG = 'RENDER' not in os.environ
+SECRET_KEY = config('SECRET_KEY')
 
+# Production vs Development
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-import os
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
-if os.environ.get('RENDER'):
-    ALLOWED_HOSTS = ['onrender.com',
-                    'localhost', 
-                     '127.0.0.1', 
-                    'nikitasite-s25p.onrender.com']
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
+# Security headers for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    X_FRAME_OPTIONS = 'DENY'
 
 # Session settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -47,7 +54,7 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = False  # Set to True only in production with HTTPS
+SESSION_COOKIE_SECURE = not DEBUG  # Set to True only in production with HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
@@ -59,7 +66,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  # Required for allauth
+    'django.contrib.sites',
+    'django.contrib.sitemaps',# Required for allauth
 
     # Allauth apps
     'allauth',
@@ -372,6 +380,7 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
 
 
