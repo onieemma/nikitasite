@@ -3714,7 +3714,7 @@ body {
   width: 100%;
   min-height: 60vh;
   background: linear-gradient(135deg, var(--primary-color) 8%, var(--primary-fade) 100%),
-              url('../images/Whisk_50cbfcd279770c388204d21b39a581e6dr\ \(1\).jpeg') center/cover no-repeat;
+              url('../images/Whisk_50cbfcd279770c388204d21b39a581e6dr(1).jpeg') center/cover no-repeat;
   background-blend-mode: overlay;
   
   display: flex;
@@ -6907,5 +6907,6 @@ textarea { min-height:100px; resize:vertical; }
 
         
 /* CEO */
+
 
 
