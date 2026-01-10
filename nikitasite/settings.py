@@ -106,8 +106,9 @@ WSGI_APPLICATION = 'nikitasite.wsgi.application'
 # DATABASE
 # ==============================================================================
 
-if DEBUG:
-    # Local development
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DEBUG or not DATABASE_URL:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -115,10 +116,9 @@ if DEBUG:
         }
     }
 else:
-    # Production - PostgreSQL
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=600,
             ssl_require=True
         )
@@ -210,7 +210,10 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SITE_ID = 1
+if DEBUG:
+    SITE_ID = 2  # staging
+else:
+    SITE_ID = 1  # production
 
 LOGIN_URL = 'account_login'
 LOGIN_REDIRECT_URL = '/'
@@ -222,16 +225,21 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' for production
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_QUERY_EMAIL = True
+
+
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
+        'OAUTH_PKCE_ENABLED': True,  # extra security for web apps
     }
 }
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # ==============================================================================
@@ -240,7 +248,11 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = not DEBUG
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.nikitaglobalrealty.com',
+    'https://nikitasite-s25p.onrender.com',
+]
+
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -370,3 +382,10 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+     SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    X_FRAME_OPTIONS = 'DENY'
