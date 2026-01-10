@@ -21,6 +21,25 @@ from django.core.paginator import Paginator
 
 
 
+
+from django.core.mail import send_mail
+from django.http import HttpResponse
+
+def test_email(request):
+    try:
+        send_mail(
+            subject='Render SMTP Test',
+            message='Testing Zoho SMTP from Render',
+            from_email='info@nikitaglobalrealty.com',  # CHANGE IF DIFFERENT
+            recipient_list=['info@nikitaglobalrealty.com'],  # or your personal email
+            fail_silently=False,
+        )
+        return HttpResponse("Email sent successfully")
+    except Exception as e:
+        return HttpResponse(f"Error: {e}")
+
+
+
 # ============================================================================
 # QUINNES MORTGAGE - Add to existing views.py
 # ============================================================================
@@ -1132,4 +1151,5 @@ For urgent inquiries, call us at: (555) 123-4567
             fail_silently=False,
         )
     except Exception as e:
+
         print(f"Failed to send confirmation email: {str(e)}")
