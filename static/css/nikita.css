@@ -4533,7 +4533,7 @@ body {
   width: 100%;
   min-height: 60vh;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-fade) 100%),
-              url('../images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=1200&fit=crop') center/cover no-repeat;
+            
   background-blend-mode: overlay;
   display: flex;
   align-items: center;
@@ -6907,6 +6907,7 @@ textarea { min-height:100px; resize:vertical; }
 
         
 /* CEO */
+
 
 
 
