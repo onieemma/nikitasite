@@ -1,0 +1,223 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Real Estate News — Nikita</title>
+  <style>
+    :root{
+      --primary-fade: #0b5d4f9a;
+      --white-color: #FFFFFF;
+      --primary-color: #0b5d50;
+      --section-bg-color: #fefad9;
+      --max-width: 1100px;
+      --overlay-color: #0738307e;
+    }
+
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:#222}
+
+    .page{min-height:100vh; background:var(--section-bg-color);}
+    .container{max-width:var(--max-width); margin:0 auto; padding:28px}
+
+    /* HERO */
+    .hero{position:relative; height:60vh; min-height:360px; display:flex; align-items:center;}
+    .hero__bg{position:absolute; inset:0; background-image:url("{% static 'images/news-hero.png' %}"); background-size:cover; background-position:center center;}
+    .hero__overlay{position:absolute; inset:0; background:var(--overlay-color);}
+    .hero__content{position:relative; z-index:2; color:var(--white-color); padding:48px 24px; text-align:center; display:flex; flex-direction:column; justify-content:center; align-items:center; width:100%; margin:0 auto;}
+    .hero__eyebrow{font-size:13px; letter-spacing:1px; text-transform:uppercase; opacity:0.95}
+    .hero__title{font-size:36px; margin:12px 0 8px; line-height:1.05}
+    .hero__subtitle{max-width:800px; font-size:16px; opacity:0.95; color: #eee}
+
+    /* MAIN */
+    main{padding:36px 0}
+    .news-grid{display:grid; grid-template-columns: 1fr 360px; gap:28px; align-items:start}
+    
+    /* Filter Bar */
+    .filter-bar{background:var(--white-color); padding:16px 20px; border-radius:12px; margin-bottom:20px; display:flex; gap:12px; align-items:center; box-shadow:0 4px 12px rgba(20,20,20,0.05)}
+    .filter-bar label{font-weight:600; color:var(--primary-color)}
+    .filter-bar select{padding:8px 12px; border:2px solid #e0e0e0; border-radius:6px; font-size:14px; min-width:200px}
+    .filter-bar button{padding:8px 16px; background:var(--primary-color); color:var(--white-color); border:none; border-radius:6px; cursor:pointer; font-weight:600}
+    .filter-bar button:hover{background:var(--primary-fade)}
+
+    /* List */
+    .news-list{background:var(--white-color); padding:20px; border-radius:12px; box-shadow:0 6px 20px rgba(20,20,20,0.06)}
+    .news-item{padding:16px 0; border-bottom:1px solid #eee; position:relative}
+    .news-item:last-child{border-bottom:0}
+    .news-item__title{font-weight:700; color:var(--primary-color); margin-bottom:6px; font-size:18px}
+    .news-item__meta{font-size:13px; color:#666; margin-bottom:8px}
+    .news-item__summary{margin:10px 0; color:#333; line-height:1.6}
+    .btn-link{display:inline-block; padding:8px 16px; border-radius:8px; background:var(--primary-color); color:var(--white-color); text-decoration:none; font-weight:600; font-size:14px; transition:all 0.3s}
+    .btn-link:hover{background:var(--primary-fade); transform:translateY(-2px)}
+    
+    /* Featured badge */
+    .featured-badge{display:inline-block; background:#ffd700; color:#000; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:6px}
+
+    /* Pagination */
+    .pagination{display:flex; justify-content:center; align-items:center; gap:8px; margin-top:24px; padding:20px 0}
+    .pagination a, .pagination span{display:inline-block; padding:10px 16px; border:2px solid #e0e0e0; border-radius:8px; text-decoration:none; color:var(--primary-color); font-weight:600; transition:all 0.3s}
+    .pagination a:hover{background:var(--primary-color); color:var(--white-color); border-color:var(--primary-color)}
+    .pagination .current{background:var(--primary-color); color:var(--white-color); border-color:var(--primary-color)}
+    .pagination .disabled{color:#ccc; border-color:#f0f0f0; cursor:not-allowed}
+
+    /* Sidebar */
+    .sidebar{background:linear-gradient(180deg,var(--white-color),#fff); padding:18px; border-radius:12px; box-shadow:0 6px 20px rgba(20,20,20,0.04); position:sticky; top:20px}
+    .sidebar h4{margin:0 0 8px; color:var(--primary-color)}
+    .latest-title{font-size:14px; color:#333; font-weight:600; text-decoration:none; transition:color 0.3s}
+    .latest-title:hover{color:var(--primary-color)}
+
+    /* Empty */
+    .empty{padding:40px; text-align:center; color:#666}
+    .empty code{background:#f0f0f0; padding:4px 8px; border-radius:4px; font-family:monospace}
+
+    @media (max-width:900px){
+      .hero{height:48vh}
+      .news-grid{grid-template-columns:1fr}
+      .filter-bar{flex-direction:column; align-items:stretch}
+      .filter-bar select{width:100%}
+      .sidebar{position:static}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <div class="hero__eyebrow">Market Intelligence</div>
+        <h1 class="hero__title">Your Daily Real Estate Intelligence</h1>
+        <p class="hero__subtitle">News that empowers buyers, sellers, and investors — curated headlines, expert summaries and direct links to full stories.</p>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="container">
+      
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <label for="source-filter">Filter by Source:</label>
+        <form method="get" style="display:flex; gap:12px; flex:1">
+          <select name="source" id="source-filter" onchange="this.form.submit()">
+            <option value="">All Sources</option>
+            {% for source in sources %}
+              <option value="{{ source }}" {% if source == current_source %}selected{% endif %}>
+                {{ source }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if current_source %}
+            <a href="{% url 'news-list' %}" style="padding:8px 16px; background:#e0e0e0; color:#333; border-radius:6px; text-decoration:none; font-weight:600">Clear Filter</a>
+          {% endif %}
+        </form>
+      </div>
+
+      <div class="news-grid">
+
+        <!-- NEWS LIST -->
+        <section class="news-list" aria-labelledby="news-heading">
+          <h2 id="news-heading">Global Real Estate News</h2>
+
+          {% if articles %}
+            {% for article in articles %}
+              <article class="news-item">
+                {% if article.is_featured %}
+                  <span class="featured-badge">⭐ Featured</span>
+                {% endif %}
+                <div class="news-item__title">{{ article.title }}</div>
+                <div class="news-item__meta">
+                  {{ article.source }}
+                  {% if article.published_at %}
+                    • {{ article.published_at|date:"M d, Y H:i" }}
+                  {% endif %}
+                  {% if article.category %}
+                    • {{ article.category }}
+                  {% endif %}
+                </div>
+                <p class="news-item__summary">{{ article.summary|default:"No summary available." }}</p>
+                <a class="btn-link" href="{{ article.url }}" target="_blank" rel="noopener">Read full article →</a>
+              </article>
+            {% endfor %}
+
+            <!-- PAGINATION CONTROLS -->
+            {% if articles.has_other_pages %}
+              <nav class="pagination" aria-label="News pagination">
+                {% if articles.has_previous %}
+                  <a href="?page=1{% if current_source %}&source={{ current_source }}{% endif %}" aria-label="First page">« First</a>
+                  <a href="?page={{ articles.previous_page_number }}{% if current_source %}&source={{ current_source }}{% endif %}" aria-label="Previous page">‹ Previous</a>
+                {% else %}
+                  <span class="disabled">« First</span>
+                  <span class="disabled">‹ Previous</span>
+                {% endif %}
+
+                <span class="current">
+                  Page {{ articles.number }} of {{ articles.paginator.num_pages }}
+                </span>
+
+                {% if articles.has_next %}
+                  <a href="?page={{ articles.next_page_number }}{% if current_source %}&source={{ current_source }}{% endif %}" aria-label="Next page">Next ›</a>
+                  <a href="?page={{ articles.paginator.num_pages }}{% if current_source %}&source={{ current_source }}{% endif %}" aria-label="Last page">Last »</a>
+                {% else %}
+                  <span class="disabled">Next ›</span>
+                  <span class="disabled">Last »</span>
+                {% endif %}
+              </nav>
+            {% endif %}
+
+          {% else %}
+            <div class="empty">
+              <p>No news articles found.</p>
+              {% if current_source %}
+                <p>Try <a href="{% url 'base:news_list' %}">clearing the filter</a> or selecting a different source.</p>
+              {% else %}
+                <p>Run <code>python manage.py fetch_news</code> to populate the news feed.</p>
+              {% endif %}
+            </div>
+          {% endif %}
+
+        </section>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+          <h4>📰 Latest Headlines</h4>
+          <ul style="list-style:none;padding:0;margin:10px 0 0;">
+            {% for a in articles|slice:":5" %}
+              <li style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #f1f1f1">
+                <a href="{{ a.url }}" target="_blank" rel="noopener" class="latest-title">{{ a.title|truncatechars:70 }}</a>
+                <div style="font-size:12px;color:#777; margin-top:4px">{{ a.source }}</div>
+              </li>
+            {% empty %}
+              <li style="color:#999; font-size:14px">No articles yet</li>
+            {% endfor %}
+          </ul>
+
+          <hr style="margin:16px 0;border:none;border-top:1px solid #f1f1f1">
+          
+          <div style="background:#f8f9fa; padding:12px; border-radius:8px; margin-top:16px">
+            <p style="font-size:13px;color:#555;margin:0; line-height:1.5">
+              <strong style="color:var(--primary-color)">🏢 Nikita Realty</strong><br>
+              Real estate news curated by AI • Updated hourly
+            </p>
+          </div>
+
+          {% if articles.paginator.count %}
+            <div style="margin-top:16px; padding:12px; background:var(--primary-fade); border-radius:8px; text-align:center">
+              <div style="font-size:24px; font-weight:700; color:var(--white-color)">{{ articles.paginator.count }}</div>
+              <div style="font-size:12px; color:var(--white-color); opacity:0.9">Total Articles</div>
+            </div>
+          {% endif %}
+        </aside>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+{% include 'footer.html' %}
+
+{% endblock %}

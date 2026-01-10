@@ -1,0 +1,559 @@
+ {% extends 'main.html' %}
+ {% load static %}
+
+
+    <title>home selling </title>
+
+
+    {% block content %}
+
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+
+
+
+
+<!-- HERO SECTION -->
+ <section class="hero-selling"
+  style="
+    background-color: rgba(11, 93, 79, 1);
+    background-image: url('{% static 'images/sold.jpeg' %}');
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-position: center;
+  ">
+  <div class="hero-content-selling">
+    <h1>Let's help you</h1>
+    <p>Get the best value for your property with expert guidance, fast listings, and buyers ready to make an offer. Start your selling journey today!</p>
+  </div>
+</section>
+
+
+
+
+
+    <style>
+
+      .container {
+         
+          margin-bottom: 40px;
+          margin-top: 40px;
+        }
+
+      
+
+        .selling-link a.link-header.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+         
+        }
+
+        .dropdown-content.show {
+            max-height: 500px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .dropdown-inner {
+            padding: 20px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .service-btn {
+           
+            cursor: pointer;
+
+        }
+
+        .service-btn:hover {
+            background: #ffffff;
+        }
+
+        .see-more-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .see-more-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ffffff;
+        }
+
+        .modal h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal input,
+        .modal textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .modal textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal button {
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .modal button:hover {
+            background: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <!-- Column 1: Home Selling Tools -->
+        <div class="selling-column">
+            <h3>Home selling tools</h3>
+            <div class="selling-links-list">
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>Compare agents & pick the right one</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Finding the right real estate agent is crucial to your home selling success. Look for agents with:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Local expertise:</strong> They should know your neighborhood market inside and out</li>
+                                <li><strong>Proven track record:</strong> Check their recent sales history and client reviews</li>
+                                <li><strong>Marketing skills:</strong> Modern agents use professional photography, virtual tours, and digital marketing</li>
+                                <li><strong>Communication style:</strong> Find someone who matches your preferred level of contact</li>
+                            </ul>
+                            <p>The best agents typically sell homes 10% faster and for 5-10% more than average agents.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>Find the right selling option for you</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>There are several ways to sell your home, each with different benefits:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Traditional agent listing:</strong> Full service with maximum exposure (typical choice for most sellers)</li>
+                                <li><strong>Discount brokers:</strong> Lower commission but fewer services</li>
+                                <li><strong>iBuyer services:</strong> Quick cash offers but usually below market value</li>
+                                <li><strong>For Sale By Owner (FSBO):</strong> Save on commission but handle everything yourself</li>
+                            </ul>
+                            <p>Consider your timeline, home condition, and how much involvement you want in the process.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>How much can you make selling your home?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Your net profit from selling depends on several factors:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Sale price:</strong> Based on current market conditions and comparable homes</li>
+                                <li><strong>Agent commission:</strong> Typically 5-6% of the sale price</li>
+                                <li><strong>Closing costs:</strong> Usually 1-3% including title insurance, transfer taxes</li>
+                                <li><strong>Repairs and staging:</strong> Prepare your home to maximize sale price</li>
+                                <li><strong>Mortgage payoff:</strong> Remaining balance on your loan</li>
+                            </ul>
+                            <p>On average, sellers walk away with 30-40% of their home's sale price as profit.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>See what your home is worth</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Understanding your home's value starts with:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Comparative Market Analysis (CMA):</strong> Compare recent sales of similar homes in your area</li>
+                                <li><strong>Online valuation tools:</strong> Get instant estimates, though they can vary by 5-10%</li>
+                                <li><strong>Professional appraisal:</strong> Most accurate but costs $300-500</li>
+                                <li><strong>Agent consultation:</strong> Free expert opinion based on local market knowledge</li>
+                            </ul>
+                            <p>Get multiple valuations to understand your home's true market value range.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#all-tools" class="see-more-link">See more tools →</a>
+        </div>
+
+        <!-- Column 2: Home Selling Advice -->
+        <div class="selling-column">
+            <h3>Home selling advice</h3>
+            <div class="selling-links-list">
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>Complete guide to selling your home</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>The home selling process typically follows these steps:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Preparation (1-2 months):</strong> Declutter, repair, and stage your home</li>
+                                <li><strong>Listing (1 week):</strong> Photography, pricing, and MLS listing</li>
+                                <li><strong>Marketing (2-8 weeks):</strong> Showings, open houses, and negotiations</li>
+                                <li><strong>Under contract (30-45 days):</strong> Inspections, appraisal, and final preparations</li>
+                                <li><strong>Closing:</strong> Sign papers and receive your proceeds</li>
+                            </ul>
+                            <p>The entire process typically takes 3-6 months from start to finish.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>Should I sell my home now?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Consider these factors when deciding to sell:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Market conditions:</strong> Is it a seller's market with low inventory and high demand?</li>
+                                <li><strong>Interest rates:</strong> Lower rates mean more buyers can afford your home</li>
+                                <li><strong>Your equity:</strong> Have you built sufficient equity to cover selling costs?</li>
+                                <li><strong>Personal timing:</strong> Job change, family needs, or lifestyle changes</li>
+                                <li><strong>Seasonal factors:</strong> Spring and summer typically see more buyers</li>
+                            </ul>
+                            <p>The best time to sell is when market conditions align with your personal needs.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>How much is my home worth?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Your home's value depends on:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Location:</strong> Neighborhood, school district, and local amenities</li>
+                                <li><strong>Size and layout:</strong> Square footage, bedrooms, and bathrooms</li>
+                                <li><strong>Condition:</strong> Age, updates, and maintenance quality</li>
+                                <li><strong>Market trends:</strong> Current supply and demand in your area</li>
+                                <li><strong>Recent sales:</strong> What similar homes sold for recently</li>
+                            </ul>
+                            <p>Work with an agent to get a detailed CMA for the most accurate pricing strategy.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>How should I sell my home?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Choose your selling method based on:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Your timeline:</strong> Need to sell quickly or can wait for the best offer?</li>
+                                <li><strong>Home condition:</strong> Is it move-in ready or needs work?</li>
+                                <li><strong>Your budget:</strong> Can you invest in repairs and staging?</li>
+                                <li><strong>Market expertise:</strong> Comfortable handling negotiations yourself?</li>
+                                <li><strong>Stress tolerance:</strong> Want full-service help or DIY approach?</li>
+                            </ul>
+                            <p>Most sellers benefit from working with an experienced agent who handles the complex details.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>How to select an agent?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Interview multiple agents and ask about:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Recent sales:</strong> Homes they've sold in your neighborhood in the past year</li>
+                                <li><strong>Marketing plan:</strong> How they'll showcase your home online and offline</li>
+                                <li><strong>Communication:</strong> Their availability and preferred contact methods</li>
+                                <li><strong>Pricing strategy:</strong> How they arrived at their suggested list price</li>
+                                <li><strong>References:</strong> Speak with recent clients about their experience</li>
+                            </ul>
+                            <p>Trust your instincts—choose someone you feel comfortable working with for several months.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="selling-link">
+                    <a href="#" class="link-header" onclick="toggleDropdown(event, this)">
+                        <span>How to prepare your home for sale?</span>
+                        <span class="arrow">▼</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-inner">
+                            <p>Maximize your sale price with these preparations:</p>
+                            <ul style="margin: 10px 0 10px 20px;">
+                                <li><strong>Deep clean:</strong> Every room should sparkle, especially kitchens and bathrooms</li>
+                                <li><strong>Declutter:</strong> Remove personal items and excess furniture</li>
+                                <li><strong>Minor repairs:</strong> Fix leaky faucets, squeaky doors, and scuffed walls</li>
+                                <li><strong>Curb appeal:</strong> Landscaping, fresh paint, and welcoming entrance</li>
+                                <li><strong>Staging:</strong> Arrange furniture to showcase space and flow</li>
+                            </ul>
+                            <p>Investing 1-3% of your home's value in preparations can yield a 5-10% higher sale price.</p>
+                            <a onclick="openContactPopup()" class="service-btn">More insights</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#all-advice" class="see-more-link">See more home selling insights →</a>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeContactPopup()">&times;</span>
+            <h2>Get Expert Guidance</h2>
+            <form onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <textarea placeholder="Tell us about your home and what you're looking for..." required></textarea>
+                <button type="submit">Request Consultation</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentOpenDropdown = null;
+
+        function toggleDropdown(event, element) {
+            event.preventDefault();
+            
+            const dropdownContent = element.nextElementSibling;
+            const isCurrentlyOpen = element.classList.contains('active');
+
+            // Close previously open dropdown
+            if (currentOpenDropdown && currentOpenDropdown !== element) {
+                currentOpenDropdown.classList.remove('active');
+                currentOpenDropdown.nextElementSibling.classList.remove('show');
+            }
+
+            // Toggle current dropdown
+            if (isCurrentlyOpen) {
+                element.classList.remove('active');
+                dropdownContent.classList.remove('show');
+                currentOpenDropdown = null;
+            } else {
+                element.classList.add('active');
+                dropdownContent.classList.add('show');
+                currentOpenDropdown = element;
+            }
+        }
+
+        function openContactPopup() {
+            document.getElementById('contactModal').style.display = 'block';
+        }
+
+        function closeContactPopup() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your interest! An agent will contact you shortly.');
+            closeContactPopup();
+            event.target.reset();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('contactModal');
+            if (event.target == modal) {
+                closeContactPopup();
+            }
+        }
+    </script>
+
+
+    
+
+    </div>
+  </div>
+</section>
+
+
+{% include 'email.html' %}
+
+          <!-- FOOTER -->
+        
+ {% include 'footer.html' %}
+
+
+
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            document.getElementById('scrollIndicator').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add active state to TOC based on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('.content-section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.toc-list a').forEach(link => {
+                link.style.color = link.getAttribute('href').slice(1) === current 
+                    ? '#0d7a68' 
+                    : '#0b5d50';
+                link.style.fontWeight = link.getAttribute('href').slice(1) === current 
+                    ? '700' 
+                    : '500';
+            });
+        });
+    </script>
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+        <!-- JAVASCRIPT FILES - Deferred for better performance -->
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/bootstrap.bundle.min.js"></script>
+        <script defer src="js/jquery.sticky.js"></script>
+        <script defer src="js/aos.js"></script>
+        <script defer src="js/jquery.magnific-popup.min.js"></script>
+        <script defer src="js/magnific-popup-options.js"></script>
+        <script defer src="js/scrollspy.min.js"></script>
+        <script defer src="js/custom.js"></script>
+
+<script>
+
+
+</script>
+
+
+
+
+{% endblock %}

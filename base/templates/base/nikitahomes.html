@@ -1,0 +1,454 @@
+ {% extends 'main.html' %}
+ {% load static %}
+
+
+    <title>nikita homes</title>
+
+
+    {% block content %}
+
+   
+
+<style>
+.har-listing-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.har-listing-wrapper h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.har-listing-container {
+    width: 100%;
+    height: 170vh;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.har-listing-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+</style>
+
+
+    <div class="container-homes" >
+        <div class="header" style="height:70vh;">
+            <div class="text-wrapper" style="margin-top:100px;">
+
+            <div class="logo">Nikita Global Realty</div>
+            <h1>Premium Properties Worldwide</h1>
+            <p>Discover exceptional homes and investments across global markets</p>
+            </div>
+            
+        </div>
+
+<div class="har-listing-wrapper">
+
+    <div class="har-listing-container">
+        <iframe 
+            src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=715851&mlsorgid=1&allmls=n" 
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+
+</div>
+
+        <div id="sectors-container"></div>
+
+{% include 'base/_properties.html' %}
+
+
+
+
+
+    
+
+
+            <!-- MAPS -->
+           <section class="google-map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447401.063024316!2d-107.0819858420861!3d31.968598607380985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b8f0011c9f8b%3A0x3d9b9f39f4c95ff0!2sTexas%2C%20USA!5e0!3m2!1sen!2sus!4v1698329000000!5m2!1sen!2sus"
+                    class="map-iframe"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </section>
+
+          <!-- EMAIL -->
+{% include 'email.html' %}
+
+        <!-- FOOTER -->
+        {% include 'footer.html' %}        
+
+
+
+        <!-- JAVASCRIPT FILES - Deferred for better performance -->
+        <script defer src="js/jquery.min.js"></script>
+        <script defer src="js/bootstrap.bundle.min.js"></script>
+        <script defer src="js/jquery.sticky.js"></script>
+        <script defer src="js/aos.js"></script>
+        <script defer src="js/jquery.magnific-popup.min.js"></script>
+        <script defer src="js/magnific-popup-options.js"></script>
+        <script defer src="js/scrollspy.min.js"></script>
+        <script defer src="js/custom.js"></script>
+
+<script>
+// Navbar scroll & logo change
+const navbar = document.querySelector('.overlay-navbar');
+const logo = document.querySelector('.overlay-navbar .logo img');
+const defaultLogo = logo.src;
+const scrolledLogo = logo.dataset.logo;
+
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+        logo.src = scrolledLogo;
+    } else {
+        navbar.classList.remove('scrolled');
+        logo.src = defaultLogo;
+    }
+});
+
+// MOBILE MENU
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeMenu = document.querySelector('.close-mobile-menu');
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+});
+
+closeMenu.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+});
+
+// MOBILE SUBMENU ACCORDION
+document.querySelectorAll('.mobile-dropdown > a').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = item.parentElement;
+        parent.classList.toggle('open');
+    });
+});
+
+// Hero text rotation
+document.addEventListener("DOMContentLoaded", function() {
+    const h3Texts = [
+        "Welcome to", "Discover", "Explore", "Experience",
+        "Join Us at", "Your Gateway to", "Find Your", "Step Into"
+    ];
+
+    const h1Texts = [
+        "Nikita Global Realty", "Dream Homes", "Luxury Properties", "Global Estates",
+        "Premier Realty", "Trusted Homes", "Exclusive Listings", "Elite Properties"
+    ];
+
+    let index = 0;
+
+    function updateHeroText() {
+        const h3 = document.getElementById("hero-h3");
+        const h1 = document.getElementById("hero-h1");
+
+        if (!h3 || !h1) return;
+
+        // Animate h3 drop down
+        h3.style.transform = "translateY(-20px)";
+        h3.style.opacity = "0";
+
+        setTimeout(() => {
+            // Update text
+            h3.textContent = h3Texts[index];
+            h1.textContent = h1Texts[index];
+
+            // Drop-in effect
+            h3.style.transform = "translateY(0)";
+            h3.style.opacity = "1";
+
+            // Next index
+            index = (index + 1) % h3Texts.length;
+        }, 500);
+    }
+
+    // Initial call
+    updateHeroText();
+
+    // Rotate every 4 seconds
+    setInterval(updateHeroText, 4000);
+});
+</script>
+
+<script>
+// Counter animation with Intersection Observer
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll('.counter');
+
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5
+  };
+
+  const startCount = (counter) => {
+    const target = +counter.getAttribute('data-target');
+    let count = 0;
+    const increment = Math.ceil(target / 200);
+    
+    const updateCount = () => {
+      count += increment;
+      if (count < target) {
+        counter.textContent = count;
+        requestAnimationFrame(updateCount);
+      } else {
+        counter.textContent = target;
+      }
+    };
+    updateCount();
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startCount(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, options);
+
+  counters.forEach(counter => {
+    observer.observe(counter);
+  });
+});
+</script>
+
+<script>
+// CEO toggle
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleBtn = document.querySelector('.ceo-toggle');
+  const fullText = document.querySelector('.ceo-full');
+
+  if (toggleBtn && fullText) {
+    toggleBtn.addEventListener('click', () => {
+      fullText.style.display = fullText.style.display === 'block' ? 'none' : 'block';
+      toggleBtn.textContent = fullText.style.display === 'block' ? 'Show Less' : 'Learn More';
+    });
+  }
+});
+</script>
+
+<script>
+// Lazy YouTube video loading
+document.addEventListener("DOMContentLoaded", function() {
+  const lazyVideos = document.querySelectorAll('.lazy-youtube');
+  
+  lazyVideos.forEach(video => {
+    video.addEventListener('click', function() {
+      const videoId = this.getAttribute('data-video-id');
+      const iframe = document.createElement('iframe');
+      
+      iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('width', '560');
+      iframe.setAttribute('height', '315');
+      
+      this.innerHTML = '';
+      this.appendChild(iframe);
+    });
+  });
+});
+</script>
+
+<script>
+// Disable video autoplay on mobile for better performance
+if (window.innerWidth < 768) {
+    document.addEventListener("DOMContentLoaded", function() {
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            video.removeAttribute('autoplay');
+            video.pause();
+        });
+    });
+}
+
+document.querySelectorAll('.video-grid .lazy-youtube').forEach(item => {
+    item.addEventListener('click', function () {
+        const videoId = this.dataset.videoId;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+
+        this.innerHTML = '';
+        this.appendChild(iframe);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('.custom-video');
+    video.play().catch(() => {
+        console.log('Video autoplay blocked on mobile');
+    });
+});
+
+
+// appointment
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const openLink = document.querySelector('.btn-book'); // your hero link
+  const closeBtn = document.getElementById('closeAppointment');
+  const panel = document.getElementById('appointmentPanel');
+  const overlay = document.getElementById('appointmentOverlay');
+  const form = document.getElementById('appointmentForm');
+  const status = document.getElementById('appointmentStatus');
+
+  function openPanel(e) {
+    e.preventDefault(); // stop default link navigation
+    panel.classList.add('open');
+    overlay.classList.add('show');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    overlay.classList.remove('show');
+  }
+
+  openLink.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  overlay.addEventListener('click', closePanel);
+
+  // close on ESC key
+  document.addEventListener('keydown', function(e) {
+    if(e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+  });
+
+  // Optional: simple form submit simulation
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.textContent = 'Appointment submitted successfully!';
+    form.reset();
+    setTimeout(closePanel, 1500); // auto-close after 1.5s
+  });
+});
+
+
+// NIKITA HOMES
+
+
+        var container = document.getElementById('sectors-container');
+
+        for (var key in properties) {
+            var sector = properties[key];
+            var sectorDiv = document.createElement('div');
+            sectorDiv.className = 'sector';
+
+            var titleDiv = document.createElement('div');
+            titleDiv.className = 'sector-title';
+            titleDiv.textContent = sector.name;
+
+            var grid = document.createElement('div');
+            grid.className = 'properties-grid';
+
+            for (var i = 0; i < sector.properties.length; i++) {
+                var property = sector.properties[i];
+                var card = document.createElement('div');
+                card.className = 'property-card';
+
+                var imageWrapper = document.createElement('div');
+                imageWrapper.className = 'property-image-wrapper';
+
+                var imageDiv = document.createElement('div');
+                imageDiv.className = 'property-image';
+                imageDiv.textContent = property.image;
+
+                var statusBadge = document.createElement('div');
+                statusBadge.className = 'status-overlay';
+                statusBadge.textContent = property.status;
+
+                imageWrapper.appendChild(imageDiv);
+                imageWrapper.appendChild(statusBadge);
+
+                var contentDiv = document.createElement('div');
+                contentDiv.className = 'property-content';
+
+                var titleEl = document.createElement('h3');
+                titleEl.textContent = property.title;
+
+                var descEl = document.createElement('p');
+                descEl.textContent = property.desc;
+
+                var footerDiv = document.createElement('div');
+                footerDiv.className = 'property-footer';
+
+                var priceEl = document.createElement('span');
+                priceEl.className = 'property-price';
+                priceEl.textContent = property.price;
+
+                var linkEl = document.createElement('a');
+                linkEl.className = 'property-link';
+ 
+                linkEl.textContent = 'View';
+linkEl.href = 'javascript:void(0)';
+linkEl.addEventListener("click", (function(propertyCopy){
+    return function() {
+        openModal(propertyCopy);
+    }
+})(property));
+
+
+                footerDiv.appendChild(priceEl);
+                footerDiv.appendChild(linkEl);
+
+                contentDiv.appendChild(titleEl);
+                contentDiv.appendChild(descEl);
+                contentDiv.appendChild(footerDiv);
+
+                card.appendChild(imageWrapper);
+                card.appendChild(contentDiv);
+
+                grid.appendChild(card);
+            }
+
+            sectorDiv.appendChild(titleDiv);
+            sectorDiv.appendChild(grid);
+            container.appendChild(sectorDiv);
+
+            if (key !== Object.keys(properties)[Object.keys(properties).length - 1]) {
+                var gradientDiv = document.createElement('div');
+                gradientDiv.className = 'gradient-accent';
+                container.appendChild(gradientDiv);
+            }
+        }
+
+
+       
+
+        
+
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,733 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/quinnes.css' %}">
+
+<style>
+
+    /* base/static/base/css/quinnes.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #0b5d50;
+    --primary-alpha: #0b5d4f9a;
+    --white: #FFFFFF;
+    --light-bg: #f5f5f5;
+    --shadow: rgba(11, 93, 80, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: var(--white);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 100%);
+    color: var(--white);
+    padding: 100px 20px;
+    
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/></svg>');
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+   
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.tagline {
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+    color: #ffff;
+}
+
+.cta-button {
+    background-color: var(--white);
+    color: var(--primary-color);
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background-color: var(--light-bg);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* Info Sections */
+.info-section {
+    background: var(--white);
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px var(--shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.info-section:hover {
+    box-shadow: 0 4px 16px var(--shadow);
+}
+
+.section-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 20%);
+    color: var(--white);
+    padding: 25px 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.section-header:hover {
+    background: var(--primary-color);
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    color: #ffff;
+    
+}
+
+.icon {
+    width: 28px;
+    height: 28px;
+    stroke-width: 2.5;
+}
+
+.toggle-icon {
+    font-size: 2rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+.section-header.active .toggle-icon {
+    transform: rotate(45deg);
+}
+
+.section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.section-content.active {
+    max-height: 2000px;
+    transition: max-height 0.5s ease-in;
+}
+
+.section-content p {
+    padding: 25px 30px 15px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.expanded-content {
+    padding: 0 30px 30px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.expanded-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.expanded-content ul {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.expanded-content li {
+    margin-bottom: 12px;
+    line-height: 1.7;
+    color: #555;
+}
+
+.expanded-content strong {
+    color: var(--primary-color);
+}
+
+.process-list {
+    list-style: none;
+    counter-reset: step-counter;
+    margin-left: 0;
+}
+
+.process-list li {
+    counter-increment: step-counter;
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 25px;
+}
+
+.process-list li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary-color);
+    color: var(--white);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.process-list li p {
+    padding: 5px 0 0 0;
+    margin-top: 5px;
+    font-size: 0.95rem;
+}
+
+.more-info-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.more-info-btn:hover {
+    background-color: #094a3f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Footer */
+.footer {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 50px 20px 20px;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.footer-section p {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+.footer-link {
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    padding: 5px 0;
+    display: block;
+    text-align: left;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    
+}
+
+.footer-link:hover {
+    opacity: 0.8;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .tagline {
+        font-size: 1.1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .container {
+        padding: 40px 15px;
+    }
+
+    .section-header,
+    .section-content p,
+    .expanded-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}1
+
+</style>    
+
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Quinnes Mortgage</h1>
+            <p class="tagline">{{ tagline }}</p>
+            <button class="cta-button" onclick="openPopup()">Get Started Today</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Pre-Qualification Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('prequalification')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                    </svg>
+                    Get Pre-Qualified
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <di1v class="section-content" id="prequalification">
+                <p>Getting pre-qualified is your first step toward homeownership. It gives you a clear understanding of how much you can afford and strengthens your position when making an offer.</p>
+                <div class="expanded-content">
+                    <h3>Benefits of Pre-Qualification:</h3>
+                    <ul>
+                        <li>Know your exact budget before house hunting</li>
+                        <li>Show sellers you're a serious buyer</li>
+                        <li>Speed up the closing process significantly</li>
+                        <li>Identify and resolve credit issues early</li>
+                    </ul>
+                    <p>Our pre-qualification process is quick and easy, typically completed within 24-48 hours. We'll review your income, assets, and credit to determine your buying power.</p>
+                    <button class="more-info-btn" onclick="openPopup()">Get Pre-Qualified Now</button>
+                </div>
+            </di1v>
+        </section>
+
+        <!-- Loan Programs Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('loanprograms')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Loan Programs Available
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content" id="loanprograms">
+                <p>We offer a comprehensive range of mortgage programs designed to meet diverse financial situations and homeownership goals.</p>
+                <div class="expanded-content">
+                    <h3>Our Loan Options:</h3>
+                    <ul>
+                        <li><strong>Conventional Loans:</strong> Traditional financing with competitive rates for qualified buyers</li>
+                        <li><strong>FHA Loans:</strong> Low down payment options (as low as 3.5%) for first-time buyers</li>
+                        <li><strong>VA Loans:</strong> Zero down payment loans for eligible veterans and service members</li>
+                        <li><strong>USDA Loans:</strong> 100% financing for rural property purchases</li>
+                        <li><strong>Jumbo Loans:</strong> Financing for high-value properties exceeding conventional limits</li>
+                        <li><strong>ARM Loans:</strong> Adjustable-rate mortgages with lower initial rates</li>
+                    </ul>
+                    <p>Each program has unique benefits and requirements. Our mortgage specialists will help you choose the best option for your situation.</p>
+                    <button class="more-info-btn" onclick="openPopup()">Explore Loan Options</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Refinancing Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('refinancing')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path>
+                    </svg>
+                    Refinancing Options
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content" id="refinancing">
+                <p>Refinancing can help you secure a lower interest rate, reduce monthly payments, or access your home's equity for important expenses.</p>
+                <div class="expanded-content">
+                    <h3>Why Refinance?</h3>
+                    <ul>
+                        <li>Lower your interest rate and save thousands over the loan term</li>
+                        <li>Switch from an adjustable-rate to a fixed-rate mortgage</li>
+                        <li>Shorten your loan term to build equity faster</li>
+                        <li>Cash-out refinance to fund home improvements or debt consolidation</li>
+                        <li>Remove PMI (Private Mortgage Insurance) when you reach 20% equity</li>
+                    </ul>
+                    <p>Current market conditions may present excellent refinancing opportunities. Let us analyze your situation and show you potential savings.</p>
+                    <button class="more-info-btn" onclick="openPopup()">Check Refinance Rates</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- First-Time Home Buyers Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('firsttime')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    First-Time Home Buyers
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content" id="firsttime">
+                <p>Buying your first home is an exciting milestone. We specialize in guiding first-time buyers through every step of the process with patience and expertise.</p>
+                <div class="expanded-content">
+                    <h3>Special Programs for First-Time Buyers:</h3>
+                    <ul>
+                        <li>Down payment assistance programs (DPA)</li>
+                        <li>First-time buyer grants and tax credits</li>
+                        <li>Lower down payment options (as low as 3%)</li>
+                        <li>Flexible credit requirements</li>
+                        <li>Educational resources and homebuyer workshops</li>
+                    </ul>
+                    <h3>We'll Help You:</h3>
+                    <ul>
+                        <li>Understand the entire mortgage process from start to finish</li>
+                        <li>Calculate affordability and create a realistic budget</li>
+                        <li>Navigate closing costs and prepare for unexpected expenses</li>
+                        <li>Build credit if needed to qualify for better rates</li>
+                    </ul>
+                    <button class="more-info-btn" onclick="openPopup()">Start Your Homeownership Journey</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Third Party Financing Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('thirdparty')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"></path>
+                    </svg>
+                    Third Party Financing
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content" id="thirdparty">
+                <p>Beyond traditional mortgage options, we connect you with alternative financing solutions through our network of trusted third-party lenders and investors.</p>
+                <div class="expanded-content">
+                    <h3>Alternative Financing Options:</h3>
+                    <ul>
+                        <li><strong>Private Money Lenders:</strong> Fast approval for unique situations or properties</li>
+                        <li><strong>Hard Money Loans:</strong> Asset-based lending for investment properties or fix-and-flip projects</li>
+                        <li><strong>Portfolio Loans:</strong> Custom financing held by the lender, not sold to investors</li>
+                        <li><strong>Seller Financing:</strong> Direct agreements with property sellers</li>
+                        <li><strong>Bridge Loans:</strong> Short-term financing to bridge gaps between transactions</li>
+                        <li><strong>Non-QM Loans:</strong> Alternative documentation for self-employed or non-traditional income</li>
+                    </ul>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Real estate investors needing quick financing</li>
+                        <li>Borrowers with credit challenges or unique situations</li>
+                        <li>Commercial property purchases</li>
+                        <li>Properties that don't qualify for conventional financing</li>
+                    </ul>
+                    <button class="more-info-btn" onclick="openPopup()">Explore Financing Alternatives</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Mortgage Process Section -->
+        <section class="info-section">
+            <div class="section-header" onclick="toggleSection('process')">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
+                    </svg>
+                    The Mortgage Process
+                </h2>
+                <span class="toggle-icon">+</span>
+            </div>
+            <div class="section-content" id="process">
+                <p>Understanding the mortgage process helps reduce stress and ensures a smooth path to homeownership. Here's what to expect when working with Quinnes Mortgage.</p>
+                <div class="expanded-content">
+                    <h3>Step-by-Step Process:</h3>
+                    <ol class="process-list">
+                        <li>
+                            <strong>Pre-Qualification (1-2 days):</strong>
+                            <p>Submit basic financial information for an initial assessment of your buying power.</p>
+                        </li>
+                        <li>
+                            <strong>Pre-Approval (3-5 days):</strong>
+                            <p>Complete application with documentation. Receive conditional approval letter for house hunting.</p>
+                        </li>
+                        <li>
+                            <strong>House Hunting:</strong>
+                            <p>Find your dream home within your approved budget with confidence.</p>
+                        </li>
+                        <li>
+                            <strong>Purchase Agreement:</strong>
+                            <p>Make an offer and negotiate terms with the seller.</p>
+                        </li>
+                        <li>
+                            <strong>Loan Processing (10-14 days):</strong>
+                            <p>Submit final documentation. Lender orders appraisal and title search.</p>
+                        </li>
+                        <li>
+                            <strong>Underwriting (5-7 days):</strong>
+                            <p>Final review and approval of your loan application and supporting documents.</p>
+                        </li>
+                        <li>
+                            <strong>Clear to Close:</strong>
+                            <p>Receive final approval and schedule your closing date.</p>
+                        </li>
+                        <li>
+                            <strong>Closing Day:</strong>
+                            <p>Sign documents, receive keys, and celebrate your new home!</p>
+                        </li>
+                    </ol>
+                    <p><strong>Average Timeline:</strong> 30-45 days from application to closing, though this can vary based on your situation.</p>
+                    <button class="more-info-btn" onclick="openPopup()">Get Started Today</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quinnes Mortgage</h3>
+                <p>Your trusted partner in home financing solutions. We're committed to helping you achieve your homeownership dreams with personalized service and competitive rates.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@quinnesmortgage.com</p>
+                <p>Phone: 1(832) 962-2241</p>
+                <p>Hours: Mon-Fri 9AM-6PM, Sat 10AM-2PM</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <button class="footer-link" onclick="openPopup()">Get Pre-Qualified</button>
+                <button class="footer-link" onclick="openPopup()">Apply Now</button>
+                <button class="footer-link" onclick="openPopup()">Contact Us</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Quinnes Mortgage. All rights reserved. | NMLS #123456 | Equal Housing Opportunity</p>
+        </div>
+    </footer>
+
+    <script >
+        // base/static/base/js/quinnes.js
+
+// Open your existing popup function
+function openPopup() {
+    const popupOverlay = document.getElementById('popupOverlay');
+    if (popupOverlay) {
+        popupOverlay.classList.add('active');
+    }
+}
+
+// Toggle section expand/collapse
+function toggleSection(sectionId) {
+    const content = document.getElementById(sectionId);
+    const header = content.previousElementSibling;
+    
+    // Close all other sections
+    document.querySelectorAll('.section-content').forEach(section => {
+        if (section.id !== sectionId && section.classList.contains('active')) {
+            section.classList.remove('active');
+            section.previousElementSibling.classList.remove('active');
+        }
+    });
+    
+    // Toggle current section
+    content.classList.toggle('active');
+    header.classList.toggle('active');
+    
+    // Smooth scroll to section if opening
+    if (content.classList.contains('active')) {
+        setTimeout(() => {
+            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+}
+
+// Open popup function
+function openPopup() {
+    const popupOverlay = document.getElementById('popupOverlay');
+    if (popupOverlay) {
+        popupOverlay.classList.add('active');
+    }
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add scroll animation effect
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe all info sections for animation on scroll
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.info-section');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(section);
+    });
+});
+    </script>
+
+{% endblock %}

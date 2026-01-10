@@ -1,0 +1,698 @@
+ {% extends 'main.html' %}
+ {% load static %}
+
+
+    <title>market report</title>
+
+
+    {% block content %}
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-fade: #0b5d4f9a;
+            --white-color: #FFFFFF;
+            --primary-color: #0b5d50;
+            --section-bg-color: #fefad9;
+            --dark-color: #000000;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-fade) 100%);
+            color: var(--white-color);
+           
+            text-align: center;
+             margin-bottom: 40px;
+            padding-top: 250px;
+            height: 480px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+           
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--white-color);
+        }
+
+        .hero .date {
+            font-size: 1.1rem;
+            opacity: 0.9;
+             color: var(--white-color);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        section h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 30px 0 20px;
+        }
+
+        /* Weekly Snapshot Cards */
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white-color);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(11, 93, 80, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(11, 93, 80, 0.25);
+        }
+
+        .stat-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            padding: 0;
+            border: none;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .stat-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stat-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .stat-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Summary Table */
+        .summary-table {
+            background: var(--white-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(11, 93, 80, 0.1);
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--section-bg-color);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        .table-number {
+            font-weight: 600;
+        }
+
+        .change-positive {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .change-negative {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        /* Insights Box */
+        .insights-box {
+            background: var(--section-bg-color);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-color);
+            margin: 30px 0;
+        }
+
+        .insights-box h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .insights-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .insights-box li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .insights-box li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* YTD Section */
+        .ytd-section {
+            background: var(--white-color);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(11, 93, 80, 0.1);
+        }
+
+        /* Footer */
+        .report-footer {
+            background: var(--primary-color);
+            color: var(--white-color);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .report-footer p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .snapshot-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Note styling */
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Houston Real Estate Market Report</h1>
+        <p class="subtitle">Comprehensive Market Analysis</p>
+        <p class="date">October 2025 | Week 24 2025 (June 10-16, 2025)</p>
+    </div>
+
+    <div class="container">
+        <!-- Weekly Activity Snapshot -->
+        <section>
+            <h2>Weekly Activity Snapshot</h2>
+            <p style="margin-bottom: 30px; font-size: 1.05rem; color: #555;">
+                During the week ending June 16, 2025, closings continued to outpace 2024 levels, increasing 1.2% year-over-year. 
+                Pending listings were 4.1% below where they were during the same time last year. Consumer traffic at property 
+                showings also slowed for the second week in a row, declining 5.0% compared to Week 24 of 2024.
+            </p>
+
+            <div class="snapshot-grid">
+                <div class="stat-card">
+                    <h3>New Listings</h3>
+                    <div class="stat-value">3,873</div>
+                    <div class="stat-change positive">+9.1%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 4,225</span>
+                        <span>2025: 3,873</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Off-Market Listings</h3>
+                    <div class="stat-value">1,723</div>
+                    <div class="stat-change positive">+23.4%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 2,126</span>
+                        <span>2025: 1,723</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Pending Listings</h3>
+                    <div class="stat-value">2,373</div>
+                    <div class="stat-change negative">-4.1%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 2,277</span>
+                        <span>2025: 2,373</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Closings</h3>
+                    <div class="stat-value">1,802</div>
+                    <div class="stat-change positive">+1.2%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 1,781</span>
+                        <span>2025: 1,802</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Showings</h3>
+                    <div class="stat-value">41,342</div>
+                    <div class="stat-change negative">-5.0%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 43,503</span>
+                        <span>2025: 41,342</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Open Houses</h3>
+                    <div class="stat-value">8,964</div>
+                    <div class="stat-change positive">+33%</div>
+                    <div class="stat-comparison">
+                        <span>2024: 6,742</span>
+                        <span>In-Person & Virtual</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Note:</strong> HAR.com Listing Views decreased 45.7% (from 12,047,594 to 6,547,547). 
+                This large decrease in traffic is due to a reduction in automated bot traffic resulting from increased security measures.
+            </div>
+        </section>
+
+        <!-- October 2025 Summary -->
+        <section>
+            <h2>October 2025 Market Summary</h2>
+
+            <h3>Single Family Homes</h3>
+            <div class="summary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>All Properties</th>
+                            <th>% Change</th>
+                            <th>Existing Home</th>
+                            <th>New Construction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Closed Listings</td>
+                            <td class="table-number">7,419</td>
+                            <td class="change-positive">+3%</td>
+                            <td class="table-number">5,103</td>
+                            <td class="table-number">2,315</td>
+                        </tr>
+                        <tr>
+                            <td>Average Price</td>
+                            <td class="table-number">$423,955</td>
+                            <td>0%</td>
+                            <td class="table-number">$434,555</td>
+                            <td class="table-number">$400,592</td>
+                        </tr>
+                        <tr>
+                            <td>Median Price</td>
+                            <td class="table-number">$330,000</td>
+                            <td class="change-negative">-1%</td>
+                            <td class="table-number">$330,000</td>
+                            <td class="table-number">$333,295</td>
+                        </tr>
+                        <tr>
+                            <td>Days on Market</td>
+                            <td class="table-number">59</td>
+                            <td class="change-positive">+13%</td>
+                            <td class="table-number">55</td>
+                            <td class="table-number">68</td>
+                        </tr>
+                        <tr>
+                            <td>Active Listings</td>
+                            <td class="table-number">38,316</td>
+                            <td class="change-positive">+26%</td>
+                            <td class="table-number">28,164</td>
+                            <td class="table-number">10,152</td>
+                        </tr>
+                        <tr>
+                            <td>Pending Listings</td>
+                            <td class="table-number">7,822</td>
+                            <td class="change-positive">+13%</td>
+                            <td class="table-number">5,224</td>
+                            <td class="table-number">2,598</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Townhouse/Condominium</h3>
+            <div class="summary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>All Properties</th>
+                            <th>% Change</th>
+                            <th>Existing Home</th>
+                            <th>New Construction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Closed Listings</td>
+                            <td class="table-number">438</td>
+                            <td class="change-negative">-9%</td>
+                            <td class="table-number">420</td>
+                            <td class="table-number">18</td>
+                        </tr>
+                        <tr>
+                            <td>Average Price</td>
+                            <td class="table-number">$251,090</td>
+                            <td class="change-negative">-10%</td>
+                            <td class="table-number">$246,038</td>
+                            <td class="table-number">$366,177</td>
+                        </tr>
+                        <tr>
+                            <td>Median Price</td>
+                            <td class="table-number">$205,000</td>
+                            <td class="change-negative">-12%</td>
+                            <td class="table-number">$190,525</td>
+                            <td class="table-number">$332,500</td>
+                        </tr>
+                        <tr>
+                            <td>Days on Market</td>
+                            <td class="table-number">63</td>
+                            <td class="change-positive">+24%</td>
+                            <td class="table-number">62</td>
+                            <td class="table-number">72</td>
+                        </tr>
+                        <tr>
+                            <td>Active Listings</td>
+                            <td class="table-number">3,450</td>
+                            <td class="change-positive">+30%</td>
+                            <td class="table-number">3,282</td>
+                            <td class="table-number">168</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Other Property Types - October 2025</h3>
+            <div class="summary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Property Type</th>
+                            <th>Closed Listings</th>
+                            <th>Average Price</th>
+                            <th>Median Price</th>
+                            <th>% Change YoY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Multifamily</td>
+                            <td class="table-number">85</td>
+                            <td class="table-number">$485,192</td>
+                            <td class="table-number">$410,000</td>
+                            <td class="change-positive">+33%</td>
+                        </tr>
+                        <tr>
+                            <td>Country Homes</td>
+                            <td class="table-number">186</td>
+                            <td class="table-number">$770,415</td>
+                            <td class="table-number">$465,000</td>
+                            <td class="change-negative">-7%</td>
+                        </tr>
+                        <tr>
+                            <td>High Rise</td>
+                            <td class="table-number">58</td>
+                            <td class="table-number">$591,470</td>
+                            <td class="table-number">$380,000</td>
+                            <td class="change-negative">-8%</td>
+                        </tr>
+                        <tr>
+                            <td>Lots</td>
+                            <td class="table-number">582</td>
+                            <td class="table-number">$172,045</td>
+                            <td class="table-number">$95,000</td>
+                            <td class="change-negative">-8%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Key Market Insights -->
+        <section>
+            <div class="insights-box">
+                <h3>Key Market Insights - October 2025</h3>
+                <ul>
+                    <li>Single-family home closings increased 3% year-over-year with 7,419 transactions</li>
+                    <li>Inventory levels rose significantly with active listings up 26% for single-family homes</li>
+                    <li>Days on market increased by 13%, indicating a shift toward a more balanced market</li>
+                    <li>New construction activity remains strong with 2,315 single-family home closings</li>
+                    <li>Townhouse/condo segment showed softening with closings down 9% year-over-year</li>
+                    <li>Multifamily properties performed exceptionally well with 33% increase in closings</li>
+                    <li>Price stability observed in single-family homes with average prices holding steady</li>
+                    <li>Rental market for single-family homes showed 9% increase in activity</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Year-to-Date Performance -->
+        <section>
+            <h2>Year-to-Date Performance (January - October 2025)</h2>
+            
+            <div class="ytd-section">
+                <h3>Single Family Homes - YTD Summary</h3>
+                <div class="summary-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>All Properties</th>
+                                <th>% Change YoY</th>
+                                <th>Existing</th>
+                                <th>New Construction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Closings</td>
+                                <td class="table-number">74,831</td>
+                                <td class="change-positive">+4%</td>
+                                <td class="table-number">51,382</td>
+                                <td class="table-number">23,448</td>
+                            </tr>
+                            <tr>
+                                <td>Total Dollar Volume</td>
+                                <td class="table-number">$31.98B</td>
+                                <td class="change-positive">+6%</td>
+                                <td class="table-number">$22.73B</td>
+                                <td class="table-number">$9.26B</td>
+                            </tr>
+                            <tr>
+                                <td>Average Price</td>
+                                <td class="table-number">$427,422</td>
+                                <td class="change-positive">+1%</td>
+                                <td class="table-number">$442,299</td>
+                                <td class="table-number">$394,823</td>
+                            </tr>
+                            <tr>
+                                <td>Median Price</td>
+                                <td class="table-number">$335,000</td>
+                                <td class="change-negative">-1%</td>
+                                <td class="table-number">$335,000</td>
+                                <td class="table-number">$333,030</td>
+                            </tr>
+                            <tr>
+                                <td>Average DOM</td>
+                                <td class="table-number">55</td>
+                                <td class="change-positive">+8%</td>
+                                <td class="table-number">49</td>
+                                <td class="table-number">68</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="insights-box" style="margin-top: 30px;">
+                <h3>Year-to-Date Highlights</h3>
+                <ul>
+                    <li>Over 74,800 single-family homes closed through October 2025, up 4% from prior year</li>
+                    <li>Total market value exceeded $31.98 billion in single-family transactions</li>
+                    <li>New construction represents 31% of all single-family home closings</li>
+                    <li>Townhouse/condo market saw 4,222 closings with $1.11 billion in total volume</li>
+                    <li>Country homes segment completed 2,071 transactions averaging $705,968</li>
+                    <li>Rental market remains robust with over 40,500 single-family rentals leased</li>
+                    <li>Active listings increased 31% year-over-year, indicating improved inventory</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Rental Market -->
+        <section>
+            <h2>Rental Market Performance</h2>
+            <div class="summary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Property Type</th>
+                            <th>Closings</th>
+                            <th>Average Price</th>
+                            <th>Median Price</th>
+                            <th>% Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Single Family</td>
+                            <td class="table-number">3,725</td>
+                            <td class="table-number">$2,262</td>
+                            <td class="table-number">$2,100</td>
+                            <td class="change-positive">+9%</td>
+                        </tr>
+                        <tr>
+                            <td>Townhouse/Condo</td>
+                            <td class="table-number">584</td>
+                            <td class="table-number">$1,867</td>
+                            <td class="table-number">$1,750</td>
+                            <td class="change-positive">+4%</td>
+                        </tr>
+                        <tr>
+                            <td>Multifamily</td>
+                            <td class="table-number">445</td>
+                            <td class="table-number">$1,299</td>
+                            <td class="table-number">$1,200</td>
+                            <td class="change-positive">+4%</td>
+                        </tr>
+                        <tr>
+                            <td>High Rise</td>
+                            <td class="table-number">67</td>
+                            <td class="table-number">$2,486</td>
+                            <td class="table-number">$1,850</td>
+                            <td class="change-negative">-23%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+  {% include 'footer.html' %}
+{% endblock %}

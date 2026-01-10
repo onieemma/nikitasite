@@ -1,0 +1,736 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        section {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b5d4f9a 0%, #0b5d50 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            margin-top: 150px;
+            height: 170px;
+        }
+
+        .page-header h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+           
+        }
+
+        .page-header p {
+            font-size: 18px;
+            opacity: 0.95;
+            color: #ffff
+        }
+
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            margin-bottom: 30px;
+            background: none;
+        }
+
+        .card-header h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .card-header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0b5d4f9a;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .input-group .form-input {
+            padding-left: 40px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0b5d4f9a 0%, #0b5d50 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #0b5d50 0%, #0b5d4f9a 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, #0b5d50 0%, #0b5d4f9a 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .results-header {
+            margin-bottom: 30px;
+            color: #ffff;
+        }
+
+        .results-header h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #ffff;
+        }
+        .results-header p {
+          
+            color: #ffffffbb;
+        }
+
+        .monthly-payment {
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .monthly-payment .label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .monthly-payment .amount {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .monthly-payment .subtext {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .breakdown-item {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .breakdown-item .label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .breakdown-item .value {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .details-list {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .detail-row .value {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .inquiry-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .inquiry-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .inquiry-header h2 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .inquiry-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .calculator-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #results-section {
+            display: none;
+        }
+
+        #inquiry-section {
+            display: none;
+        }
+    </style>
+
+<section>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1> Mortgage Calculator</h1>
+            <p>Calculate your estimated monthly mortgage payment and submit a financing inquiry</p>
+        </div>
+
+        <!-- Calculator Section -->
+        <div class="calculator-wrapper">
+            <!-- Calculator Form -->
+            <div class="calculator-card">
+                <div class="card-header">
+                    <h2>Loan Details</h2>
+                    <p>Enter your home purchase information</p>
+                </div>
+
+                <form id="calculator-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="home_price">Home Price</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" 
+                                   id="home_price" 
+                                   name="home_price" 
+                                   class="form-input" 
+                                   value="500000"
+                                   min="0"
+                                   step="1000"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="down_payment">Down Payment</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" 
+                                   id="down_payment" 
+                                   name="down_payment" 
+                                   class="form-input" 
+                                   value="100000"
+                                   min="0"
+                                   step="1000"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interest_rate">Interest Rate (%)</label>
+                        <div class="input-group">
+                            <span class="input-prefix">%</span>
+                            <input type="number" 
+                                   id="interest_rate" 
+                                   name="interest_rate" 
+                                   class="form-input" 
+                                   value="6.5"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loan_term">Loan Term (years)</label>
+                        <input type="number" 
+                               id="loan_term" 
+                               name="loan_term" 
+                               class="form-input" 
+                               value="30"
+                               min="1"
+                               max="50"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loan_type">Loan Type</label>
+                        <select id="loan_type" name="loan_type" class="form-input">
+                            <option value="conventional">Conventional</option>
+                            <option value="fha">FHA</option>
+                            <option value="va">VA Loan</option>
+                            <option value="usda">USDA</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Calculate Payment</button>
+                </form>
+
+                <div class="loading" id="calc-loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #667eea;">Calculating...</p>
+                </div>
+            </div>
+
+            <!-- Results Card -->
+            <div id="results-section">
+                <div class="results-card">
+                    <div class="results-header">
+                        <h3>Your Monthly Payment</h3>
+                        <p>Estimated mortgage breakdown</p>
+                    </div>
+
+                    <div class="monthly-payment">
+                        <div class="label">Total Monthly Payment</div>
+                        <div class="amount" id="total-monthly">$0</div>
+                        <div class="subtext">Principal & Interest + Taxes + Insurance + PMI</div>
+                    </div>
+
+                    <div class="breakdown">
+                        <div class="breakdown-item">
+                            <div class="label">Principal & Interest</div>
+                            <div class="value" id="monthly-payment">$0</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="label">Property Tax</div>
+                            <div class="value" id="property-tax">$0</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="label">Home Insurance</div>
+                            <div class="value" id="home-insurance">$0</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="label">PMI</div>
+                            <div class="value" id="pmi">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="details-list">
+                        <div class="detail-row">
+                            <span class="label">Loan Amount</span>
+                            <span class="value" id="principal">$0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Down Payment</span>
+                            <span class="value" id="down-percent">0%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Total Interest Paid</span>
+                            <span class="value" id="total-interest">$0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Total Payment</span>
+                            <span class="value" id="total-payment">$0</span>
+                        </div>
+                    </div>
+
+                    <button onclick="showInquiryForm()" class="btn btn-success" style="margin-top: 25px;">
+                        Submit Financing Inquiry
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financing Inquiry Form -->
+        <div id="inquiry-section" class="inquiry-section">
+            <div class="inquiry-header">
+                <h2>Submit Financing Inquiry</h2>
+                <p>Let us help you get pre-approved for your dream home</p>
+            </div>
+
+            <div id="inquiry-alert" class="alert"></div>
+
+            <form id="inquiry-form">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name">First Name *</label>
+                        <input type="text" id="first_name" name="first_name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name *</label>
+                        <input type="text" id="last_name" name="last_name" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Home Price</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="inquiry_home_price" name="home_price" class="form-input" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Down Payment</label>
+                        <div class="input-group">
+                            <span class="input-prefix">$</span>
+                            <input type="number" id="inquiry_down_payment" name="down_payment" class="form-input" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Interest Rate (%)</label>
+                        <input type="number" id="inquiry_interest_rate" name="interest_rate" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Loan Term (years)</label>
+                        <input type="number" id="inquiry_loan_term" name="loan_term" class="form-input" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Type</label>
+                    <input type="text" id="inquiry_loan_type" name="loan_type" class="form-input" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional_notes">Additional Notes</label>
+                    <textarea id="additional_notes" name="additional_notes" class="form-input" rows="4" placeholder="Any additional information you'd like to share..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit Inquiry</button>
+            </form>
+
+            <div class="loading" id="inquiry-loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px; color: #11998e;">Submitting...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // Format currency
+        function formatCurrency(amount) {
+            return '$' + Math.round(amount).toLocaleString('en-US');
+        }
+
+        // Calculator form submission
+        document.getElementById('calculator-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                home_price: document.getElementById('home_price').value,
+                down_payment: document.getElementById('down_payment').value,
+                interest_rate: document.getElementById('interest_rate').value,
+                loan_term: document.getElementById('loan_term').value,
+            };
+
+            // Show loading
+            document.getElementById('calc-loading').style.display = 'block';
+            
+            try {
+                const response = await fetch('{% url "calculate_mortgage" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Update results
+                    document.getElementById('monthly-payment').textContent = formatCurrency(data.monthly_payment);
+                    document.getElementById('property-tax').textContent = formatCurrency(data.property_tax);
+                    document.getElementById('home-insurance').textContent = formatCurrency(data.home_insurance);
+                    document.getElementById('pmi').textContent = formatCurrency(data.pmi);
+                    document.getElementById('total-monthly').textContent = formatCurrency(data.total_monthly);
+                    document.getElementById('principal').textContent = formatCurrency(data.principal);
+                    document.getElementById('down-percent').textContent = data.down_payment_percent.toFixed(1) + '%';
+                    document.getElementById('total-interest').textContent = formatCurrency(data.total_interest);
+                    document.getElementById('total-payment').textContent = formatCurrency(data.total_payment);
+
+                    // Show results
+                    document.getElementById('results-section').style.display = 'block';
+                    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+                }
+            } catch (error) {
+                alert('Error calculating mortgage: ' + error.message);
+            } finally {
+                document.getElementById('calc-loading').style.display = 'none';
+            }
+        });
+
+        // Show inquiry form
+        function showInquiryForm() {
+            // Populate inquiry form with calculated values
+            document.getElementById('inquiry_home_price').value = document.getElementById('home_price').value;
+            document.getElementById('inquiry_down_payment').value = document.getElementById('down_payment').value;
+            document.getElementById('inquiry_interest_rate').value = document.getElementById('interest_rate').value;
+            document.getElementById('inquiry_loan_term').value = document.getElementById('loan_term').value;
+            document.getElementById('inquiry_loan_type').value = document.getElementById('loan_type').options[document.getElementById('loan_type').selectedIndex].text;
+
+            // Show form
+            document.getElementById('inquiry-section').style.display = 'block';
+            document.getElementById('inquiry-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Inquiry form submission
+        document.getElementById('inquiry-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+
+            // Show loading
+            document.getElementById('inquiry-loading').style.display = 'block';
+            document.getElementById('inquiry-form').style.display = 'none';
+            
+            try {
+                const response = await fetch('{% url "submit_inquiry" %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                const alertDiv = document.getElementById('inquiry-alert');
+                
+                if (data.success) {
+                    alertDiv.className = 'alert alert-success';
+                    alertDiv.textContent = 'Thank you! Your financing inquiry has been submitted successfully. We will contact you soon.';
+                    alertDiv.style.display = 'block';
+                    document.getElementById('inquiry-form').reset();
+                } else {
+                    alertDiv.className = 'alert alert-error';
+                    alertDiv.textContent = 'Error submitting inquiry. Please check your information and try again.';
+                    alertDiv.style.display = 'block';
+                    document.getElementById('inquiry-form').style.display = 'block';
+                }
+            } catch (error) {
+                const alertDiv = document.getElementById('inquiry-alert');
+                alertDiv.className = 'alert alert-error';
+                alertDiv.textContent = 'Error: ' + error.message;
+                alertDiv.style.display = 'block';
+                document.getElementById('inquiry-form').style.display = 'block';
+            } finally {
+                document.getElementById('inquiry-loading').style.display = 'none';
+            }
+        });
+    </script>
+</section>
+
+
+{% include 'email.html' %}
+{% include 'footer.html' %}
+
+
+{% endblock %}
