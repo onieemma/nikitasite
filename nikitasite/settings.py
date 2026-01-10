@@ -108,10 +108,11 @@ WSGI_APPLICATION = 'nikitasite.wsgi.application'
 # DATABASE
 # ==============================================================================
 
-# Get DATABASE_URL from environment (None if not set)
-DATABASE_URL = config('DATABASE_URL', default=None)
+# Get DATABASE_URL from environment
+DATABASE_URL = config('DATABASE_URL', default='')
 
-if DATABASE_URL:
+# Check if DATABASE_URL is actually set and not empty
+if DATABASE_URL and DATABASE_URL.strip():
     # Production with PostgreSQL
     DATABASES = {
         'default': dj_database_url.parse(
@@ -127,7 +128,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 # ==============================================================================
 # PASSWORD VALIDATION
 # ==============================================================================
@@ -357,4 +357,5 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
