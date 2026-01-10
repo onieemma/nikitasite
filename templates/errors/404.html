@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .error-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #0b5d4f9a 0%, #0b5d4fff 100%);
+    }
+    
+    .error-content {
+        background: white;
+        padding: 60px 40px;
+        border-radius: 20px;
+        max-width: 600px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .error-code {
+        font-size: 120px;
+        font-weight: bold;
+        color: #0b5d4fff;
+        line-height: 1;
+        margin-bottom: 20px;
+    }
+    
+    .error-title {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+    
+    .error-message {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .error-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .error-btn {
+        padding: 12px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .error-btn-primary {
+        background: linear-gradient(135deg, #0b5d4fff 0%, #0b5d4f9a 100%);
+        color: white;
+    }
+    
+    .error-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(11, 93, 79, 0.3);
+    }
+    
+    .error-btn-secondary {
+        background: white;
+        color: #0b5d4fff;
+        border: 2px solid #0b5d4fff;
+    }
+    
+    .error-btn-secondary:hover {
+        background: #0b5d4fff;
+        color: white;
+    }
+</style>
+
+<div class="error-page">
+    <div class="error-content">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-message">
+            Sorry, the page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="error-actions">
+            <a href="{% url 'index' %}" class="error-btn error-btn-primary">Go Home</a>
+            <a href="javascript:history.back()" class="error-btn error-btn-secondary">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

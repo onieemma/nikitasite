@@ -1,0 +1,107 @@
+{% load static %}
+
+<!-- EMAIL / CONTACT SECTION -->
+<section class="contact section-padding contact-bg" id="contact">
+    <!-- Overlay -->
+    <div class="contact-overlay"></div>
+
+    <div class="container contact-content">
+        <div class="row">
+            <div class="col-lg-10 col-12 mx-auto">
+                <h2 class="mb-4 text-center" id="mb-4" data-aos="fade-up">Contact Us</h2>
+
+                <!-- Django Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show auto-dismiss" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                        
+
+
+                <!-- Contact Form - CHECKBOXES NOW INSIDE FORM -->
+                <form action="{% url 'contact_inquiry' %}" method="post" class="contact-form" role="form" data-aos="fade-up">
+                    {% csrf_token %}
+                    
+                    <!-- Checkbox Row - MOVED INSIDE FORM -->
+                    <div class="row g-2 mb-3">
+                        <!-- Selling -->
+                        <div class="col-lg-4 col-12">
+                            <div class="form-check d-flex align-items-center">
+                                <input type="checkbox" id="selling" name="selling" class="form-check-input me-2">
+                                <label class="form-check-label mb-0" for="selling">Selling</label>
+                            </div>
+                        </div>
+
+                        <!-- Renting -->
+                        <div class="col-lg-4 col-12">
+                            <div class="form-check d-flex align-items-center">
+                                <input type="checkbox" id="renting" name="renting" class="form-check-input me-2">
+                                <label class="form-check-label mb-0" for="renting">Renting</label>
+                            </div>
+                        </div>
+
+                        <!-- Buying -->
+                        <div class="col-lg-4 col-12">
+                            <div class="form-check d-flex align-items-center">
+                                <input type="checkbox" id="buying" name="buying" class="form-check-input me-2">
+                                <label class="form-check-label mb-0" for="buying">Buying</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <!-- Name -->
+                        <div class="col-lg-6 col-6">
+                            <label for="name" class="form-label">Name <sup class="text-danger">*</sup></label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Full name" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-lg-6 col-6">
+                            <label for="email" class="form-label">Email <sup class="text-danger">*</sup></label>
+                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="col-12 my-4">
+                            <label for="message" class="form-label">How can we help? <sup class="text-danger">*</sup></label>
+                            <textarea name="message" rows="6" class="form-control" id="message" placeholder="Tell us about the project" required></textarea>
+                        </div>
+
+                        <!-- Consent -->
+                        <div class="col-12 mt-4">
+                            <div class="form-check consent-check">
+                                <input type="checkbox" id="consent" name="consent" class="form-check-input" required>
+                                <label class="form-check-label consent-text" for="consent" style="font-weight: bolder;">
+                                    By providing Nikita Global Realty your contact information, you acknowledge 
+                                    and agree to our 
+                                    <a href="{% url 'terms' %}" style="text-decoration: none; color: rgb(255, 3, 3);">
+                                        <b>Privacy Policy</b>
+                                    </a> 
+                                    and consent to receiving marketing communications, including automated calls, 
+                                    texts, and emails. This consent isn't required to purchase products/services 
+                                    and you may opt out anytime.
+                                    Text "stop" to opt out of SMS, or use the unsubscribe link in emails. 
+                                    Message and data rates may apply.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-lg-5 col-12 mx-auto mt-5">
+                        <button type="submit" class="form-control">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
