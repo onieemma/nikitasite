@@ -10,12 +10,19 @@ from .views import wealth_books_view
 from django.shortcuts import redirect
 
 
+from .views import test_email
+
 def google_only_login(request):
     return redirect('google_login')
 
 # app_name = 'base'
 
 urlpatterns = [
+
+
+ 
+    path('test-email/', test_email, name='test_email'),
+
     
       #GOOGLE
 
@@ -92,3 +99,4 @@ urlpatterns = [
      
 
 ]
+
