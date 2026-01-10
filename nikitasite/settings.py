@@ -286,39 +286,37 @@ MESSAGE_TAGS = {
 }
 
 # ==============================================================================
-# EMAIL CONFIGURATION
+# EMAIL CONFIGURATION - Add this to your settings.py
 # ==============================================================================
 
-# ===================== EMAIL CONFIG =====================
+# Email Backend
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
+# SMTP Configuration
 EMAIL_HOST = config('EMAIL_HOST', default='smtp.zoho.com')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_USE_SSL = False
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)  # Use TLS, not SSL for port 587
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # admin@nikitaglobalrealty.com
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Zoho APP PASSWORD
-
-DEFAULT_FROM_EMAIL = config(
-    'DEFAULT_FROM_EMAIL',
-    default='Nikita Global Realty <info@nikitaglobalrealty.com>'
-)
-
+# Default "From" email
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
 SERVER_EMAIL = config('SERVER_EMAIL', default=EMAIL_HOST_USER)
-ADMIN_EMAIL = config('ADMIN_EMAIL', default=EMAIL_HOST_USER)
-CONTACT_EMAIL = config('CONTACT_EMAIL', default=EMAIL_HOST_USER)
 
+# Admin and Contact emails
+CONTACT_EMAIL = config('CONTACT_EMAIL', default=EMAIL_HOST_USER)
+ADMIN_EMAIL = config('ADMIN_EMAIL', default=EMAIL_HOST_USER)
+
+# Email timeout (optional)
 EMAIL_TIMEOUT = 30
 
-
-#
 # For Allauth email verification
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' if you want required email verification
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
+#
+e
 
 # ==============================================================================
 # GOOGLE GEMINI API
@@ -376,6 +374,7 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
 
 
