@@ -316,7 +316,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
 #
-e
+
 
 # ==============================================================================
 # GOOGLE GEMINI API
@@ -374,6 +374,7 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
 
 
