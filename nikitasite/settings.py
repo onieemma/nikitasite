@@ -35,7 +35,7 @@ import os
 if os.environ.get('RENDER'):
     ALLOWED_HOSTS = ['onrender.com',
                     'localhost', 
-                     '127.0.0.1',
+                     '127.0.0.1', 
                     'nikitasite-s25p.onrender.com']
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -239,13 +239,26 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # ============================================================================
 # REST FRAMEWORK
 # ============================================================================
+# ==============================================================================
+# REST FRAMEWORK
+# ==============================================================================
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 8,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
 }
+
+# Add BrowsableAPIRenderer only in DEBUG mode
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    )
 
 
 # ============================================================================
@@ -262,27 +275,40 @@ MESSAGE_TAGS = {
 }
 
 
-# ============================================================================
+# ==============================================================================
 # EMAIL CONFIGURATION
-# ============================================================================
+# ==============================================================================
 
-# Console Backend for testing (prints emails to console)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@nikitastite.com'
-ADMIN_EMAIL = 'admin@nikitastite.com'
-CONTACT_EMAIL = 'admin@nikitastite.com'
-APPOINTMENT_EMAIL = 'admin@nikitastite.com'
-INQUIRY_EMAIL = 'admin@nikitastite.com'
+# ===================== EMAIL CONFIG =====================
 
-# Production Email Settings (uncomment when ready for production)
-# if not DEBUG:
-#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#     EMAIL_HOST = 'mail.nikitaglobalrealty.com'
-#     EMAIL_PORT = 587
-#     EMAIL_USE_TLS = True
-#     EMAIL_HOST_USER = 'info@nikitaglobalrealty.com'
-#     EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
-#     DEFAULT_FROM_EMAIL = 'info@nikitaglobalrealty.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.zoho.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_USE_SSL = False
+
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # admin@nikitaglobalrealty.com
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Zoho APP PASSWORD
+
+DEFAULT_FROM_EMAIL = config(
+    'DEFAULT_FROM_EMAIL',
+    default='Nikita Global Realty <info@nikitaglobalrealty.com>'
+)
+
+SERVER_EMAIL = config('SERVER_EMAIL', default=EMAIL_HOST_USER)
+ADMIN_EMAIL = config('ADMIN_EMAIL', default=EMAIL_HOST_USER)
+CONTACT_EMAIL = config('CONTACT_EMAIL', default=EMAIL_HOST_USER)
+
+EMAIL_TIMEOUT = 30
+
+
+#
+# For Allauth email verification
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' if you want required email verification
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
 
 
 # ============================================================================
@@ -342,6 +368,7 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
 
 
