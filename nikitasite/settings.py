@@ -308,7 +308,7 @@ CONTACT_EMAIL = config('CONTACT_EMAIL', default=EMAIL_HOST_USER)
 ADMIN_EMAIL = config('ADMIN_EMAIL', default=EMAIL_HOST_USER)
 
 # Email timeout (optional)
-EMAIL_TIMEOUT = 30
+EMAIL_TIMEOUT = 60
 
 # For Allauth email verification
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' if you want required email verification
@@ -374,6 +374,7 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
 
 
 
