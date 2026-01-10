@@ -104,22 +104,28 @@ WSGI_APPLICATION = 'nikitasite.wsgi.application'
 # DATABASE
 # ==============================================================================
 
-if DEBUG:
-    # Local development
+# ==============================================================================
+# DATABASE
+# ==============================================================================
+
+# Get DATABASE_URL from environment (None if not set)
+DATABASE_URL = config('DATABASE_URL', default=None)
+
+if DATABASE_URL:
+    # Production with PostgreSQL
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+        )
+    }
+else:
+    # Development or fallback to SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
-else:
-    # Production - PostgreSQL (Render provides DATABASE_URL)
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
-            conn_max_age=600,
-            ssl_require=True
-        )
     }
 
 # ==============================================================================
@@ -351,3 +357,4 @@ if not DEBUG:
             'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
         }
     }
+
