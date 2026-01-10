@@ -1,3 +1,4 @@
+# 
 
 
 
@@ -21,32 +22,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG')
-# ==============================================================================
-# SECURITY SETTINGS
-# ==============================================================================
 
-SECRET_KEY = config('SECRET_KEY')
+DEBUG = 'RENDER' not in os.environ
 
-# Production vs Development
-DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+import os
 
-# Security headers for production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    X_FRAME_OPTIONS = 'DENY'
+if os.environ.get('RENDER'):
+    ALLOWED_HOSTS = ['onrender.com',
+                    'localhost', 
+                     '127.0.0.1',
+                    'nikitasite-s25p.onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 
 # Session settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -54,7 +47,7 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = not DEBUG  # Set to True only in production with HTTPS
+SESSION_COOKIE_SECURE = False  # Set to True only in production with HTTPS
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 
@@ -66,8 +59,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django.contrib.sitemaps',# Required for allauth
+    'django.contrib.sites',  # Required for allauth
 
     # Allauth apps
     'allauth',
@@ -145,9 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 8,
-        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -156,7 +145,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 
 # Internationalization
@@ -198,79 +186,66 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth
 ]
 
-
 # Site ID (required by allauth)
 SITE_ID = 1
 
 # Django auth URLs
-LOGIN_URL = 'account_login'
+LOGIN_URL = 'account_login'  # Changed to use allauth's login
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
-# Allauth settings
+# Allauth settings (updated for django-allauth 65.x - no deprecation warnings)
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Change to 'mandatory' if you want email verification
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
+# Social account settings
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 
-
 # Google OAuth settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'APP': {
-            'client_id': config('GOOGLE_CLIENT_ID', default=''),
-            'secret': config('GOOGLE_CLIENT_SECRET', default=''),
-            'key': ''
-        },
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+        # Note: APP credentials are configured in Django Admin, not here
     }
 }
 
-SOCIALACCOUNT_LOGIN_ON_GET = True
 
-
-
-# ==============================================================================
-# CSRF & SECURITY
-# ==============================================================================
-
+# ============================================================================
+# CSRF SETTINGS
+# ============================================================================
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = not DEBUG
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
+CSRF_COOKIE_SECURE = True  # Set to True in production with HTTPS
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com'
+]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 
-# ============================================================================
-# REST FRAMEWORK
-# ============================================================================
-# ==============================================================================
-# REST FRAMEWORK
-# ==============================================================================
 
+# ============================================================================
+# REST FRAMEWORK
+# ============================================================================
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 8,
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
+    ]
 }
-
-# Add BrowsableAPIRenderer only in DEBUG mode
-if DEBUG:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    )
 
 
 # ============================================================================
@@ -287,40 +262,27 @@ MESSAGE_TAGS = {
 }
 
 
-# ==============================================================================
+# ============================================================================
 # EMAIL CONFIGURATION
-# ==============================================================================
+# ============================================================================
 
-# ===================== EMAIL CONFIG =====================
+# Console Backend for testing (prints emails to console)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@nikitastite.com'
+ADMIN_EMAIL = 'admin@nikitastite.com'
+CONTACT_EMAIL = 'admin@nikitastite.com'
+APPOINTMENT_EMAIL = 'admin@nikitastite.com'
+INQUIRY_EMAIL = 'admin@nikitastite.com'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_HOST = config('EMAIL_HOST', default='smtp.zoho.com')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_USE_SSL = False
-
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # admin@nikitaglobalrealty.com
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Zoho APP PASSWORD
-
-DEFAULT_FROM_EMAIL = config(
-    'DEFAULT_FROM_EMAIL',
-    default='Nikita Global Realty <info@nikitaglobalrealty.com>'
-)
-
-SERVER_EMAIL = config('SERVER_EMAIL', default=EMAIL_HOST_USER)
-ADMIN_EMAIL = config('ADMIN_EMAIL', default=EMAIL_HOST_USER)
-CONTACT_EMAIL = config('CONTACT_EMAIL', default=EMAIL_HOST_USER)
-
-EMAIL_TIMEOUT = 30
-
-
-#
-# For Allauth email verification
-ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' if you want required email verification
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USERNAME_REQUIRED = False
+# Production Email Settings (uncomment when ready for production)
+# if not DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#     EMAIL_HOST = 'mail.nikitaglobalrealty.com'
+#     EMAIL_PORT = 587
+#     EMAIL_USE_TLS = True
+#     EMAIL_HOST_USER = 'info@nikitaglobalrealty.com'
+#     EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+#     DEFAULT_FROM_EMAIL = 'info@nikitaglobalrealty.com'
 
 
 # ============================================================================
@@ -330,56 +292,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 GEMINI_API_KEY = config('GEMINI_API_KEY')
 
 
-
-
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django_errors.log'),
-            'formatter': 'verbose',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'root': {
-        'handlers': ['console', 'file'],
-        'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
-
-# ==============================================================================
-# CACHING (Optional but recommended)
-# ==============================================================================
-
-if not DEBUG:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-            'LOCATION': config('REDIS_URL', default='redis://127.0.0.1:6379/1'),
-        }
-    }
 
 
 
