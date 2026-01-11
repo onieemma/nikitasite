@@ -62,7 +62,7 @@ urlpatterns = [
     path('buywithus/', views.buywithus_view, name='buywithus'),
     path('forsale/', views.forsale_view, name='forsale'),
     path('homebuying/', views.home_buy_view, name='home_buy'),
-    path('homesell/', views.home_sell_view, name='homesell'),
+    path('homeselling/', views.sell_view, name='homesell'),
     path('nikita_home/', views.nikita_homes_view, name='nikita_home'),
     path('rental/', views.rental_view, name='rental'),
     path('terms/', views.terms_view, name='terms'),
@@ -99,6 +99,7 @@ urlpatterns = [
      
 
 ]
+
 
 
 
