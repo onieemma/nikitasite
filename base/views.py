@@ -499,6 +499,10 @@ def home_buy_view(request):
 def sell_view(request):
     return render(request, "base/home_sell.html")
 
+
+def home_market(request):
+    return render(request, "base/home_resell.html")
+
 def nikita_homes_view(request):
     return render(request, "base/nikitahomes.html")
 
@@ -1152,4 +1156,5 @@ For urgent inquiries, call us at: (555) 123-4567
     except Exception as e:
 
         print(f"Failed to send confirmation email: {str(e)}")
+
 
