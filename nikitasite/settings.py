@@ -248,8 +248,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_TRUSTED_ORIGINS = [
-    'https://www.nikitaglobalrealty.com',
-    'https://nikitasite-s25p.onrender.com',
+ 'https://nikitaglobalrealty.com',
+ 'https://www.nikitaglobalrealty.com',
 ]
 
 
@@ -378,6 +378,7 @@ if not DEBUG:
             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
+
 
 
 
