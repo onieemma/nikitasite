@@ -21,4 +21,5 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 root@178.16.140.47 "cd /var/www/nikitasite && ./deploy.sh"
+          ssh -vvv -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 root@178.16.140.47 "cd /var/www/nikitasite && ./deploy.sh"
+        
