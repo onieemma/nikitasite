@@ -7,18 +7,17 @@ on:
 jobs:
  deploy:
  runs-on: ubuntu-latest
-
  steps:
  - name: Checkout code
  uses: actions/checkout@v4
 
  - name: Setup SSH key
+ env:
+ SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
  run: |
  mkdir -p ~/.ssh
  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
  chmod 600 ~/.ssh/id_ed25519
- env:
- SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
  - name: Deploy to VPS
  run: |
