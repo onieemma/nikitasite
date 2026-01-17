@@ -1,0 +1,25 @@
+name: Deploy to Hostinger VPS
+
+on:
+ push:
+ branches: [ "main" ]
+
+jobs:
+ deploy:
+ runs-on: ubuntu-latest
+
+ steps:
+ - name: Checkout code
+ uses: actions/checkout@v4
+
+ - name: Setup SSH key
+ run: |
+ mkdir -p ~/.ssh
+ echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+ chmod 600 ~/.ssh/id_ed25519
+ env:
+ SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+ - name: Deploy to VPS
+ run: |
+ ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 root@178.16.140.47 "cd /var/www/nikitasite && ./deploy.sh"
