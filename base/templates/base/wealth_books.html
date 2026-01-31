@@ -1,139 +1,212 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
+
 <!-- Hero Section -->
 <div class="hero-books">
     <div class="hero-overlay">
         <h1>Books for You</h1>
-        <p>Explore curated and free resources to build your wealth</p>
+        <p>Explore curated resources to build your wealth</p>
     </div>
 </div>
 
-<!-- Get Books Section -->
+<!-- Books Section -->
 <div class="books-section">
-    
+    <h2>Featured Books</h2>
 
-    <div class="books-group">
-        <h3> Beta List </h3>
-        {% if admin_books %}
-        <div class="books-grid">
-            {% for book in admin_books %}
-            <div class="book-card">
-                <strong>{{ book.title }}</strong><br>
-                <em>{{ book.author }}</em>
-                {% if book.cover_image %}<br><img src="{{ book.cover_image }}" alt="{{ book.title }} cover">{% endif %}
-                {% if book.download_link %}<br><a href="{{ book.download_link }}">Download</a>{% endif %}
-                {% if book.preview_link %}<br><a href="{{ book.preview_link }}" target="_blank">Preview</a>{% endif %}
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-            <p>No books added by admin yet.</p>
-        {% endif %}
-    </div>
+    {% if books %}
+    <div class="books-grid">
 
-    <div class="books-group">
-        <h3>Free Books (Gutendex API)</h3>
-        {% if api_books %}
-        <div class="books-grid">
-            {% for book in api_books %}
-            <div class="book-card">
-                <strong>{{ book.title }}</strong><br>
-                <em>{{ book.author }}</em>
-                {% if book.cover_image %}<br><img src="{{ book.cover_image }}" alt="{{ book.title }} cover">{% endif %}
-                {% if book.download_link %}<br><a href="{{ book.download_link }}" target="_blank">Download</a>{% endif %}
-                <small>Source: {{ book.source }}</small>
+        {% for book in books %}
+        <div class="book-card">
+            <div class="book-inner">
+
+                <!-- LEFT: IMAGE -->
+                <div class="book-image">
+                    {% if book.cover_image %}
+                    <img src="{{ book.cover_image }}" alt="{{ book.title }} cover">
+                    {% else %}
+                    <div class="image-placeholder">No Image</div>
+                    {% endif %}
+                </div>
+
+                <!-- RIGHT: CONTENT -->
+                <div class="book-content">
+                    <strong>{{ book.title }}</strong>
+                    <em>{{ book.author }}</em>
+
+                    {% if book.description %}
+                    <p>{{ book.description }}</p>
+                    {% endif %}
+
+                    {% if book.download_link %}
+                    <a href="{{ book.download_link }}" target="_blank">Download Book</a>
+                    {% endif %}
+                </div>
+
             </div>
-            {% endfor %}
         </div>
-        {% else %}
-            <p>No API books found.</p>
-        {% endif %}
+        {% endfor %}
+
     </div>
+    {% else %}
+        <p>No books added yet.</p>
+    {% endif %}
 </div>
 
 <style>
-/* Hero Section */
+/* ================= HERO ================= */
 .hero-books {
-    position: relative;
-    background-image: url('/static/images/hero-books.jpg'); /* replace with your image path */
-    background-size: cover;
-    background-position: center;
+    background: url('/static/images/hero-books.jpg') center/cover no-repeat;
     height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
     margin-bottom: 40px;
 }
 
 .hero-overlay {
-    background-color: rgba(11, 93, 79, 0.6); /* overlay color with transparency */
-    width: 100%;
+    background-color: rgba(11, 93, 80, 0.95);
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 0 20px;
+    color: #fff;
+    padding: 20px;
 }
 
 .hero-overlay h1 {
     font-size: 48px;
-    margin-bottom: 10px;
 }
 
 .hero-overlay p {
     font-size: 20px;
+    color: #fafde5;
+    
 }
 
-/* Get Books Section */
+/* ================= BOOKS SECTION ================= */
 .books-section {
-    background-color: #0b5d4f9a;
-    color: #FFFFFF;
+    background-color: #0b5d50;
+    color: #fff;
     padding: 30px;
     border-radius: 15px;
-    margin: 0 20px 40px 20px;
+    margin: 0 20px 40px;
 }
 
-.books-section h2, .books-section h3 {
-    color: #FFFFFF;
-    margin-bottom: 15px;
-}
-
-.books-group {
+.books-section h2 {
+    text-align: center;
     margin-bottom: 30px;
+    color: #f7fdd1;
 }
 
+/* GRID */
 .books-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
 }
 
+/* CARD */
 .book-card {
-    background-color: #0b5d50;
-    padding: 15px;
-    border-radius: 10px;
-    width: 220px;
-    flex: 1 1 auto;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
 }
 
-.book-card img {
-    margin-top: 10px;
-    max-width: 100%;
-    border-radius: 5px;
+/* FLEX INSIDE CARD */
+.book-inner {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
-.book-card a {
-    color: #FFFFFF;
+/* IMAGE */
+.book-image {
+    flex: 0 0 150px;
+}
+
+.book-image img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.image-placeholder {
+    width: 150px;
+    height: 220px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border-radius: 6px;
+}
+
+/* CONTENT */
+.book-content {
+    flex: 1;
+}
+
+.book-content strong {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.book-content em {
+    font-size: 14px;
+    opacity: 0.85;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.book-content p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.book-content a {
+    color: #ffffff;
     text-decoration: underline;
+    font-weight: 500;
 }
 
-.book-card em {
-    font-style: italic;
+/* ================= TABLET ================= */
+@media (max-width: 992px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-image {
+        flex: 0 0 120px;
+    }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+    .hero-overlay h1 {
+        font-size: 32px;
+    }
+
+    .hero-overlay p {
+        font-size: 16px;
+    }
+
+    .book-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .book-image {
+        flex: none;
+        width: 60%;
+    }
+
+    .book-content {
+        text-align: left;
+        margin-top: 15px;
+    }
 }
 </style>
 
