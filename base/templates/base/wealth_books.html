@@ -2,59 +2,282 @@
 
 {% block content %}
 
-<!-- Hero Section -->
-<div class="hero-books">
-    <div class="hero-overlay">
-        <h1>Books for You</h1>
-        <p>Explore curated resources to build your wealth</p>
-    </div>
-</div>
+<div class="page-container">
 
-<!-- Books Section -->
-<div class="books-section">
-    <h2>Featured Books</h2>
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="main-content">
 
-    {% if books %}
-    <div class="books-grid">
-
-        {% for book in books %}
-        <div class="book-card">
-            <div class="book-inner">
-
-                <!-- LEFT: IMAGE -->
-                <div class="book-image">
-                    {% if book.cover_image %}
-                    <img src="{{ book.cover_image }}" alt="{{ book.title }} cover">
-                    {% else %}
-                    <div class="image-placeholder">No Image</div>
-                    {% endif %}
-                </div>
-
-                <!-- RIGHT: CONTENT -->
-                <div class="book-content">
-                    <strong>{{ book.title }}</strong>
-                    <em>{{ book.author }}</em>
-
-                    {% if book.description %}
-                    <p>{{ book.description }}</p>
-                    {% endif %}
-
-                    {% if book.download_link %}
-                    <a href="{{ book.download_link }}" target="_blank">Download Book</a>
-                    {% endif %}
-                </div>
-
+        <!-- Hero Section -->
+        <div class="hero-books">
+            <div class="hero-overlay">
+                <h1>Books for You</h1>
+                <p>Explore curated resources to build your wealth</p>
             </div>
         </div>
-        {% endfor %}
 
+        <!-- Books Section -->
+        <div class="books-section">
+            <h2>Featured Books</h2>
+
+            {% if books %}
+            <div class="books-grid">
+                {% for book in books %}
+                <div class="book-card">
+                    <div class="book-inner">
+                        <!-- LEFT: IMAGE -->
+                        <div class="book-image">
+                            {% if book.cover_image %}
+                            <img src="{{ book.cover_image }}" alt="{{ book.title }} cover">
+                            {% else %}
+                            <div class="image-placeholder">No Image</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- RIGHT: CONTENT -->
+                        <div class="book-content">
+                            <strong>{{ book.title }}</strong>
+                            <em>{{ book.author }}</em>
+
+                            {% if book.description %}
+                            <p>{{ book.description }}</p>
+                            {% endif %}
+
+                            {% if book.download_link %}
+                            <a href="{{ book.download_link }}" target="_blank">Download Book</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <p>No books added yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- ================= INVESTMENT PLAN SECTION ================= -->
+        <section id="investment-plan-section" class="investment-section">
+            <h2>Investment Plan</h2>
+            <p class="investment-intro">
+                We help you make smart real estate investment decisions with data-driven strategies and long-term financial growth planning.
+            </p>
+
+            <!-- Why Invest With Us -->
+            <h3 class="investment-subtitle">Why Invest With Us</h3>
+            <div class="investment-grid">
+                <div class="investment-card">
+                    <h3>📊 Data-Driven Decisions</h3>
+                    <p>Backed by deep market research and advanced analytics, every recommendation is grounded in real numbers — not guesswork.</p>
+                </div>
+                <div class="investment-card">
+                    <h3>🎯 Tailored Strategies</h3>
+                    <p>Investment plans are crafted around your unique financial goals, risk tolerance, and timeline for maximum results.</p>
+                </div>
+                <div class="investment-card">
+                    <h3>📈 Long-Term Growth</h3>
+                    <p>Our focus is on sustainable, compounding returns — strategies designed to grow your wealth steadily over time.</p>
+                </div>
+                <div class="investment-card">
+                    <h3>🏆 Trusted Expertise</h3>
+                    <p>Years of hands-on experience in real estate markets means you're partnering with professionals who truly understand the industry.</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <h3 class="investment-subtitle">How It Works</h3>
+            <div class="investment-steps-grid">
+                <div class="investment-step-card">
+                    <div class="step-number">1</div>
+                    <h4>Consultation</h4>
+                    <p>We start by understanding your investment goals, budget, and preferences through a personalised one-on-one session.</p>
+                </div>
+                <div class="investment-step-card">
+                    <div class="step-number">2</div>
+                    <h4>Data Analysis</h4>
+                    <p>Our team evaluates properties using advanced analytics, market trends, and ROI projections to identify the best opportunities.</p>
+                </div>
+                <div class="investment-step-card">
+                    <div class="step-number">3</div>
+                    <h4>Strategy Development</h4>
+                    <p>A tailored investment plan is crafted — covering property selection, funding structure, and expected returns.</p>
+                </div>
+                <div class="investment-step-card">
+                    <div class="step-number">4</div>
+                    <h4>Monitoring & Growth</h4>
+                    <p>We continuously track performance, optimise strategies, and report on your returns so your wealth keeps growing.</p>
+                </div>
+            </div>
+
+            <!-- Success Stories -->
+            <h3 class="investment-subtitle">Success Stories</h3>
+               <div class="investment-stories-grid">
+                <div class="story-card">
+                    <div class="story-roi">+34% ROI</div>
+                    <h4>Houston, Texas — Commercial Property</h4>
+                    <p>A data-driven acquisition in a high-growth Houston corridor delivered a 34% return within 18 months, outperforming the local market average by 2x.</p>
+                </div>
+                <div class="story-card">
+                    <div class="story-roi">+52% ROI</div>
+                    <h4>Dallas, Texas — Residential Portfolio</h4>
+                    <p>Strategic investment in a Dallas residential development generated consistent rental income and a 52% portfolio value increase over 2 years.</p>
+                </div>
+                <div class="story-card">
+                    <div class="story-roi">+28% ROI</div>
+                    <h4>Lagos, Nigeria — Mixed-Use</h4>
+                    <p>A balanced mixed-use property in Lagos provided diversified income streams and a stable 28% cumulative return across the portfolio.</p>
+                </div>
+            </div>
+
+            <!-- Investment Tools & Insights -->
+            <h3 class="investment-subtitle">Tools & Insights We Provide</h3>
+            <div class="investment-tools-grid">
+                <div class="tool-card">
+                    <h4>📉 Market Trend Reports</h4>
+                    <p>Regular, in-depth reports on property market movements, emerging hotspots, and investment risks across Nigeria.</p>
+                </div>
+                <div class="tool-card">
+                    <h4>🧮 ROI Calculators</h4>
+                    <p>Interactive tools to estimate returns on potential investments based on location, property type, and market conditions.</p>
+                </div>
+                <div class="tool-card">
+                    <h4>⚖️ Risk Analysis Dashboards</h4>
+                    <p>Clear, visual dashboards that help you understand and manage risk before committing capital to any investment.</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="investment-cta">
+                <h3>Ready to Start Investing Smartly?</h3>
+                <p>Get your personalised investment plan today no commitment required.</p>
+                <div class="investment-cta-buttons">
+                    <a onclick="openContactPopup()" class="investment-btn-primary">Get Your Free Investment Plan</a>
+                    <a onclick="openContactPopup()" class="investment-btn-secondary">Schedule a Consultation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= INSURANCE SECTION ================= -->
+        <section id="insurance-section" class="insurance-section">
+            <h2>Protect Your Home & Assets</h2>
+            <p class="insurance-intro">
+                Learn how different types of insurance can help protect your property, family, and investments. Understand your options and make informed decisions for peace of mind.
+            </p>
+
+            <!-- What We Protect -->
+            <h3 class="insurance-subtitle">What Insurance Covers</h3>
+            <div class="insurance-grid">
+                <div class="insurance-card">
+                    <h3>🏠 Property Protection</h3>
+                    <p>Covers damage from fire, flood, storms, or other unexpected disasters. Ensures your home structure is secure.</p>
+                </div>
+                <div class="insurance-card">
+                    <h3>💼 Asset Security</h3>
+                    <p>Protects furniture, electronics, appliances, and personal valuables against theft, damage, or loss.</p>
+                </div>
+                <div class="insurance-card">
+                    <h3>👨‍👩‍👧 Family & Tenant Safety</h3>
+                    <p>Liability protection for accidents, injuries, or damages involving your family members, tenants, or visitors.</p>
+                </div>
+                <div class="insurance-card">
+                    <h3>📈 Investment Coverage</h3>
+                    <p>Secures rental income and long-term investment returns, so your property continues generating value even after incidents.</p>
+                </div>
+            </div>
+
+            <!-- Why Insurance Matters -->
+            <div class="insurance-why">
+                <h3 class="insurance-subtitle">Why Insurance Matters</h3>
+                <div class="insurance-why-grid">
+                    <div class="insurance-why-text">
+                        <p>Real estate is one of your biggest investments. One accident, disaster, or legal issue can wipe out years of savings. 
+                        Understanding insurance helps you minimize risks and secure your property and assets effectively.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="insurance-steps">
+                <h3 class="insurance-subtitle">How It Works</h3>
+                <div class="insurance-steps-grid">
+                    <div class="step-card">
+                        <h4>1. Understand Your Property</h4>
+                        <p>Identify your property type, location, and value to assess potential risks.</p>
+                    </div>
+                    <div class="step-card">
+                        <h4>2. Learn Your Options</h4>
+                        <p>Explore the types of coverage available — property, asset, liability, and investment protection.</p>
+                    </div>
+                    <div class="step-card">
+                        <h4>3. Stay Protected</h4>
+                        <p>Make informed decisions to reduce risks, protect your assets, and ensure long-term peace of mind.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="insurance-tips">
+                <h3 class="insurance-subtitle">Quick Tips for Homeowners</h3>
+                <ul>
+                    <li>Always read coverage details carefully before making decisions.</li>
+                    <li>Understand the differences between property, liability, and asset insurance.</li>
+                    <li>Review your coverage regularly as your property value or circumstances change.</li>
+                    <li>Keep an inventory of valuable items and important documents.</li>
+                </ul>
+            </div>
+
+            <!-- FAQs -->
+            <section class="insurance-faqs">
+                <h3 class="insurance-subtitle">Frequently Asked Questions</h3>
+                <div>
+                    <strong>Do I need insurance for a rental property?</strong>
+                    <p>Yes, insurance protects both the property and your tenants, covering damages and liability risks.</p>
+                </div>
+                <div>
+                    <strong>What disasters are typically covered?</strong>
+                    <p>Common coverage includes fire, storms, flood, theft, and accidental damages, depending on the policy.</p>
+                </div>
+                <div>
+                    <strong>How quickly can I get insured?</strong>
+                    <p>While this varies by provider, understanding your property and coverage needs ahead of time speeds up the process.</p>
+                </div>
+                <div>
+                    <strong>Can foreigners insure property?</strong>
+                    <p>Many insurance providers allow non-residents to obtain property coverage, though requirements differ by location.</p>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="insurance-cta">
+                <a onclick="openContactPopup()" class="insurance-btn">Learn More About Insurance</a>
+            </div>
+        </section>
+
+    </div> <!-- End main-content -->
+
+    <!-- ================= FOOTER ================= -->
+    <div class="footer-section">
+        {% include 'footer.html' %}
     </div>
-    {% else %}
-        <p>No books added yet.</p>
-    {% endif %}
-</div>
+
+</div> <!-- End page-container -->
 
 <style>
+/* ================= PAGE LAYOUT ================= */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
 /* ================= HERO ================= */
 .hero-books {
     background: url('/static/images/hero-books.jpg') center/cover no-repeat;
@@ -80,8 +303,7 @@
 
 .hero-overlay p {
     font-size: 20px;
-    color: #fafde5;
-    
+    color: #f7fdd1;
 }
 
 /* ================= BOOKS SECTION ================= */
@@ -99,28 +321,24 @@
     color: #f7fdd1;
 }
 
-/* GRID */
 .books-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
 }
 
-/* CARD */
 .book-card {
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 12px;
     padding: 20px;
 }
 
-/* FLEX INSIDE CARD */
 .book-inner {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-/* IMAGE */
 .book-image {
     flex: 0 0 150px;
 }
@@ -141,7 +359,6 @@
     border-radius: 6px;
 }
 
-/* CONTENT */
 .book-content {
     flex: 1;
 }
@@ -171,14 +388,416 @@
     font-weight: 500;
 }
 
+/* ================= INVESTMENT PLAN SECTION ================= */
+.investment-section {
+    background: #0b5d50;
+    color: #fff;
+    padding: 60px 30px;
+    border-radius: 15px;
+    margin: 0 20px 40px;
+    scroll-margin-top: 100px;
+}
+
+.investment-section h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #f7fdd1;
+}
+
+.investment-subtitle {
+    text-align: center;
+    font-size: 24px;
+    margin: 40px 0 20px;
+    color: #f7fdd1;
+}
+
+.investment-intro {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+}
+
+/* Why Invest Grid */
+.investment-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.investment-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 24px 20px;
+    transition: background 0.3s ease;
+}
+
+.investment-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.investment-card h3 {
+    font-size: 17px;
+    margin-bottom: 10px;
+    color: #f7fdd1;
+}
+
+.investment-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* How It Works Steps */
+.investment-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.investment-step-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 28px 20px 24px;
+    text-align: center;
+    position: relative;
+}
+
+.step-number {
+    width: 42px;
+    height: 42px;
+    background: #f7fdd1;
+    color: #0b5d50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 auto 16px;
+}
+
+.investment-step-card h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.investment-step-card p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Success Stories */
+.investment-stories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+}
+
+.story-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 26px 22px;
+}
+
+.story-roi {
+    display: inline-block;
+    background: #f7fdd1;
+    color: #0b5d50;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+
+.story-card h4 {
+    font-size: 17px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.story-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Tools & Insights */
+.investment-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+}
+
+.tool-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 26px 22px;
+}
+
+.tool-card h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #f7fdd1;
+}
+
+.tool-card p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Investment CTA */
+.investment-cta {
+    text-align: center;
+    background: rgba(247, 253, 209, 0.08);
+    border: 1px solid rgba(247, 253, 209, 0.2);
+    border-radius: 16px;
+    padding: 48px 30px;
+    margin-top: 20px;
+}
+
+.investment-cta h3 {
+    font-size: 26px;
+    color: #f7fdd1;
+    margin-bottom: 10px;
+}
+
+.investment-cta p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 24px;
+}
+
+.investment-cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.investment-btn-primary {
+    display: inline-block;
+    background: #f7fdd1;
+    color: #0b5d50;
+    padding: 13px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.investment-btn-primary:hover {
+    background: #eef8b0;
+}
+
+.investment-btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: #f7fdd1;
+    border: 2px solid #f7fdd1;
+    padding: 11px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.investment-btn-secondary:hover {
+    background: #f7fdd1;
+    color: #0b5d50;
+}
+
+/* ================= INSURANCE SECTION ================= */
+.insurance-section {
+    background: #f7fdd1;
+    padding: 60px 30px;
+    border-radius: 15px;
+    margin: 0 20px 60px;
+    color: #0b5d50;
+    scroll-margin-top: 100px;
+}
+
+.insurance-section h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.insurance-subtitle {
+    text-align: center;
+    font-size: 24px;
+    margin: 40px 0 20px;
+}
+
+.insurance-intro {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+}
+
+.insurance-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.insurance-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.insurance-card h3 {
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.insurance-card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.insurance-why-grid {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.insurance-why-text p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.insurance-why-img img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.insurance-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.step-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.step-card h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.insurance-tips {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.insurance-tips ul {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.insurance-faqs {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.insurance-faqs > div {
+    margin-bottom: 18px;
+}
+
+.insurance-faqs strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.insurance-cta {
+    text-align: center;
+    cursor: pointer;
+}
+
+.insurance-btn {
+    display: inline-block;
+    background: #0b5d50;
+    color: #fff;
+    padding: 12px 26px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* ================= FOOTER ================= */
+.footer-section {
+    background: #0b5d50;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+}
+
 /* ================= TABLET ================= */
 @media (max-width: 992px) {
     .books-grid {
         grid-template-columns: 1fr;
     }
-
     .book-image {
         flex: 0 0 120px;
+    }
+    .investment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .investment-steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .investment-stories-grid {
+        grid-template-columns: 1fr;
+    }
+    .investment-tools-grid {
+        grid-template-columns: 1fr;
+    }
+    .insurance-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .insurance-why-grid {
+        grid-template-columns: 1fr;
+    }
+    .insurance-steps-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -187,28 +806,41 @@
     .hero-overlay h1 {
         font-size: 32px;
     }
-
     .hero-overlay p {
         font-size: 16px;
     }
-
     .book-inner {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
-
     .book-image {
         flex: none;
         width: 60%;
     }
-
     .book-content {
         text-align: left;
         margin-top: 15px;
     }
+    .investment-section h2,
+    .insurance-section h2 {
+        font-size: 26px;
+    }
+    .investment-subtitle,
+    .insurance-subtitle {
+        font-size: 20px;
+    }
+    .investment-grid {
+        grid-template-columns: 1fr;
+    }
+    .investment-steps-grid {
+        grid-template-columns: 1fr;
+    }
+    .investment-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 </style>
 
-{% include 'footer.html' %}
 {% endblock %}
