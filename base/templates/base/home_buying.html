@@ -1,233 +1,668 @@
- {% extends 'main.html' %}
- {% load static %}
+{% extends 'main.html' %}
+{% load static %}
 
+<title>homebuying</title>
 
-    <title>homebuying</title>
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<div class="scroll-indicator" id="scrollIndicator"></div>
 
-    {% block content %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-home-sale">
+    <div class="hero-content">
+        <h1>Finest Homes in Texas</h1>
+        
+        <div class="hero-nav-links">
+            <a href="#buy">Buy</a>
+            <a href="#rent">Rent</a>
+            <a href="#sell">Sell</a>
+        </div>
+        
+        <div class="search-container">
+          <form method="GET" action="{% url 'property_search' %}">
+            <div class="search-box" role="search" aria-label="Property search">
 
+              <input 
+                type="search" 
+                name="q"
+                class="search-input" 
+                placeholder="Search homes, city, or ZIP in Texas" 
+                aria-label="Search property"
+              />
 
-    <div class="scroll-indicator" id="scrollIndicator"></div>
+              <button class="search-btn" type="submit" aria-label="Search">
+                <i class="fas fa-search"></i>
+              </button>
 
-
-               
-          <!-- NAVBAR -->
-
-
-
-
-    <!-- ===== HERO SECTION ===== -->
-    <section class="hero-home-sale">
-        <div class="hero-content">
-            <h1>Finest Homes</h1>
-            
-            <div class="hero-nav-links">
-                <a href="#buy">Buy</a>
-                <a href="#rent">Rent</a>
-                <a href="#sell">Sell</a>
             </div>
-            
-<div class="search-container">
-  <form method="GET" action="{% url 'property_search' %}">
-    <div class="search-box" role="search" aria-label="Property search">
-
-      <input 
-        type="search" 
-        name="q"
-        class="search-input" 
-        placeholder="Search property, city, or Zip" 
-        aria-label="Search property"
-      />
-
-      <button class="search-btn" type="submit" aria-label="Search">
-        <i class="fas fa-search"></i>
-      </button>
+          </form>
+        </div>
 
     </div>
-  </form>
+</section>
+
+<style>
+    .har-listing-wrapper {
+        width: 100%;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    .har-listing-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 75%; /* 4:3 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .har-listing-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>  
+
+<div class="har-listing-wrapper">
+    <div class="har-listing-container">
+        <iframe 
+            src="https://www.har.com/idx/mls/search?sitetype=aws&cid=715851&mlsorgid=1&allmls=n&for_sale=1" 
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
 </div>
 
+<!-- ===== HOMES SECTION 1 ===== -->
+<section class="homes-section">
+    <div class="section-header">
+        <h2>Homes around $435,000 in Texas</h2>
+        <a href="#all-austin">View all in Austin, TX →</a>
+    </div>
+    <div class="homes-grid" id="homesGrid1"></div>
+</section>
 
-  {% comment %} <div class="search-container">
-  <div class="search-box" role="search" aria-label="Property search">
-    <input 
-      type="search" 
-      class="search-input" 
-      placeholder="Search property, city, or Zip" />
+<!-- ===== HOMES SECTION 2 ===== -->
+<section class="homes-section" style="background: var(--light-bg);">
+    <div class="section-header">
+        <h2>Homes around $550,000 in Texas</h2>
+        <a href="#all-dallas">View all in Dallas, TX →</a>
+    </div>
+    <div class="homes-grid" id="homesGrid2"></div>
+</section>
 
-    <button class="search-btn" type="submit" aria-label="Search">
-      <i class="fas fa-search"></i>
-    </button>
-  </div> {% endcomment %}
-</div>
+<!-- ===== HOMES SECTION 3 ===== -->
+<section class="homes-section">
+    <div class="section-header">
+        <h2>Homes around $350,000 in Texas</h2>
+        <a href="#all-houston">View all in Houston, TX →</a>
+    </div>
+    <div class="homes-grid" id="homesGrid3"></div>
+</section>
 
-</div>
+<!-- ===== HOMES SECTION 4 ===== -->
+<section class="homes-section" style="background: var(--light-bg);">
+    <div class="section-header">
+        <h2>Homes around $625,000 in Texas</h2>
+        <a href="#all-frisco">View all in Frisco, TX →</a>
+    </div>
+    <div class="homes-grid" id="homesGrid4"></div>
+</section>
 
-        </div>
-    </section>
+<!-- ===== HOMES SECTION 5 ===== -->
+<section class="homes-section">
+    <div class="section-header">
+        <h2>Homes around $480,000 in Texas</h2>
+        <a href="#all-plano">View all in Plano, TX →</a>
+    </div>
+    <div class="homes-grid" id="homesGrid5"></div>
+</section>
 
-    <!-- ===== HOMES SECTION 1 ===== -->
-    <section class="homes-section">
-        <div class="section-header">
-            <h2>Homes around $435,000</h2>
-            <a href="#all-prescott">View all in Prescott, AZ →</a>
-        </div>
-        <div class="homes-grid" id="homesGrid1">
-            <!-- Homes will be populated here -->
-        </div>
-    </section>
+<!-- ===== LOCAL INFO SECTION (ENHANCED WITH REAL DATA) ===== -->
+<style>
 
-    <!-- ===== HOMES SECTION 2 ===== -->
-    <section class="homes-section" style="background: var(--light-bg);">
-        <div class="section-header">
-            <h2>Homes around $550,000</h2>
-            <a href="#all-phoenix">View all in Phoenix, AZ →</a>
-        </div>
-        <div class="homes-grid" id="homesGrid2">
-            <!-- Homes will be populated here -->
-        </div>
-    </section>
+    .local-info-content {
+        padding: 50px;
+       
+        color: white;
+    }
+    
+    .local-info-content h2 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+    
+    .local-info-content p {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+    
 
-    <!-- ===== HOMES SECTION 3 ===== -->
-    <section class="homes-section">
-        <div class="section-header">
-            <h2>Homes around $350,000</h2>
-            <a href="#all-tucson">View all in Tucson, AZ →</a>
-        </div>
-        <div class="homes-grid" id="homesGrid3">
-            <!-- Homes will be populated here -->
-        </div>
-    </section>
-
-    <!-- ===== HOMES SECTION 4 ===== -->
-    <section class="homes-section" style="background: var(--light-bg);">
-        <div class="section-header">
-            <h2>Homes around $625,000</h2>
-            <a href="#all-tempe">View all in Tempe, AZ →</a>
-        </div>
-        <div class="homes-grid" id="homesGrid4">
-            <!-- Homes will be populated here -->
-        </div>
-    </section>
-
-    <!-- ===== HOMES SECTION 5 ===== -->
-    <section class="homes-section">
-        <div class="section-header">
-            <h2>Homes around $480,000</h2>
-            <a href="#all-gilbert">View all in Gilbert, AZ →</a>
-        </div>
-        <div class="homes-grid" id="homesGrid5">
-            <!-- Homes will be populated here -->
-        </div>
-    </section>
-
-    <!-- ===== LOCAL INFO SECTION ===== -->
-    <section class="local-info-section">
-        <div class="local-info-container">
-            <div class="local-info-content">
-                <h2>Get Local Info</h2>
-                <p>Does it have Pet-friendly rentals? How are the schools? Get important local information on the area</p>
-                <div class="local-search">
-                    <input type="text" placeholder="Enter address, city, or neighborhood">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-            <div class="local-image">
-                <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=400&fit=crop" alt="Local Information">
-            </div>
-        </div>
-    </section>
-
-
-          <!-- FOOTER -->
+    
+    .local-search button:hover {
+        background: #0b5d4fe1;
+        transform: translateY(-2px);
+    }
+    
+    .local-search button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    .local-image {
+        height: 300px;
+        overflow: hidden;
+    }
+    
+    .local-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Results Container */
+    .local-results-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 40px 20px;
+        display: none;
+    }
+    
+    .local-results-container.active {
+        display: block;
+        animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .result-section {
+        background: #0b5d50;
+        margin-bottom: 30px;
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 5px solid #667eea;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .result-section h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+    
+    .info-card {
+        background: #0b5d50;
+        padding: 20px;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+    
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .info-card h4 {
+        color: #667eea;
+        font-size: 0.9em;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+    
+    .info-card p {
+        color: #333;
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+    
+    .school-item {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .school-item h4 {
+        color: #1e3c72;
+        margin-bottom: 5px;
+    }
+    
+    .loading-local {
+        text-align: center;
+        padding: 40px;
+        display: none;
+        background: white;
+        border-radius: 15px;
+        margin: 20px auto;
+        max-width: 1200px;
+    }
+    
+    .loading-local.active {
+        display: block;
+    }
+    
+    .loading-local i {
+        font-size: 3em;
+        color: #667eea;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .alert-local {
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px auto;
+        max-width: 1200px;
+        display: none;
+    }
+    
+    .alert-local.active {
+        display: block;
+    }
+    
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .local-info-content {
+            padding: 30px 20px;
+        }
         
-  {% include 'footer.html' %}
+        .local-search {
+            flex-direction: column;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 
+<section class="local-info-section">
+    <div class="local-info-container">
+        <div class="local-info-content">
+            <h2>Get Local Info in Texas</h2>
+            <p>Are the neighborhoods family-friendly? How are the schools? Get important local information about Texas communities.</p>
+            <div class="local-search">
+                <input type="text" id="cityInputLocal" placeholder="Enter Texas city (e.g., Austin, Houston, Dallas)">
+                <button onclick="searchLocalCity()" id="searchBtnLocal">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="local-image">
+            <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=400&fit=crop" alt="Texas Neighborhood" loading="lazy">
+        </div>
+    </div>
+</section>
 
-    <script>
-        // Sample homes data
-        const homesData = {
-            grid1: [
-                { type: 'Single-Family Home', price: '$400,000', beds: '2 bed', address: '699 Tawa Ct', city: 'Prescott, AZ 86301', time: '3 days ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$420,000', beds: '3 bed', address: '742 Oak Lane', city: 'Prescott, AZ 86302', time: '1 week ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$435,000', beds: '4 bed', address: '501 Pine Street', city: 'Prescott, AZ 86303', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$410,000', beds: '2 bed', address: '815 Maple Ave', city: 'Prescott, AZ 86304', time: '5 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' }
-            ],
-            grid2: [
-                { type: 'Townhouse', price: '$530,000', beds: '3 bed', address: '225 Desert Rose Dr', city: 'Phoenix, AZ 85001', time: '2 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
-                { type: 'Townhouse', price: '$555,000', beds: '4 bed', address: '450 Cactus Lane', city: 'Phoenix, AZ 85002', time: '1 week ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
-                { type: 'Condo', price: '$545,000', beds: '2 bed', address: '610 Sunset Blvd', city: 'Phoenix, AZ 85003', time: '4 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$560,000', beds: '5 bed', address: '890 Mountain View', city: 'Phoenix, AZ 85004', time: '3 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' }
-            ],
-            grid3: [
-                { type: 'Single-Family Home', price: '$330,000', beds: '3 bed', address: '125 Saguaro Way', city: 'Tucson, AZ 85701', time: '1 day ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
-                { type: 'Ranch Home', price: '$350,000', beds: '4 bed', address: '555 Desert View', city: 'Tucson, AZ 85702', time: '5 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
-                { type: 'Townhouse', price: '$340,000', beds: '2 bed', address: '340 Adobe Rd', city: 'Tucson, AZ 85703', time: '2 weeks ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$360,000', beds: '3 bed', address: '789 Mesa Trail', city: 'Tucson, AZ 85704', time: '4 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' }
-            ],
-            grid4: [
-                { type: 'Luxury Home', price: '$610,000', beds: '5 bed', address: '1200 Royal Palm', city: 'Tempe, AZ 85281', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
-                { type: 'Modern Home', price: '$635,000', beds: '4 bed', address: '650 Innovation Dr', city: 'Tempe, AZ 85282', time: '3 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
-                { type: 'Contemporary', price: '$620,000', beds: '3 bed', address: '420 Future Ln', city: 'Tempe, AZ 85283', time: '1 week ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
-                { type: 'Luxury Home', price: '$645,000', beds: '6 bed', address: '900 Prestige Ave', city: 'Tempe, AZ 85284', time: '5 days ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' }
-            ],
-            grid5: [
-                { type: 'Family Home', price: '$465,000', beds: '4 bed', address: '320 Heritage Rd', city: 'Gilbert, AZ 85201', time: '3 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$495,000', beds: '5 bed', address: '850 Executive Dr', city: 'Gilbert, AZ 85202', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
-                { type: 'New Construction', price: '$480,000', beds: '4 bed', address: '610 Builders Way', city: 'Gilbert, AZ 85203', time: '4 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
-                { type: 'Single-Family Home', price: '$510,000', beds: '5 bed', address: '1050 Community Ln', city: 'Gilbert, AZ 85204', time: '6 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' }
-            ]
-        };
+<div class="loading-local" id="loadingLocal">
+    <i class="fas fa-spinner"></i>
+    <p>Searching for local information...</p>
+</div>
 
-        // Render homes function
-        function renderHomes(gridId, data) {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = data.map((home, idx) => `
-                <div class="home-card" style="animation-delay: ${idx * 0.1}s">
-                    <div class="home-image">
-                        <img src="${home.image}" alt="${home.type}">
-                        <div class="time-badge">${home.time}</div>
-                    </div>
-                    <div class="home-info">
-                        <div class="home-type">${home.type}</div>
-                        <div class="home-price">${home.price}</div>
-                        <div class="home-details">
-                            <div class="detail-item">${home.beds}</div>
-                        </div>
-                        <div class="home-address">${home.address}</div>
-                        <div class="home-city">${home.city}</div>
-                    </div>
+<div id="alertContainerLocal"></div>
+
+<div class="local-results-container" id="resultsLocal">
+    <h2 id="cityNameLocal" style="color: #1e3c72; margin-bottom: 30px;"></h2>
+    
+    <div class="result-section">
+        <h3><i class="fas fa-map-marker-alt"></i> Location Information</h3>
+        <div class="info-grid" id="locationInfoLocal"></div>
+    </div>
+
+    <div class="result-section">
+        <h3><i class="fas fa-users"></i> Demographics & Community</h3>
+        <div class="info-grid" id="demographicsInfoLocal"></div>
+    </div>
+
+    <div class="result-section">
+        <h3><i class="fas fa-school"></i> Schools Nearby</h3>
+        <div id="schoolsInfoLocal"></div>
+    </div>
+
+    <div class="result-section">
+        <h3><i class="fas fa-cloud-sun"></i> Weather & Climate</h3>
+        <div class="info-grid" id="weatherInfoLocal"></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+{% include 'footer.html' %}
+
+<script>
+    // ============================================
+    // EXISTING HOMES DATA AND FUNCTIONS
+    // ============================================
+    
+    const homesData = {
+        grid1: [
+            { type: 'Single-Family Home', price: '$400,000', beds: '3 bed', address: '699 Barton Creek Blvd', city: 'Austin, TX 78735', time: '3 days ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$420,000', beds: '4 bed', address: '742 Oak Hill Dr', city: 'Austin, TX 78749', time: '1 week ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$435,000', beds: '3 bed', address: '501 South Congress Ave', city: 'Austin, TX 78704', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$410,000', beds: '2 bed', address: '815 Lamar Blvd', city: 'Austin, TX 78703', time: '5 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' }
+        ],
+        grid2: [
+            { type: 'Townhouse', price: '$530,000', beds: '3 bed', address: '225 Uptown Blvd', city: 'Dallas, TX 75201', time: '2 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
+            { type: 'Townhouse', price: '$555,000', beds: '4 bed', address: '450 Preston Rd', city: 'Dallas, TX 75225', time: '1 week ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
+            { type: 'Condo', price: '$545,000', beds: '2 bed', address: '610 Victory Ave', city: 'Dallas, TX 75219', time: '4 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$560,000', beds: '5 bed', address: '890 Highland Park', city: 'Dallas, TX 75205', time: '3 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' }
+        ],
+        grid3: [
+            { type: 'Single-Family Home', price: '$330,000', beds: '3 bed', address: '125 Bay Area Blvd', city: 'Houston, TX 77058', time: '1 day ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
+            { type: 'Ranch Home', price: '$350,000', beds: '4 bed', address: '555 Cypresswood Dr', city: 'Houston, TX 77070', time: '5 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
+            { type: 'Townhouse', price: '$340,000', beds: '2 bed', address: '340 Heights Blvd', city: 'Houston, TX 77007', time: '2 weeks ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$360,000', beds: '3 bed', address: '789 Memorial Dr', city: 'Houston, TX 77024', time: '4 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' }
+        ],
+        grid4: [
+            { type: 'Luxury Home', price: '$610,000', beds: '5 bed', address: '1200 Legacy Dr', city: 'Frisco, TX 75034', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
+            { type: 'Modern Home', price: '$635,000', beds: '4 bed', address: '650 Starwood Way', city: 'Frisco, TX 75034', time: '3 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
+            { type: 'Contemporary', price: '$620,000', beds: '3 bed', address: '420 Panther Creek Pkwy', city: 'Frisco, TX 75033', time: '1 week ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' },
+            { type: 'Luxury Home', price: '$645,000', beds: '6 bed', address: '900 Stonebriar Dr', city: 'Frisco, TX 75034', time: '5 days ago', image: 'https://images.unsplash.com/photo-1570129477492-45ac003cdd4f?w=400&h=250&fit=crop' }
+        ],
+        grid5: [
+            { type: 'Family Home', price: '$465,000', beds: '4 bed', address: '320 Legacy West Blvd', city: 'Plano, TX 75024', time: '3 days ago', image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$495,000', beds: '5 bed', address: '850 Preston Rd', city: 'Plano, TX 75093', time: '2 days ago', image: 'https://images.unsplash.com/photo-1580587771525-78991c7a9de9?w=400&h=250&fit=crop' },
+            { type: 'New Construction', price: '$480,000', beds: '4 bed', address: '610 Coit Rd', city: 'Plano, TX 75075', time: '4 days ago', image: 'https://images.unsplash.com/photo-1572120471610-8ec25fc46057?w=400&h=250&fit=crop' },
+            { type: 'Single-Family Home', price: '$510,000', beds: '5 bed', address: '1050 Parker Rd', city: 'Plano, TX 75023', time: '6 days ago', image: 'https://images.unsplash.com/photo-1576941160550-2173dba999ef?w=400&h=250&fit=crop' }
+        ]
+    };
+
+    function renderHomes(gridId, data) {
+        const grid = document.getElementById(gridId);
+        grid.innerHTML = data.map((home, idx) => `
+            <div class="home-card" style="animation-delay: ${idx * 0.1}s">
+                <div class="home-image">
+                    <img src="${home.image}" alt="${home.type}">
+                    <div class="time-badge">${home.time}</div>
                 </div>
-            `).join('');
+                <div class="home-info">
+                    <div class="home-type">${home.type}</div>
+                    <div class="home-price">${home.price}</div>
+                    <div class="home-details">
+                        <div class="detail-item">${home.beds}</div>
+                    </div>
+                    <div class="home-address">${home.address}</div>
+                    <div class="home-city">${home.city}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.addEventListener('scroll', () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (window.scrollY / scrollHeight) * 100;
+        document.getElementById('scrollIndicator').style.width = scrolled + '%';
+    });
+
+    renderHomes('homesGrid1', homesData.grid1);
+    renderHomes('homesGrid2', homesData.grid2);
+    renderHomes('homesGrid3', homesData.grid3);
+    renderHomes('homesGrid4', homesData.grid4);
+    renderHomes('homesGrid5', homesData.grid5);
+
+    // ============================================
+    // LOCAL INFO SEARCH FUNCTIONALITY
+    // ============================================
+    
+    // Configuration - Update these URLs for your Django backend
+    const LOCAL_API_CONFIG = {
+        // Use Django API endpoints (to be created)
+        CENSUS_URL: '/api/local-info/census/',
+        GEOCODE_URL: '/api/local-info/geocode/',
+        SCHOOLS_URL: '/api/local-info/schools/',
+        WEATHER_URL: '/api/local-info/weather/',
+    };
+
+    function sanitize(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function formatNumber(num) {
+        return parseInt(num).toLocaleString('en-US');
+    }
+
+    function showAlertLocal(message, type = 'error') {
+        const container = document.getElementById('alertContainerLocal');
+        const alert = document.createElement('div');
+        alert.className = `alert-local alert-${type} active`;
+        alert.innerHTML = `<strong>${type === 'error' ? 'Error' : 'Info'}:</strong> ${message}`;
+        container.appendChild(alert);
+        setTimeout(() => alert.remove(), 5000);
+    }
+
+    function showLoadingLocal() {
+        document.getElementById('loadingLocal').classList.add('active');
+        document.getElementById('searchBtnLocal').disabled = true;
+    }
+
+    function hideLoadingLocal() {
+        document.getElementById('loadingLocal').classList.remove('active');
+        document.getElementById('searchBtnLocal').disabled = false;
+    }
+
+    function showResultsLocal() {
+        document.getElementById('resultsLocal').classList.add('active');
+        document.getElementById('resultsLocal').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideResultsLocal() {
+        document.getElementById('resultsLocal').classList.remove('active');
+    }
+
+    async function searchLocalCity() {
+        const cityInput = document.getElementById('cityInputLocal').value.trim();
+        if (!cityInput) {
+            showAlertLocal('Please enter a city name');
+            return;
         }
 
-        // Scroll indicator
-        window.addEventListener('scroll', () => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / scrollHeight) * 100;
-            document.getElementById('scrollIndicator').style.width = scrolled + '%';
-        });
+        document.getElementById('alertContainerLocal').innerHTML = '';
+        hideResultsLocal();
+        showLoadingLocal();
 
-        // Initialize all grids
-        renderHomes('homesGrid1', homesData.grid1);
-        renderHomes('homesGrid2', homesData.grid2);
-        renderHomes('homesGrid3', homesData.grid3);
-        renderHomes('homesGrid4', homesData.grid4);
-        renderHomes('homesGrid5', homesData.grid5);
+        try {
+            const searchQuery = `${cityInput}, Texas, USA`;
+            
+            // Fetch geocoding data
+            const geoResponse = await fetch(`${LOCAL_API_CONFIG.GEOCODE_URL}?q=${encodeURIComponent(searchQuery)}`);
+            const geoData = await geoResponse.json();
 
-        // Search functionality
-        document.querySelectorAll('button').forEach(btn => {
-            if(btn.innerHTML.includes('Search')) {
-                btn.addEventListener('click', function() {
-                    alert('Search functionality will be connected to backend');
-                });
+            if (!geoData.data || geoData.data.length === 0) {
+                showAlertLocal('City not found. Please try another Texas city.');
+                hideLoadingLocal();
+                return;
             }
-        });
-    </script>
 
+            const location = geoData.data[0];
+            const lat = location.lat;
+            const lon = location.lon;
 
+            // Fetch all other data in parallel
+            const [censusResponse, schoolsResponse, weatherResponse] = await Promise.all([
+                fetch(`${LOCAL_API_CONFIG.CENSUS_URL}?city=${encodeURIComponent(cityInput)}`).catch(() => null),
+                fetch(`${LOCAL_API_CONFIG.SCHOOLS_URL}?lat=${lat}&lon=${lon}`).catch(() => null),
+                fetch(`${LOCAL_API_CONFIG.WEATHER_URL}?lat=${lat}&lon=${lon}`).catch(() => null)
+            ]);
 
+            const censusData = censusResponse ? await censusResponse.json() : null;
+            const schoolsData = schoolsResponse ? await schoolsResponse.json() : { data: [] };
+            const weatherData = weatherResponse ? await weatherResponse.json() : null;
+
+            displayLocalResults(location, censusData?.data, schoolsData.data, weatherData?.data);
+            
+            hideLoadingLocal();
+            showResultsLocal();
+
+        } catch (error) {
+            console.error('Search error:', error);
+            showAlertLocal('Failed to fetch data. Please ensure the Django API is configured correctly.');
+            hideLoadingLocal();
+        }
+    }
+
+    function displayLocalResults(geoData, censusData, schools, weather) {
+        const cityName = geoData.address.city || geoData.address.town || geoData.address.village || 'Location';
+        document.getElementById('cityNameLocal').textContent = `${sanitize(cityName)}, Texas`;
+
+        // Location Information
+        document.getElementById('locationInfoLocal').innerHTML = `
+            <div class="info-card">
+                <h4>County</h4>
+                <p>${sanitize(geoData.address.county || 'N/A')}</p>
+            </div>
+            <div class="info-card">
+                <h4>State</h4>
+                <p>Texas</p>
+            </div>
+            <div class="info-card">
+                <h4>Coordinates</h4>
+                <p>${parseFloat(geoData.lat).toFixed(4)}, ${parseFloat(geoData.lon).toFixed(4)}</p>
+            </div>
+        `;
+
+        // Demographics
+        let demographicsHTML = '';
+        if (censusData && censusData.population) {
+            const population = parseInt(censusData.population);
+            const income = parseInt(censusData.medianIncome);
+            const homeValue = parseInt(censusData.medianHomeValue);
+            const medianAge = parseFloat(censusData.medianAge);
+            
+            const totalEd = parseInt(censusData.totalEducation);
+            const collegeGrads = parseInt(censusData.bachelors) + parseInt(censusData.masters) + 
+                               parseInt(censusData.professional) + parseInt(censusData.doctorate);
+            const educationRate = totalEd > 0 ? ((collegeGrads / totalEd) * 100).toFixed(1) : 'N/A';
+            
+            demographicsHTML = `
+                <div class="info-card">
+                    <h4>Population</h4>
+                    <p>${formatNumber(population)}</p>
+                </div>
+                <div class="info-card">
+                    <h4>Median Household Income</h4>
+                    <p>$${formatNumber(income)}</p>
+                </div>
+                <div class="info-card">
+                    <h4>Median Home Value</h4>
+                    <p>$${formatNumber(homeValue)}</p>
+                </div>
+                <div class="info-card">
+                    <h4>Median Age</h4>
+                    <p>${medianAge.toFixed(1)} years</p>
+                </div>
+                <div class="info-card">
+                    <h4>College Educated</h4>
+                    <p>${educationRate}%</p>
+                </div>
+                <div class="info-card">
+                    <h4>Schools Nearby</h4>
+                    <p>${schools.length} within 5km</p>
+                </div>
+                <div class="info-card">
+                    <h4>Family-Friendly</h4>
+                    <p>${schools.length > 5 ? '⭐⭐⭐⭐⭐' : schools.length > 2 ? '⭐⭐⭐⭐' : '⭐⭐⭐'}</p>
+                </div>
+                <div class="info-card">
+                    <h4>Community Type</h4>
+                    <p>${income > 75000 ? 'Affluent' : income > 55000 ? 'Middle Class' : 'Developing'}</p>
+                </div>
+            `;
+        } else {
+            demographicsHTML = `
+                <div class="info-card" style="grid-column: 1 / -1; background: #fff3cd;">
+                    <h4 style="color: #856404;">⚠️ Census Data Unavailable</h4>
+                    <p style="font-size: 0.9em; font-weight: 400; color: #856404;">
+                        Configure Django API endpoints to enable detailed demographics.
+                    </p>
+                </div>
+            `;
+        }
+        document.getElementById('demographicsInfoLocal').innerHTML = demographicsHTML;
+
+        // Schools
+        let schoolsHTML = '';
+        if (schools && schools.length > 0) {
+            schools.slice(0, 10).forEach(school => {
+                const name = sanitize(school.tags?.name || 'Unnamed School');
+                const type = sanitize(school.tags?.['school:type'] || 'School');
+                const address = sanitize(school.tags?.['addr:street'] || 'Address not available');
+                
+                schoolsHTML += `
+                    <div class="school-item">
+                        <h4>${name}</h4>
+                        <div style="color: #667eea; font-size: 0.9em; margin-bottom: 10px;">${type}</div>
+                        <div style="color: #666; font-size: 0.9em;">
+                            <i class="fas fa-map-marker-alt"></i> ${address}
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            schoolsHTML = '<p>No schools found in the immediate area.</p>';
+        }
+        document.getElementById('schoolsInfoLocal').innerHTML = schoolsHTML;
+
+        // Weather
+        if (weather && weather.current) {
+            document.getElementById('weatherInfoLocal').innerHTML = `
+                <div class="info-card">
+                    <h4>Current Temperature</h4>
+                    <p>${weather.current.temperature_2m}°F</p>
+                </div>
+                <div class="info-card">
+                    <h4>Humidity</h4>
+                    <p>${weather.current.relative_humidity_2m}%</p>
+                </div>
+                ${weather.daily ? `
+                <div class="info-card">
+                    <h4>Today's High</h4>
+                    <p>${weather.daily.temperature_2m_max[0]}°F</p>
+                </div>
+                <div class="info-card">
+                    <h4>Today's Low</h4>
+                    <p>${weather.daily.temperature_2m_min[0]}°F</p>
+                </div>
+                ` : ''}
+            `;
+        }
+    }
+
+    // Allow Enter key to search
+    document.getElementById('cityInputLocal').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchLocalCity();
+        }
+    });
+</script>
 
 {% endblock %}
