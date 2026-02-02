@@ -25,6 +25,287 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.http import HttpResponse
 
+
+
+
+
+
+# base/views.py
+# Add these imports and views to your existing views.py file
+
+import os
+import requests
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.cache import cache_page
+from functools import lru_cache
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Get Census API key from environment variables
+CENSUS_API_KEY = os.environ.get('CENSUS_API_KEY')
+
+# ============================================
+# LOCAL INFO API ENDPOINTS
+# ============================================
+
+@require_http_methods(["GET"])
+@cache_page(60 * 60 * 24)  # Cache for 24 hours
+def census_data_api(request):
+    """
+    Fetch Census Bureau data for a Texas city
+    GET /api/local-info/census/?city=Austin
+    """
+    try:
+        city = request.GET.get('city', '').strip()
+        
+        if not city or len(city) < 2:
+            return JsonResponse({'error': 'Invalid city name'}, status=400)
+        
+        state_fips = '48'  # Texas
+        
+        # Step 1: Get place code
+        place_url = f"https://api.census.gov/data/2022/acs/acs5?get=NAME&for=place:*&in=state:{state_fips}&key={CENSUS_API_KEY}"
+        
+        place_response = requests.get(place_url, timeout=10)
+        place_response.raise_for_status()
+        place_data = place_response.json()
+        
+        # Find matching city
+        place_code = None
+        search_city = city.lower()
+        
+        for i in range(1, len(place_data)):
+            place_name = place_data[i][0].lower()
+            if search_city in place_name:
+                place_code = place_data[i][2]
+                break
+        
+        if not place_code:
+            return JsonResponse({'error': 'City not found in Census database'}, status=404)
+        
+        # Step 2: Get demographic data
+        variables = [
+            'NAME',
+            'B01003_001E',  # Population
+            'B19013_001E',  # Income
+            'B15003_022E',  # Bachelor's
+            'B15003_023E',  # Master's
+            'B15003_024E',  # Professional
+            'B15003_025E',  # Doctorate
+            'B25077_001E',  # Home Value
+            'B01002_001E',  # Age
+            'B15003_001E'   # Total Ed
+        ]
+        
+        data_url = f"https://api.census.gov/data/2022/acs/acs5?get={','.join(variables)}&for=place:{place_code}&in=state:{state_fips}&key={CENSUS_API_KEY}"
+        
+        data_response = requests.get(data_url, timeout=10)
+        data_response.raise_for_status()
+        census_data = data_response.json()
+        
+        if len(census_data) > 1:
+            data = census_data[1]
+            result = {
+                'name': data[0],
+                'population': data[1],
+                'medianIncome': data[2],
+                'bachelors': data[3],
+                'masters': data[4],
+                'professional': data[5],
+                'doctorate': data[6],
+                'medianHomeValue': data[7],
+                'medianAge': data[8],
+                'totalEducation': data[9]
+            }
+            
+            return JsonResponse({
+                'data': result,
+                'source': 'US Census Bureau - ACS 5-Year 2022'
+            })
+        else:
+            return JsonResponse({'error': 'No Census data available'}, status=404)
+            
+    except requests.exceptions.Timeout:
+        logger.error('Census API timeout')
+        return JsonResponse({'error': 'Census API request timeout'}, status=504)
+    except requests.exceptions.RequestException as e:
+        logger.error(f'Census API error: {str(e)}')
+        return JsonResponse({'error': 'Failed to fetch Census data'}, status=500)
+    except Exception as e:
+        logger.error(f'Unexpected error in census_data_api: {str(e)}')
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+@require_http_methods(["GET"])
+@cache_page(60 * 60 * 24 * 7)  # Cache for 7 days
+def geocode_api(request):
+    """
+    Geocode a location using OpenStreetMap Nominatim
+    GET /api/local-info/geocode/?q=Austin, Texas, USA
+    """
+    try:
+        query = request.GET.get('q', '').strip()
+        
+        if not query or len(query) < 2:
+            return JsonResponse({'error': 'Invalid search query'}, status=400)
+        
+        url = f"https://nominatim.openstreetmap.org/search?q={requests.utils.quote(query)}&format=json&limit=1&addressdetails=1"
+        
+        response = requests.get(url, timeout=10, headers={
+            'User-Agent': 'DjangoTexasLocalInfo/1.0'
+        })
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        return JsonResponse({
+            'data': data,
+            'source': 'OpenStreetMap Nominatim'
+        })
+        
+    except requests.exceptions.Timeout:
+        return JsonResponse({'error': 'Geocoding service timeout'}, status=504)
+    except requests.exceptions.RequestException as e:
+        logger.error(f'Geocoding error: {str(e)}')
+        return JsonResponse({'error': 'Geocoding service unavailable'}, status=500)
+    except Exception as e:
+        logger.error(f'Unexpected error in geocode_api: {str(e)}')
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+@require_http_methods(["GET"])
+@cache_page(60 * 60 * 24 * 7)  # Cache for 7 days
+def schools_api(request):
+    """
+    Get schools data from OpenStreetMap Overpass API
+    GET /api/local-info/schools/?lat=30.2672&lon=-97.7431
+    """
+    try:
+        lat = request.GET.get('lat', '')
+        lon = request.GET.get('lon', '')
+        
+        try:
+            latitude = float(lat)
+            longitude = float(lon)
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid coordinates'}, status=400)
+        
+        if not (-90 <= latitude <= 90) or not (-180 <= longitude <= 180):
+            return JsonResponse({'error': 'Coordinates out of range'}, status=400)
+        
+        radius = 5000  # 5km
+        query = f"""
+            [out:json][timeout:25];
+            (
+                node["amenity"="school"](around:{radius},{latitude},{longitude});
+                way["amenity"="school"](around:{radius},{latitude},{longitude});
+                relation["amenity"="school"](around:{radius},{latitude},{longitude});
+            );
+            out body;
+            >;
+            out skel qt;
+        """
+        
+        response = requests.post(
+            'https://overpass-api.de/api/interpreter',
+            data={'data': query},
+            timeout=30,
+            headers={'User-Agent': 'DjangoTexasLocalInfo/1.0'}
+        )
+        response.raise_for_status()
+        
+        data = response.json()
+        schools = data.get('elements', [])
+        
+        return JsonResponse({
+            'data': schools,
+            'count': len(schools),
+            'source': 'OpenStreetMap Overpass API'
+        })
+        
+    except requests.exceptions.Timeout:
+        return JsonResponse({'error': 'Schools API timeout'}, status=504)
+    except requests.exceptions.RequestException as e:
+        logger.error(f'Schools API error: {str(e)}')
+        return JsonResponse({'error': 'Schools data unavailable'}, status=500)
+    except Exception as e:
+        logger.error(f'Unexpected error in schools_api: {str(e)}')
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+@require_http_methods(["GET"])
+@cache_page(60 * 30)  # Cache for 30 minutes
+def weather_api(request):
+    """
+    Get weather data from Open-Meteo API
+    GET /api/local-info/weather/?lat=30.2672&lon=-97.7431
+    """
+    try:
+        lat = request.GET.get('lat', '')
+        lon = request.GET.get('lon', '')
+        
+        try:
+            latitude = float(lat)
+            longitude = float(lon)
+        except (ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid coordinates'}, status=400)
+        
+        if not (-90 <= latitude <= 90) or not (-180 <= longitude <= 180):
+            return JsonResponse({'error': 'Coordinates out of range'}, status=400)
+        
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,relative_humidity_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America/Chicago"
+        
+        response = requests.get(url, timeout=10, headers={
+            'User-Agent': 'DjangoTexasLocalInfo/1.0'
+        })
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        return JsonResponse({
+            'data': data,
+            'source': 'Open-Meteo API'
+        })
+        
+    except requests.exceptions.Timeout:
+        return JsonResponse({'error': 'Weather API timeout'}, status=504)
+    except requests.exceptions.RequestException as e:
+        logger.error(f'Weather API error: {str(e)}')
+        return JsonResponse({'error': 'Weather service unavailable'}, status=500)
+    except Exception as e:
+        logger.error(f'Unexpected error in weather_api: {str(e)}')
+        return JsonResponse({'error': 'Internal server error'}, status=500)
+
+
+# ============================================
+# HEALTH CHECK ENDPOINT
+# ============================================
+
+@require_http_methods(["GET"])
+def api_health_check(request):
+    """
+    Health check endpoint to verify API is working
+    GET /api/local-info/health/
+    """
+    return JsonResponse({
+        'status': 'healthy',
+        'service': 'Texas Local Info API',
+        'endpoints': {
+            'census': '/api/local-info/census/?city=Austin',
+            'geocode': '/api/local-info/geocode/?q=Austin, Texas',
+            'schools': '/api/local-info/schools/?lat=30.2672&lon=-97.7431',
+            'weather': '/api/local-info/weather/?lat=30.2672&lon=-97.7431'
+        }
+    })
+
+
+
+
+
+
+
 def test_email(request):
     try:
         send_mail(
@@ -1156,5 +1437,6 @@ For urgent inquiries, call us at: (555) 123-4567
     except Exception as e:
 
         print(f"Failed to send confirmation email: {str(e)}")
+
 
 
