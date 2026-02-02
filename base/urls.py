@@ -97,9 +97,19 @@ urlpatterns = [
 
   #NEWS
    path('news/', news_list_view, name='news_list'),
-     
+
+
+
+
+    # Add to your urlpatterns list:
+path('api/local-info/health/', views.api_health_check, name='api_health_check'),
+path('api/local-info/census/', views.census_data_api, name='census_data_api'),
+path('api/local-info/geocode/', views.geocode_api, name='geocode_api'),
+path('api/local-info/schools/', views.schools_api, name='schools_api'),
+path('api/local-info/weather/', views.weather_api, name='weather_api'),
 
 ]
+
 
 
 
