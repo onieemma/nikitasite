@@ -1,8 +1,7 @@
-{% extends 'main.html' %}
-{% load static %}
 
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/quinnes.css' %}">
+
+
+
 
 <style>
 
@@ -269,11 +268,13 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 40px;
     margin-bottom: 30px;
+   
 }
 
 .footer-section h3 {
     margin-bottom: 15px;
     font-size: 1.3rem;
+    color: #ffff;
 }
 
 .footer-section p {
@@ -339,6 +340,199 @@ body {
     }
 }
 
+/* ============================================ */
+/* QUINNES MORTGAGE POPUP STYLES */
+/* ============================================ */
+
+.quinnes-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+    animation: quinnesFadeIn 0.3s ease;
+}
+
+.quinnes-popup-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes quinnesFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.quinnes-popup-container {
+    background: white;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: quinnesSlideUp 0.3s ease;
+}
+
+@keyframes quinnesSlideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.quinnes-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: #fefbfb;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.quinnes-popup-close:hover {
+    background: #f5f5f5;
+    color: #0b5d50;
+    transform: rotate(90deg);
+}
+
+.quinnes-popup-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 100%);
+    color: white;
+    padding: 40px 30px 30px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+}
+
+.quinnes-popup-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.quinnes-popup-header p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 1.1rem;
+}
+
+.quinnes-popup-form {
+    padding: 30px;
+}
+
+.quinnes-form-group {
+    margin-bottom: 20px;
+}
+
+.quinnes-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.quinnes-form-group input,
+.quinnes-form-group select,
+.quinnes-form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.quinnes-form-group input:focus,
+.quinnes-form-group select:focus,
+.quinnes-form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(11, 93, 80, 0.1);
+}
+
+.quinnes-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.quinnes-form-actions {
+    margin-top: 25px;
+}
+
+.quinnes-submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(11, 93, 80, 0.3);
+}
+
+.quinnes-submit-btn:hover {
+    background: #094a3f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(11, 93, 80, 0.4);
+}
+
+.quinnes-submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.quinnes-form-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    display: none;
+}
+
+.quinnes-form-message.success {
+    display: block;
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.quinnes-form-message.error {
+    display: block;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero h1 {
@@ -373,6 +567,18 @@ body {
         grid-template-columns: 1fr;
         gap: 30px;
     }
+
+    .quinnes-popup-container {
+        margin: 20px;
+    }
+    
+    .quinnes-popup-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .quinnes-popup-form {
+        padding: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -388,7 +594,101 @@ body {
         padding: 12px 30px;
         font-size: 1rem;
     }
-}1
+}
+
+
+
+
+
+
+
+
+
+/* ===== Finance Sections ===== */
+.finance-section {
+
+    padding: 60px 20px;
+}
+
+.finance-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.finance-card {
+    flex: 1 1 45%;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.finance-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.finance-card h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.finance-card p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.finance-btn {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: #fff;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.finance-btn:hover {
+    background-color: var(--primary-alpha);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .finance-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .finance-card {
+        flex: 1 1 100%;
+        padding: 30px 20px;
+    }
+
+    .finance-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .finance-card p {
+        font-size: 1rem;
+    }
+
+    .finance-btn {
+        padding: 12px 25px;
+        font-size: 0.95rem;
+    }
+}
 
 </style>    
 
@@ -396,9 +696,9 @@ body {
     <!-- Hero Section -->
     <header class="hero">
         <div class="hero-content">
-            <h1>Quinnes Mortgage</h1>
+            <h1>Quinns Mortgage</h1>
             <p class="tagline">{{ tagline }}</p>
-            <button class="cta-button" onclick="openPopup()">Get Started Today</button>
+            <button class="cta-button" onclick="openQuinnesPopup()">Get Started Today</button>
         </div>
     </header>
 
@@ -416,7 +716,7 @@ body {
                 </h2>
                 <span class="toggle-icon">+</span>
             </div>
-            <di1v class="section-content" id="prequalification">
+            <div class="section-content" id="prequalification">
                 <p>Getting pre-qualified is your first step toward homeownership. It gives you a clear understanding of how much you can afford and strengthens your position when making an offer.</p>
                 <div class="expanded-content">
                     <h3>Benefits of Pre-Qualification:</h3>
@@ -427,9 +727,9 @@ body {
                         <li>Identify and resolve credit issues early</li>
                     </ul>
                     <p>Our pre-qualification process is quick and easy, typically completed within 24-48 hours. We'll review your income, assets, and credit to determine your buying power.</p>
-                    <button class="more-info-btn" onclick="openPopup()">Get Pre-Qualified Now</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Get Pre-Qualified Now</button>
                 </div>
-            </di1v>
+            </div>
         </section>
 
         <!-- Loan Programs Section -->
@@ -457,7 +757,7 @@ body {
                         <li><strong>ARM Loans:</strong> Adjustable-rate mortgages with lower initial rates</li>
                     </ul>
                     <p>Each program has unique benefits and requirements. Our mortgage specialists will help you choose the best option for your situation.</p>
-                    <button class="more-info-btn" onclick="openPopup()">Explore Loan Options</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Explore Loan Options</button>
                 </div>
             </div>
         </section>
@@ -487,7 +787,7 @@ body {
                         <li>Remove PMI (Private Mortgage Insurance) when you reach 20% equity</li>
                     </ul>
                     <p>Current market conditions may present excellent refinancing opportunities. Let us analyze your situation and show you potential savings.</p>
-                    <button class="more-info-btn" onclick="openPopup()">Check Refinance Rates</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Check Refinance Rates</button>
                 </div>
             </div>
         </section>
@@ -522,7 +822,7 @@ body {
                         <li>Navigate closing costs and prepare for unexpected expenses</li>
                         <li>Build credit if needed to qualify for better rates</li>
                     </ul>
-                    <button class="more-info-btn" onclick="openPopup()">Start Your Homeownership Journey</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Start Your Homeownership Journey</button>
                 </div>
             </div>
         </section>
@@ -558,7 +858,7 @@ body {
                         <li>Commercial property purchases</li>
                         <li>Properties that don't qualify for conventional financing</li>
                     </ul>
-                    <button class="more-info-btn" onclick="openPopup()">Explore Financing Alternatives</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Explore Financing Alternatives</button>
                 </div>
             </div>
         </section>
@@ -614,11 +914,121 @@ body {
                         </li>
                     </ol>
                     <p><strong>Average Timeline:</strong> 30-45 days from application to closing, though this can vary based on your situation.</p>
-                    <button class="more-info-btn" onclick="openPopup()">Get Started Today</button>
+                    <button class="more-info-btn" onclick="openQuinnesPopup()">Get Started Today</button>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- QUINNES MORTGAGE CONTACT POPUP -->
+    <div class="quinnes-popup-overlay" id="quinnesPopupOverlay">
+        <div class="quinnes-popup-container">
+            <button class="quinnes-popup-close" onclick="closeQuinnesPopup()">&times;</button>
+            
+            <div class="quinnes-popup-header">
+                <h2>Get Your Free Consultation</h2>
+                <p>Let's discuss your home financing options</p>
+            </div>
+            
+            <form id="quinnesContactForm" class="quinnes-popup-form">
+                {% csrf_token %}
+                
+                <div class="quinnes-form-group">
+                    <label for="quinnes_name">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="quinnes_name" 
+                        name="name" 
+                        required
+                        placeholder="Enter your full name"
+                    >
+                </div>
+                
+                <div class="quinnes-form-group">
+                    <label for="quinnes_email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="quinnes_email" 
+                        name="email" 
+                        required
+                        placeholder="your.email@example.com"
+                    >
+                </div>
+                
+                <div class="quinnes-form-group">
+                    <label for="quinnes_phone">Phone Number *</label>
+                    <input 
+                        type="tel" 
+                        id="quinnes_phone" 
+                        name="phone" 
+                        required
+                        placeholder="(555) 123-4567"
+                    >
+                </div>
+                
+                <div class="quinnes-form-group">
+                    <label for="quinnes_service">Service Interested In *</label>
+                    <select id="quinnes_service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="Pre-Qualification">Pre-Qualification</option>
+                        <option value="Home Purchase Loan">Home Purchase Loan</option>
+                        <option value="Refinancing">Refinancing</option>
+                        <option value="First-Time Home Buyer">First-Time Home Buyer</option>
+                        <option value="FHA Loan">FHA Loan</option>
+                        <option value="VA Loan">VA Loan</option>
+                        <option value="Jumbo Loan">Jumbo Loan</option>
+                        <option value="Third Party Financing">Third Party Financing</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                    </select>
+                </div>
+                
+                <div class="quinnes-form-group">
+                    <label for="quinnes_message">Message</label>
+                    <textarea 
+                        id="quinnes_message" 
+                        name="message" 
+                        rows="4"
+                        placeholder="Tell us about your financing needs..."
+                    ></textarea>
+                </div>
+                
+                <div class="quinnes-form-actions">
+                    <button type="submit" class="quinnes-submit-btn" id="quinnesSubmitBtn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sending...
+                        </span>
+                    </button>
+                </div>
+                
+                <div class="quinnes-form-message" id="quinnesFormMessage"></div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- ===== Home Financing & Mortgage Sections ===== -->
+<section class="finance-section">
+    <div class="finance-container">
+        <!-- Section 1: Home Financing -->
+        <div class="finance-card">
+            <h2>Home Financing</h2>
+            <p>Learn more about your home financing options and make informed decisions.</p>
+            <a href="{% url 'home_financing' %}" class="finance-btn">Go to Home Financing</a>
+        </div>
+
+        <!-- Section 2: Mortgage Dictionary -->
+        <div class="finance-card">
+            <h2>Mortgage Dictionary</h2>
+            <p>Understand mortgage terms easily with this comprehensive guide.</p>
+            <a href="https://www.har.com/mortgagedictionary?cid=Oyelakin" class="finance-btn" target="_blank">View Mortgage Dictionary</a>
+        </div>
+    </div>
+</section>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -629,15 +1039,15 @@ body {
             </div>
             <div class="footer-section">
                 <h3>Contact Us</h3>
-                <p>Email: info@quinnesmortgage.com</p>
+                <p>Email: info@quinnsmortgage.com</p>
                 <p>Phone: 1(832) 962-2241</p>
                 <p>Hours: Mon-Fri 9AM-6PM, Sat 10AM-2PM</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <button class="footer-link" onclick="openPopup()">Get Pre-Qualified</button>
-                <button class="footer-link" onclick="openPopup()">Apply Now</button>
-                <button class="footer-link" onclick="openPopup()">Contact Us</button>
+                <button class="footer-link" onclick="openQuinnesPopup()">Get Pre-Qualified</button>
+                <button class="footer-link" onclick="openQuinnesPopup()">Apply Now</button>
+                <button class="footer-link" onclick="openQuinnesPopup()">Contact Us</button>
             </div>
         </div>
         <div class="footer-bottom">
@@ -645,89 +1055,173 @@ body {
         </div>
     </footer>
 
-    <script >
-        // base/static/base/js/quinnes.js
-
-// Open your existing popup function
-function openPopup() {
-    const popupOverlay = document.getElementById('popupOverlay');
-    if (popupOverlay) {
-        popupOverlay.classList.add('active');
-    }
-}
-
-// Toggle section expand/collapse
-function toggleSection(sectionId) {
-    const content = document.getElementById(sectionId);
-    const header = content.previousElementSibling;
-    
-    // Close all other sections
-    document.querySelectorAll('.section-content').forEach(section => {
-        if (section.id !== sectionId && section.classList.contains('active')) {
-            section.classList.remove('active');
-            section.previousElementSibling.classList.remove('active');
-        }
-    });
-    
-    // Toggle current section
-    content.classList.toggle('active');
-    header.classList.toggle('active');
-    
-    // Smooth scroll to section if opening
-    if (content.classList.contains('active')) {
-        setTimeout(() => {
-            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-    }
-}
-
-// Open popup function
-function openPopup() {
-    const popupOverlay = document.getElementById('popupOverlay');
-    if (popupOverlay) {
-        popupOverlay.classList.add('active');
-    }
-}
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+    <script>
+        // ============================================
+        // SECTION TOGGLE FUNCTIONALITY
+        // ============================================
+        
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const header = content.previousElementSibling;
+            
+            // Close all other sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                if (section.id !== sectionId && section.classList.contains('active')) {
+                    section.classList.remove('active');
+                    section.previousElementSibling.classList.remove('active');
+                }
             });
+            
+            // Toggle current section
+            content.classList.toggle('active');
+            header.classList.toggle('active');
+            
+            // Smooth scroll to section if opening
+            if (content.classList.contains('active')) {
+                setTimeout(() => {
+                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
         }
-    });
-});
 
-// Add scroll animation effect
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+        // ============================================
+        // QUINNES MORTGAGE POPUP FUNCTIONS
+        // ============================================
+        
+        function openQuinnesPopup() {
+            document.getElementById('quinnesPopupOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
         }
-    });
-}, observerOptions);
 
-// Observe all info sections for animation on scroll
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('.info-section');
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(section);
-    });
-});
+        function closeQuinnesPopup() {
+            document.getElementById('quinnesPopupOverlay').classList.remove('active');
+            document.body.style.overflow = ''; // Restore scroll
+            
+            // Reset form
+            document.getElementById('quinnesContactForm').reset();
+            document.getElementById('quinnesFormMessage').className = 'quinnes-form-message';
+            document.getElementById('quinnesFormMessage').textContent = '';
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('quinnesPopupOverlay');
+            
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeQuinnesPopup();
+                }
+            });
+            
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    closeQuinnesPopup();
+                }
+            });
+        });
+
+        // Handle form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('quinnesContactForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = document.getElementById('quinnesSubmitBtn');
+                const btnText = submitBtn.querySelector('.btn-text');
+                const btnLoader = submitBtn.querySelector('.btn-loader');
+                const messageDiv = document.getElementById('quinnesFormMessage');
+                
+                // Disable button and show loader
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'inline-block';
+                messageDiv.className = 'quinnes-form-message';
+                messageDiv.textContent = '';
+                
+                // Get form data
+                const formData = new FormData(form);
+                
+                // Send AJAX request
+                fetch('/quinnes-contact-submit/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        messageDiv.className = 'quinnes-form-message success';
+                        messageDiv.textContent = data.message;
+                        form.reset();
+                        
+                        // Close popup after 3 seconds
+                        setTimeout(() => {
+                            closeQuinnesPopup();
+                        }, 3000);
+                    } else {
+                        messageDiv.className = 'quinnes-form-message error';
+                        messageDiv.textContent = data.message || 'An error occurred. Please try again.';
+                    }
+                })
+                .catch(error => {
+                    messageDiv.className = 'quinnes-form-message error';
+                    messageDiv.textContent = 'Network error. Please check your connection and try again.';
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                });
+            });
+        });
+
+        // ============================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ============================================
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // SCROLL ANIMATION EFFECT
+        // ============================================
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all info sections for animation on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.info-section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
     </script>
-
-{% endblock %}
