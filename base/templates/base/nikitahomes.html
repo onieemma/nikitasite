@@ -9,6 +9,20 @@
 
    
 
+
+
+
+    <div class="container-homes" >
+        <div class="header" style="height:70vh;">
+            <div class="text-wrapper" style="margin-top:100px;">
+
+            <div class="logo">Nikita Global Realty</div>
+            <h1>Premium Properties Worldwide</h1>
+            <p>Discover exceptional homes and investments across global markets</p>
+            </div>
+            
+        </div>
+
 <style>
 .har-listing-wrapper {
     max-width: 1200px;
@@ -29,34 +43,35 @@
 
 .har-listing-container {
     width: 100%;
-    height: 170vh;
+    height: 333vh;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #ddd;
+    position: relative; /* required for overlay positioning */
+}
+
+/* Bottom white overlay */
+.har-listing-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 190px;   /* adjust how much to cover */
+    background: #fff;
+    pointer-events: none;
+    z-index: 5;
 }
 
 .har-listing-container iframe {
     width: 100%;
-    height: 100%;
+    height: 333vh;
     border: none;
 }
 </style>
 
 
-    <div class="container-homes" >
-        <div class="header" style="height:70vh;">
-            <div class="text-wrapper" style="margin-top:100px;">
-
-            <div class="logo">Nikita Global Realty</div>
-            <h1>Premium Properties Worldwide</h1>
-            <p>Discover exceptional homes and investments across global markets</p>
-            </div>
-            
-        </div>
-
-<div class="har-listing-wrapper">
-
-    <div class="har-listing-container">
+  <div class="har-listing-container">
         <iframe 
             src="https://www.har.com/idx/mls/listing?sitetype=aws&cid=715851&mlsorgid=1&allmls=n" 
             loading="lazy"
