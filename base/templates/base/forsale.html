@@ -77,12 +77,15 @@
 .filter-section {
     padding: 20px 0;
     text-align: center;
+    background-color: #f9f9f900;
+    border-bottom: 1px solid #e0e0e000;
 }
 
 .filter-controls {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 10px;
+
 }
 
 .filter-btn {
@@ -216,24 +219,6 @@
     color: red;
 }
 
-/* ===========================
-   MAP SECTION
-===========================*/
-
-
-/* ===========================
-   CONTACT POPUP
-===========================*/
-
-
-
-
-
-/* ===========================
-   FOOTER
-===========================*/
-
-
 
 /* ===========================
    RESPONSIVE
@@ -251,56 +236,230 @@
 
     </style>
   
-
-
- 
-
    <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <!-- ===== HERO SECTION ===== -->
     <section class="hero-sales">
         <div class="hero-content-sales">
             <h1>Your Next Property</h1>
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" placeholder="Search property, city, or Zip">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FILTER SECTION ===== -->
- <div class="filter-section">
-        <div class="filter-controls">
+             <div class="filter-section">
+        <a class="filter-controls" href="#har-embed-container">
             <button class="filter-btn active">All Properties</button>
             <button class="filter-btn">Price: Low to High</button>
             <button class="filter-btn">Recently Added</button>
             <button class="filter-btn">3+ Bedrooms</button>
             <button class="filter-btn">2+ Bathrooms</button>
-        </div>
+        </a>
     </div>  
 
-    
-
-   
-    <!-- ===== PROPERTIES SECTION ===== -->
-    {% comment %} <section class="properties-section">
-        <div class="section-header">
-            <h2>Available Properties</h2>
-            <p>Explore our exclusive collection of homes in Houston, USA, Nigeria, and Ghana</p>
         </div>
+    </section>
 
-        <div class="properties-grid" id="propertiesGrid">
-            <!-- Properties will be populated here -->
+
+
+    <!-- ============================================ -->
+<!-- COPY THIS SECTION INTO YOUR HTML -->
+<!-- Place this before the footer in quinnes_mortgage.html -->
+<!-- ============================================ -->
+
+<!-- HAR PROPERTY SEARCH SECTION -->
+<section class="har-search-section">
+    <div class="container">
+        <div class="har-search-header">
+            <h2>Browse Available Properties</h2>
+            <p>Search thousands of listings in the Houston area</p>
         </div>
-
-        <div class="load-more-container">
-            <button class="btn-load-more">Load More Properties</button>
+        
+        <div class="har-embed-container" id="har-embed-container"> 
+            <iframe 
+                src="https://www.har.com/s/mN3cQEs2Q7E7" 
+                class="har-iframe"
+                title="HAR Property Search"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
         </div>
-    </section> {% endcomment %}
+        
+     
+    </div>
+</section>
 
-    <style>
+
+<!-- ============================================ -->
+<!-- COPY THIS CSS INTO YOUR <style> SECTION -->
+<!-- Add this with your other styles -->
+<!-- ============================================ -->
+
+<style>
+/* ============================================ */
+/* HAR PROPERTY SEARCH SECTION STYLES */
+/* ============================================ */
+.har-search-section {
+    background: var(--light-bg);
+    padding: 60px 0;
+    margin-top: 40px;
+}
+
+.har-search-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.har-search-header h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.har-search-header p {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.har-embed-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* 4:3 Aspect Ratio */
+    height: 100vh;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    background: white;
+    margin-bottom: 30px;
+}
+
+/* White overlay covering the TOP of the embed */
+.har-embed-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;               /* cover from the top */
+    height: 70px;       /* adjust to hide HAR header/search bar */
+    background: #fff;   /* solid white (no fade) */
+    pointer-events: none;
+    z-index: 5;          /* ensure it stays above the iframe */
+}
+
+.har-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 15px;
+}
+
+.har-cta {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.har-cta p {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.har-cta .more-info-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(11, 93, 80, 0.3);
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.har-cta .more-info-btn:hover {
+    background: #094a3f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(11, 93, 80, 0.4);
+}
+
+/* Mobile responsive for HAR section */
+@media (max-width: 768px) {
+    .har-search-section {
+        padding: 40px 0;
+    }
+
+    .har-search-header h2 {
+        font-size: 2rem;
+    }
+
+    .har-search-header p {
+        font-size: 1rem;
+    }
+
+    .har-embed-container {
+        padding-bottom: 100%; /* Taller on mobile */
+        border-radius: 10px;
+    }
+
+    .har-cta {
+        padding: 25px 15px;
+    }
+
+    .har-cta p {
+        font-size: 1.1rem;
+    }
+
+    .har-cta .more-info-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .har-search-section {
+        padding: 30px 0;
+    }
+
+    .har-search-header {
+        margin-bottom: 25px;
+    }
+
+    .har-search-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .har-search-header p {
+        font-size: 0.95rem;
+    }
+
+    .har-embed-container {
+        padding-bottom: 120%; /* Even taller on small phones */
+        border-radius: 8px;
+    }
+
+    .har-cta {
+        padding: 20px 15px;
+    }
+
+    .har-cta p {
+        font-size: 1rem;
+    }
+}
+</style>
+
+
+<!-- ============================================ -->
+<!-- PLACEMENT INSTRUCTIONS -->
+<!-- ============================================ -->
+
+ 
+<style>
 .har-listing-wrapper {
     max-width: 1200px;
     margin: 40px auto;
@@ -320,18 +479,33 @@
 
 .har-listing-container {
     width: 100%;
-    height: 220vh;
+    height: 333vh;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #ddd;
+    position: relative; /* required for overlay positioning */
+}
+
+/* Bottom white overlay */
+.har-listing-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 190px;   /* adjust how much to cover */
+    background: #fff;
+    pointer-events: none;
+    z-index: 5;
 }
 
 .har-listing-container iframe {
     width: 100%;
-    height: 220vh;
+    height: 333vh;
     border: none;
 }
 </style>
+
 
   <div class="har-listing-container">
         <iframe 
