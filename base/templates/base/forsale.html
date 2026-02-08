@@ -259,74 +259,72 @@
 
     <!-- ============================================ -->
 <!-- COPY THIS SECTION INTO YOUR HTML -->
-<!-- Place this before the footer in quinnes_mortgage.html -->
+
+
+<!-- ============================================ -->
+<!-- PLACEMENT INSTRUCTIONS -->
 <!-- ============================================ -->
 
-<!-- HAR PROPERTY SEARCH SECTION -->
 <section class="har-search-section">
-    <div class="container">
-        <div class="har-search-header">
-            <h2>Browse Available Properties</h2>
-            <p>Search thousands of listings in the Houston area</p>
-        </div>
-        
-        <div class="har-embed-container" id="har-embed-container"> 
-            <iframe 
-                src="https://www.har.com/s/mN3cQEs2Q7E7" 
-                class="har-iframe"
-                title="HAR Property Search"
-                loading="lazy"
-                allowfullscreen>
-            </iframe>
-        </div>
-        
-     
+    <div class="har-search-header">
+        <h2>Browse Available Properties</h2>
+        <p>Search thousands of listings in the Houston area</p>
+    </div>
+    
+    <div class="har-embed-container" id="har-embed-container"> 
+        <iframe 
+            src="https://www.har.com/s/mN3cQEs2Q7E7" 
+            class="har-iframe"
+            title="HAR Property Search"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
     </div>
 </section>
 
-
-<!-- ============================================ -->
-<!-- COPY THIS CSS INTO YOUR <style> SECTION -->
-<!-- Add this with your other styles -->
-<!-- ============================================ -->
-
 <style>
 /* ============================================ */
-/* HAR PROPERTY SEARCH SECTION STYLES */
+/* FULL PAGE HAR PROPERTY SEARCH SECTION */
 /* ============================================ */
 .har-search-section {
-    background: var(--light-bg);
-    padding: 60px 0;
-    margin-top: 40px;
+    position: relative;
+    width: 100vw;
+    min-height: 300vh;
+    margin: 0;
+    padding: 0;
+    background: var(--light-bg, #f5f5f5);
+    display: flex;
+    flex-direction: column;
 }
 
 .har-search-header {
     text-align: center;
-    margin-bottom: 40px;
+    padding: 40px 20px 30px;
+    background: #ffff;
+    color: #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .har-search-header h2 {
-    color: var(--primary-color);
+    color: #094a3f;
     font-size: 2.5rem;
     margin-bottom: 10px;
     font-weight: 700;
 }
 
 .har-search-header p {
-    color: #666;
+    color: #094a3f;
     font-size: 1.2rem;
+    margin: 0;
 }
 
 .har-embed-container {
     position: relative;
     width: 100%;
-    padding-bottom: 75%; /* 4:3 Aspect Ratio */
-    height: 100vh;
+    flex: 1;
+    min-height: calc(100vh - 150px); /* Full height minus header */
     overflow: hidden;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     background: white;
-    margin-bottom: 30px;
 }
 
 /* White overlay covering the TOP of the embed */
@@ -335,11 +333,11 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;               /* cover from the top */
-    height: 70px;       /* adjust to hide HAR header/search bar */
-    background: #fff;   /* solid white (no fade) */
+    top: 0;
+    height: 70px;
+    background: #fff;
     pointer-events: none;
-    z-index: 5;          /* ensure it stays above the iframe */
+    z-index: 5;
 }
 
 .har-iframe {
@@ -349,115 +347,27 @@
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 15px;
 }
 
-.har-cta {
-    text-align: center;
-    padding: 30px 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.har-cta p {
-    font-size: 1.3rem;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.har-cta .more-info-btn {
-    background: var(--primary-color);
-    color: white;
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(11, 93, 80, 0.3);
-    display: inline-block;
-    margin: 0 auto;
-}
-
-.har-cta .more-info-btn:hover {
-    background: #094a3f;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(11, 93, 80, 0.4);
-}
-
-/* Mobile responsive for HAR section */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .har-search-section {
-        padding: 40px 0;
-    }
-
     .har-search-header h2 {
         font-size: 2rem;
     }
-
+    
     .har-search-header p {
         font-size: 1rem;
     }
-
-    .har-embed-container {
-        padding-bottom: 100%; /* Taller on mobile */
-        border-radius: 10px;
-    }
-
-    .har-cta {
-        padding: 25px 15px;
-    }
-
-    .har-cta p {
-        font-size: 1.1rem;
-    }
-
-    .har-cta .more-info-btn {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .har-search-section {
-        padding: 30px 0;
-    }
-
+    
     .har-search-header {
-        margin-bottom: 25px;
+        padding: 30px 15px 20px;
     }
-
-    .har-search-header h2 {
-        font-size: 1.6rem;
-    }
-
-    .har-search-header p {
-        font-size: 0.95rem;
-    }
-
-    .har-embed-container {
-        padding-bottom: 120%; /* Even taller on small phones */
-        border-radius: 8px;
-    }
-
-    .har-cta {
-        padding: 20px 15px;
-    }
-
-    .har-cta p {
-        font-size: 1rem;
+    
+    .har-embed-container::after {
+        height: 60px; /* Adjust overlay for mobile */
     }
 }
 </style>
-
-
-<!-- ============================================ -->
-<!-- PLACEMENT INSTRUCTIONS -->
-<!-- ============================================ -->
-
  
 <style>
 .har-listing-wrapper {
@@ -468,6 +378,7 @@
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     font-family: 'Arial', sans-serif;
+    
 }
 
 .har-listing-wrapper h2 {
@@ -493,7 +404,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 190px;   /* adjust how much to cover */
+    height: 550px;   /* adjust how much to cover */
     background: #fff;
     pointer-events: none;
     z-index: 5;
@@ -503,6 +414,7 @@
     width: 100%;
     height: 333vh;
     border: none;
+    
 }
 </style>
 
@@ -515,15 +427,68 @@
         </iframe>
     </div>
 
-    <!-- ===== MAP SECTION ===== -->
-    <section class="map-section">
-        <h2>Find Properties in Texas</h2>
-        <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447401.063024316!2d-107.0819858420861!3d31.968598607380985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b8f0011c9f8b%3A0x3d9b9f39f4c95ff0!2sTexas%2C%20USA!5e0!3m2!1sen!2sus!4v1698329000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </section>
+<!-- ===== MAP SECTION ===== -->
+<section class="map-section">
+    <h2>Find Properties in Texas</h2>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447401.063024316!2d-107.0819858420861!3d31.968598607380985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b8f0011c9f8b%3A0x3d9b9f39f4c95ff0!2sTexas%2C%20USA!5e0!3m2!1sen!2sus!4v1698329000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
 
+<style>
+/* Map Section - Overlays har-listing-container footer */
+.map-section {
+    position: relative;
+    margin-top: -550px; /* Negative margin equal to the white overlay height */
+    z-index: 10; /* Above the white overlay */
+    padding: 40px 20px;
+    background: transparent;
+}
 
+.map-section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+   
+}
+
+.map-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    border: 3px solid #0d7a68;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .map-section {
+        margin-top: -550px;
+        padding: 20px 15px;
+    }
+    
+    .map-section h2 {
+        font-size: 24px;
+        padding: 15px;
+    }
+    
+    .map-container {
+        height: 400px;
+    }
+}
+</style>
 
 
 
