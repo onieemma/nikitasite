@@ -10,202 +10,418 @@
 <!-- ===== HERO SECTION ===== -->
 <section class="hero-rental">
     <div class="hero-content-rental">
-        <h1>Find Your Dream Home in Texas</h1>
+        <h1>Find Your Dream <br>Home in Texas</h1>
         
-        <div class="search-container">
-          <div class="search-box" role="search" aria-label="Property search">
-            <input 
-              type="search" 
-              class="search-input" 
-              placeholder="searching how you'd say it to a friend"
-            />
-            <button class="search-btn" type="submit" aria-label="Search">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
+        
     </div>
 </section>
 
-<!-- ===== SEARCH & FILTER ===== -->
-<section class="search-filter-section">
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="City in Texas (e.g., Dallas, Houston, Austin)">
+
+<section class="har-fullscreen-section">
+    <div class="har-fullscreen-container">
+        <iframe 
+            src="https://www.har.com/s/mYWVaFwMAEnw" 
+            class="har-fullscreen-iframe"
+            title="HAR Property Listings"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </div>
     
-        <select class="search-input">
-            <option>Price</option>
-            <option>Low to High</option>
-            <option>High to Low</option>
-        </select>
-        <select class="search-input">
-            <option>House</option>
-            <option>Duplex</option>
-            <option>Townhouse</option>
-            <option>Condo</option>
-        </select>
-        <select class="search-input">
-            <option>2 Beds</option>
-            <option>3 Beds</option>
-            <option>4 Beds</option>
-            <option>More</option>
-        </select>
-        <select class="search-input">
-            <option>2 Baths</option>
-            <option>3 Baths</option>
-            <option>4 Baths</option>
-            <option>More</option>
-        </select>
-        <select class="search-input">
-            <option>Move-in by</option>
-        </select>
-        <button class="search-btn">Save search</button>
-        <div class="view-toggle">
-            <button class="view-btn active">List</button>
-            <button class="view-btn">Map</button>
+    <!-- ===== RENTAL GRID OVERLAY - ADDED ===== -->
+    <div class="rental-overlay-container">
+        <div class="rental-grid">
+
+            <!-- Card 1 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1516996121688-8d0cb53cc992?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <span class="rental-badge">New homes</span>
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,225 - $1,245</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">2-3 beds</span>
+                        <span class="spec">2 baths</span>
+                        <span class="spec">1,200 - 1,450 sqft</span>
+                    </div>
+                    <div class="rental-address">1206 Stetson Rd, Austin, TX 78745</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1545480632-343d2c2ba26d?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <span class="rental-badge">Rent special</span>
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,088 - $1,538</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">3 beds</span>
+                        <span class="spec">2 baths</span>
+                        <span class="spec">1,350 sqft</span>
+                    </div>
+                    <div class="rental-address">1505 Sandipto Dr, Dallas, TX 75217</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,650 - $1,850</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">4 beds</span>
+                        <span class="spec">3 baths</span>
+                        <span class="spec">2,100 sqft</span>
+                    </div>
+                    <div class="rental-address">701 White Spar Rd, Houston, TX 77084</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <span class="rental-badge">New homes</span>
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,100</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">2 beds</span>
+                        <span class="spec">2 baths</span>
+                        <span class="spec">1,050 sqft</span>
+                    </div>
+                    <div class="rental-address">630 S Granite St, San Antonio, TX 78223</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9b274b3d0cac?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <span class="rental-badge">Rent special</span>
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,395 - $2,000</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">3-4 beds</span>
+                        <span class="spec">2-3 baths</span>
+                        <span class="spec">1,600 - 2,200 sqft</span>
+                    </div>
+                    <div class="rental-address">2505 Blooming Hills Dr, Plano, TX 75074</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="rental-card">
+                <div class="rental-image-container">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop" alt="House" class="rental-image">
+                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rental-info">
+                    <div class="rental-price">$1,425 - $2,000</div>
+                    <div class="rental-type">For Rent • House</div>
+                    <div class="rental-specs">
+                        <span class="spec">3-5 beds</span>
+                        <span class="spec">2-3 baths</span>
+                        <span class="spec">1,700 - 2,800 sqft</span>
+                    </div>
+                    <div class="rental-address">2057 Willow Lake Rd, Frisco, TX 75033</div>
+                    <div class="rental-action">
+                        <button class="contact-btn">Contact Property</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
-<!-- ===== RESULTS HEADER ===== -->
-<section class="results-header">
-    <h2>Houses for rent in Texas</h2>
-    <p>48 Homes Available • Sort by Best match</p>
-</section>
+
+<!-- ============================================ -->
+<!-- FULL SCREEN CSS STYLES -->
+<!-- Copy this into your <style> section -->
+<!-- ============================================ -->
+
+<style>
+/* Full Screen HAR Section */
+.har-fullscreen-section {
+    width: 100%;
+    height: 580vh; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  
+}
+
+/* Top white overlay */
+.har-fullscreen-section::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 120px; /* adjust how much to cover */
+    background: #fff;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Bottom white overlay */
+.har-fullscreen-section::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 625px; /* adjust how much to cover */
+    background: #fff;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.har-fullscreen-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.har-fullscreen-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+
+/* Remove any container padding if needed */
+.har-fullscreen-section .container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .har-fullscreen-section {
+        height: 100vh; /* Maintain full height on mobile */
+        min-height: -webkit-fill-available; /* iOS Safari fix */
+    }
+}
+
+/* iOS viewport height fix */
+@supports (-webkit-touch-callout: none) {
+    .har-fullscreen-section {
+        height: -webkit-fill-available;
+    }
+}
+
+/* ===== NEW: RENTAL OVERLAY STYLES ===== */
+.rental-overlay-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    min-height: 840px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 15;
+    padding: 30px 20px;
+    overflow: visible;
+}
+
+.rental-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.rental-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rental-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.rental-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.rental-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rental-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #4CAF50;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn:hover {
+    background: #fff;
+    transform: scale(1.1);
+}
+
+.rental-info {
+    padding: 15px;
+}
+
+.rental-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.rental-type {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.rental-specs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.spec {
+    background: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: #555;
+}
+
+.rental-address {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.rental-action {
+    margin-top: 10px;
+}
+
+.contact-btn {
+    width: 100%;
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.contact-btn:hover {
+    background: #1976D2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rental-overlay-container {
+        min-height: 1200px;
+        padding: 20px 15px;
+    }
+    
+    .rental-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .rental-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .rental-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+</style>
+
+
 
 <!-- ===== RENTAL GRID ===== -->
-<section class="rental-section">
+<section class="rental-section" style="display: none;">
     <div class="rental-grid">
-
-        <!-- Card 1 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1516996121688-8d0cb53cc992?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <span class="rental-badge">New homes</span>
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,225 - $1,245</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">2-3 beds</span>
-                    <span class="spec">2 baths</span>
-                    <span class="spec">1,200 - 1,450 sqft</span>
-                </div>
-                <div class="rental-address">1206 Stetson Rd, Austin, TX 78745</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1545480632-343d2c2ba26d?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <span class="rental-badge">Rent special</span>
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,088 - $1,538</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">3 beds</span>
-                    <span class="spec">2 baths</span>
-                    <span class="spec">1,350 sqft</span>
-                </div>
-                <div class="rental-address">1505 Sandipto Dr, Dallas, TX 75217</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,650 - $1,850</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">4 beds</span>
-                    <span class="spec">3 baths</span>
-                    <span class="spec">2,100 sqft</span>
-                </div>
-                <div class="rental-address">701 White Spar Rd, Houston, TX 77084</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <span class="rental-badge">New homes</span>
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,100</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">2 beds</span>
-                    <span class="spec">2 baths</span>
-                    <span class="spec">1,050 sqft</span>
-                </div>
-                <div class="rental-address">630 S Granite St, San Antonio, TX 78223</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1512917774080-9b274b3d0cac?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <span class="rental-badge">Rent special</span>
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,395 - $2,000</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">3-4 beds</span>
-                    <span class="spec">2-3 baths</span>
-                    <span class="spec">1,600 - 2,200 sqft</span>
-                </div>
-                <div class="rental-address">2505 Blooming Hills Dr, Plano, TX 75074</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="rental-card">
-            <div class="rental-image-container">
-                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop" alt="House" class="rental-image">
-                <button class="favorite-btn"><i class="far fa-heart"></i></button>
-            </div>
-            <div class="rental-info">
-                <div class="rental-price">$1,425 - $2,000</div>
-                <div class="rental-type">For Rent • House</div>
-                <div class="rental-specs">
-                    <span class="spec">3-5 beds</span>
-                    <span class="spec">2-3 baths</span>
-                    <span class="spec">1,700 - 2,800 sqft</span>
-                </div>
-                <div class="rental-address">2057 Willow Lake Rd, Frisco, TX 75033</div>
-                <div class="rental-action">
-                    <button class="contact-btn">Contact Property</button>
-                </div>
-            </div>
-        </div>
-
+        <!-- Original cards hidden - now shown in overlay -->
     </div>
 </section>
 
