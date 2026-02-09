@@ -594,138 +594,136 @@
         </div>
     </div>
 
-    <script>
-        // Get CSRF token
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
+<script>
+    // Get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
                 }
             }
-            return cookieValue;
         }
+        return cookieValue;
+    }
 
-        const csrftoken = getCookie('csrftoken');
+    const csrftoken = getCookie('csrftoken');
 
-        // Format currency
-        function formatCurrency(amount) {
-            return '$' + Math.round(amount).toLocaleString('en-US');
-        }
+    // Format currency
+    function formatCurrency(amount) {
+        return '$' + Math.round(amount).toLocaleString('en-US');
+    }
 
-        // Calculator form submission
-        document.getElementById('calculator-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                home_price: document.getElementById('home_price').value,
-                down_payment: document.getElementById('down_payment').value,
-                interest_rate: document.getElementById('interest_rate').value,
-                loan_term: document.getElementById('loan_term').value,
-            };
+    // Calculator form submission
+    document.getElementById('calculator-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            home_price: document.getElementById('home_price').value,
+            down_payment: document.getElementById('down_payment').value,
+            interest_rate: document.getElementById('interest_rate').value,
+            loan_term: document.getElementById('loan_term').value,
+        };
 
-            // Show loading
-            document.getElementById('calc-loading').style.display = 'block';
-            
-            try {
-                const response = await fetch('{% url "calculate_mortgage" %}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                    },
-                    body: JSON.stringify(formData)
-                });
+        document.getElementById('calc-loading').style.display = 'block';
+        
+        try {
+            const response = await fetch('{% url "calculate_mortgage" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify(formData)
+            });
 
-                const data = await response.json();
+            const data = await response.json();
 
-                if (data.success) {
-                    // Update results
-                    document.getElementById('monthly-payment').textContent = formatCurrency(data.monthly_payment);
-                    document.getElementById('property-tax').textContent = formatCurrency(data.property_tax);
-                    document.getElementById('home-insurance').textContent = formatCurrency(data.home_insurance);
-                    document.getElementById('pmi').textContent = formatCurrency(data.pmi);
-                    document.getElementById('total-monthly').textContent = formatCurrency(data.total_monthly);
-                    document.getElementById('principal').textContent = formatCurrency(data.principal);
-                    document.getElementById('down-percent').textContent = data.down_payment_percent.toFixed(1) + '%';
-                    document.getElementById('total-interest').textContent = formatCurrency(data.total_interest);
-                    document.getElementById('total-payment').textContent = formatCurrency(data.total_payment);
+            if (data.success) {
+                document.getElementById('monthly-payment').textContent = formatCurrency(data.monthly_payment);
+                document.getElementById('property-tax').textContent = formatCurrency(data.property_tax);
+                document.getElementById('home-insurance').textContent = formatCurrency(data.home_insurance);
+                document.getElementById('pmi').textContent = formatCurrency(data.pmi);
+                document.getElementById('total-monthly').textContent = formatCurrency(data.total_monthly);
+                document.getElementById('principal').textContent = formatCurrency(data.principal);
+                document.getElementById('down-percent').textContent = data.down_payment_percent.toFixed(1) + '%';
+                document.getElementById('total-interest').textContent = formatCurrency(data.total_interest);
+                document.getElementById('total-payment').textContent = formatCurrency(data.total_payment);
 
-                    // Show results
-                    document.getElementById('results-section').style.display = 'block';
-                    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
-                }
-            } catch (error) {
-                alert('Error calculating mortgage: ' + error.message);
-            } finally {
-                document.getElementById('calc-loading').style.display = 'none';
+                document.getElementById('results-section').style.display = 'block';
+                document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
             }
-        });
-
-        // Show inquiry form
-        function showInquiryForm() {
-            // Populate inquiry form with calculated values
-            document.getElementById('inquiry_home_price').value = document.getElementById('home_price').value;
-            document.getElementById('inquiry_down_payment').value = document.getElementById('down_payment').value;
-            document.getElementById('inquiry_interest_rate').value = document.getElementById('interest_rate').value;
-            document.getElementById('inquiry_loan_term').value = document.getElementById('loan_term').value;
-            document.getElementById('inquiry_loan_type').value = document.getElementById('loan_type').options[document.getElementById('loan_type').selectedIndex].text;
-
-            // Show form
-            document.getElementById('inquiry-section').style.display = 'block';
-            document.getElementById('inquiry-section').scrollIntoView({ behavior: 'smooth' });
+        } catch (error) {
+            alert('Error calculating mortgage: ' + error.message);
+        } finally {
+            document.getElementById('calc-loading').style.display = 'none';
         }
+    });
 
-        // Inquiry form submission
-        document.getElementById('inquiry-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    // Show inquiry form
+    function showInquiryForm() {
+        document.getElementById('inquiry_home_price').value = document.getElementById('home_price').value;
+        document.getElementById('inquiry_down_payment').value = document.getElementById('down_payment').value;
+        document.getElementById('inquiry_interest_rate').value = document.getElementById('interest_rate').value;
+        document.getElementById('inquiry_loan_term').value = document.getElementById('loan_term').value;
+        document.getElementById('inquiry_loan_type').value =
+            document.getElementById('loan_type').options[
+                document.getElementById('loan_type').selectedIndex
+            ].text;
+
+        document.getElementById('inquiry-section').style.display = 'block';
+        document.getElementById('inquiry-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Inquiry form submission (FIXED URL HERE 👇)
+    document.getElementById('inquiry-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+
+        document.getElementById('inquiry-loading').style.display = 'block';
+        document.getElementById('inquiry-form').style.display = 'none';
+        
+        try {
+            const response = await fetch('{% url "home_financing_submit" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            const alertDiv = document.getElementById('inquiry-alert');
             
-            const formData = new FormData(this);
-
-            // Show loading
-            document.getElementById('inquiry-loading').style.display = 'block';
-            document.getElementById('inquiry-form').style.display = 'none';
-            
-            try {
-                const response = await fetch('{% url "submit_inquiry" %}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrftoken
-                    },
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                const alertDiv = document.getElementById('inquiry-alert');
-                
-                if (data.success) {
-                    alertDiv.className = 'alert alert-success';
-                    alertDiv.textContent = 'Thank you! Your financing inquiry has been submitted successfully. We will contact you soon.';
-                    alertDiv.style.display = 'block';
-                    document.getElementById('inquiry-form').reset();
-                } else {
-                    alertDiv.className = 'alert alert-error';
-                    alertDiv.textContent = 'Error submitting inquiry. Please check your information and try again.';
-                    alertDiv.style.display = 'block';
-                    document.getElementById('inquiry-form').style.display = 'block';
-                }
-            } catch (error) {
-                const alertDiv = document.getElementById('inquiry-alert');
+            if (data.success) {
+                alertDiv.className = 'alert alert-success';
+                alertDiv.textContent = 'Thank you! Your financing inquiry has been submitted successfully. We will contact you soon.';
+                alertDiv.style.display = 'block';
+                document.getElementById('inquiry-form').reset();
+            } else {
                 alertDiv.className = 'alert alert-error';
-                alertDiv.textContent = 'Error: ' + error.message;
+                alertDiv.textContent = 'Error submitting inquiry. Please check your information and try again.';
                 alertDiv.style.display = 'block';
                 document.getElementById('inquiry-form').style.display = 'block';
-            } finally {
-                document.getElementById('inquiry-loading').style.display = 'none';
             }
-        });
-    </script>
+        } catch (error) {
+            const alertDiv = document.getElementById('inquiry-alert');
+            alertDiv.className = 'alert alert-error';
+            alertDiv.textContent = 'Error: ' + error.message;
+            alertDiv.style.display = 'block';
+            document.getElementById('inquiry-form').style.display = 'block';
+        } finally {
+            document.getElementById('inquiry-loading').style.display = 'none';
+        }
+    });
+</script>
+
 </section>
 
 
