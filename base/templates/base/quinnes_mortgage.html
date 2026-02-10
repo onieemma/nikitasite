@@ -1,39 +1,255 @@
 
-
-
-
-
+{% load static %}
 <style>
-
-    /* base/static/base/css/quinnes.css */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --primary-color: #0b5d50;
-    --primary-alpha: #0b5d4f9a;
-    --white: #FFFFFF;
-    --light-bg: #f5f5f5;
-    --shadow: rgba(11, 93, 80, 0.15);
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: var(--white);
-}
-
-/* Hero Section */
-.hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 100%);
-    color: var(--white);
-    padding: 100px 20px;
+    /* ============================================ */
+    /* COLOR VARIABLES - NAVY BLUE & GOLD THEME */
+    /* ============================================ */
     
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary-color: #2a4a70;      /* Navy Blue */
+        --secondary-color: #e4b254;     /* Gold */
+        --primary-dark: #1a2f4a;        /* Darker Navy */
+        --secondary-light: #f0c97d;     /* Lighter Gold */
+        --white: #FFFFFF;
+        --black: #000000;
+        --light-bg: #f5f5f5;
+        --shadow: rgba(42, 74, 112, 0.15);
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--black);
+        background-color: var(--white);
+        padding-top: 80px; /* Space for fixed navbar */
+    }
+
+    /* ============================================ */
+    /* NAVBAR STYLES */
+    /* ============================================ */
+    
+    .quinnes-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    .quinnes-navbar.scrolled {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .navbar-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+    }
+
+    .navbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-logo:hover {
+        color: var(--secondary-color);
+    }
+
+    .logo-icon {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-weight: 800;
+        font-size: 1.3rem;
+        box-shadow: 0 3px 10px rgba(42, 74, 112, 0.3);
+    }
+
+    .navbar-menu {
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        list-style: none;
+    }
+
+    .navbar-item {
+        position: relative;
+    }
+
+    .navbar-link {
+        color: var(--black);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        padding: 8px 0;
+        position: relative;
+    }
+
+    .navbar-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: var(--secondary-color);
+        transition: width 0.3s ease;
+    }
+
+    .navbar-link:hover {
+        color: var(--primary-color);
+    }
+
+    .navbar-link:hover::after {
+        width: 100%;
+    }
+
+    .navbar-phone {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--white);
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(228, 178, 84, 0.4);
+    }
+
+    .navbar-phone:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(228, 178, 84, 0.5);
+        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+    }
+
+    .phone-icon {
+        font-size: 1.1rem;
+    }
+
+    /* Mobile Menu Toggle */
+    .navbar-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .navbar-toggle span {
+        width: 28px;
+        height: 3px;
+        background: var(--primary-color);
+        border-radius: 3px;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .navbar-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .navbar-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding-top: 70px;
+        }
+
+        .navbar-container {
+            padding: 12px 20px;
+        }
+
+        .navbar-toggle {
+            display: flex;
+        }
+
+        .navbar-menu {
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 100%;
+            background: var(--white);
+            flex-direction: column;
+            gap: 0;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease;
+            align-items: flex-start;
+        }
+
+        .navbar-menu.active {
+            left: 0;
+        }
+
+        .navbar-item {
+            width: 100%;
+            border-bottom: 1px solid var(--light-bg);
+            padding: 15px 0;
+        }
+
+        .navbar-phone {
+            width: 100%;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+
+        .navbar-logo {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* ============================================ */
+    /* HERO SECTION */
+    /* ============================================ */
+.hero {
+    background: 
+        linear-gradient(135deg, rgba(42, 74, 112, 0.9) 0%, rgba(26, 47, 74, 0.9) 100%),/* overlay gradient */
+        url("{% static 'images/mortgage.png' %}") no-repeat center center; /* image below */
+    
+    background-size: cover; /* make the image cover the hero */
+    /* ensures gradient blends nicely with the image */
+    color: var(--white);
+    padding: 120px 20px 80px;
     position: relative;
     overflow: hidden;
 }
@@ -47,665 +263,723 @@ body {
     bottom: 0;
     background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/></svg>');
     opacity: 0.3;
+    pointer-events: none; /* ensures clicks go through */
 }
 
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    margin: 0 auto;
-}
 
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 15px;
-    font-weight: 700;
-   
-    animation: fadeInDown 0.8s ease-out;
-}
 
-.tagline {
-    font-size: 1.4rem;
-    margin-bottom: 30px;
-    font-weight: 300;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-    color: #ffff;
-}
-
-.cta-button {
-    background-color: var(--white);
-    color: var(--primary-color);
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-}
-
-.cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    background-color: var(--light-bg);
-}
-
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-
-/* Info Sections */
-.info-section {
-    background: var(--white);
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 8px var(--shadow);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.info-section:hover {
-    box-shadow: 0 4px 16px var(--shadow);
-}
-
-.section-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 20%);
-    color: var(--white);
-    padding: 25px 30px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
-    border-radius: 12px;
-}
-
-.section-header:hover {
-    background: var(--primary-color);
-}
-
-.section-header h2 {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-weight: 600;
-    color: #ffff;
-    
-}
-
-.icon {
-    width: 28px;
-    height: 28px;
-    stroke-width: 2.5;
-}
-
-.toggle-icon {
-    font-size: 2rem;
-    font-weight: 300;
-    transition: transform 0.3s ease;
-}
-
-.section-header.active .toggle-icon {
-    transform: rotate(45deg);
-}
-
-.section-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out;
-}
-
-.section-content.active {
-    max-height: 2000px;
-    transition: max-height 0.5s ease-in;
-}
-
-.section-content p {
-    padding: 25px 30px 15px;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-.expanded-content {
-    padding: 0 30px 30px;
-    animation: fadeIn 0.5s ease-out;
-}
-
-.expanded-content h3 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.expanded-content ul {
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-
-.expanded-content li {
-    margin-bottom: 12px;
-    line-height: 1.7;
-    color: #555;
-}
-
-.expanded-content strong {
-    color: var(--primary-color);
-}
-
-.process-list {
-    list-style: none;
-    counter-reset: step-counter;
-    margin-left: 0;
-}
-
-.process-list li {
-    counter-increment: step-counter;
-    position: relative;
-    padding-left: 50px;
-    margin-bottom: 25px;
-}
-
-.process-list li::before {
-    content: counter(step-counter);
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: var(--primary-color);
-    color: var(--white);
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-
-.process-list li p {
-    padding: 5px 0 0 0;
-    margin-top: 5px;
-    font-size: 0.95rem;
-}
-
-.more-info-btn {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 12px 30px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    margin-top: 15px;
-    box-shadow: 0 2px 8px var(--shadow);
-}
-
-.more-info-btn:hover {
-    background-color: #094a3f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow);
-}
-
-/* Footer */
-.footer {
-    background: var(--primary-color);
-    color: var(--white);
-    padding: 50px 20px 20px;
-    margin-top: 60px;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 30px;
-   
-}
-
-.footer-section h3 {
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-    color: #ffff;
-}
-
-.footer-section p {
-    margin-bottom: 10px;
-    line-height: 1.7;
-}
-
-.footer-link {
-    background: none;
-    border: none;
-    color: var(--white);
-    cursor: pointer;
-    padding: 5px 0;
-    display: block;
-    text-align: left;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    
-}
-
-.footer-link:hover {
-    opacity: 0.8;
-    padding-left: 5px;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 0.9rem;
-}
-
-/* Animations */
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-/* ============================================ */
-/* QUINNES MORTGAGE POPUP STYLES */
-/* ============================================ */
-
-.quinnes-popup-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
-    overflow-y: auto;
-    padding: 20px;
-    animation: quinnesFadeIn 0.3s ease;
-}
-
-.quinnes-popup-overlay.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@keyframes quinnesFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.quinnes-popup-container {
-    background: white;
-    border-radius: 15px;
-    max-width: 600px;
-    width: 100%;
-    position: relative;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    animation: quinnesSlideUp 0.3s ease;
-}
-
-@keyframes quinnesSlideUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.quinnes-popup-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 2rem;
-    color: #fefbfb;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s;
-    z-index: 10;
-}
-
-.quinnes-popup-close:hover {
-    background: #f5f5f5;
-    color: #0b5d50;
-    transform: rotate(90deg);
-}
-
-.quinnes-popup-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-alpha) 100%);
-    color: white;
-    padding: 40px 30px 30px;
-    border-radius: 15px 15px 0 0;
-    text-align: center;
-}
-
-.quinnes-popup-header h2 {
-    margin: 0 0 10px 0;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.quinnes-popup-header p {
-    margin: 0;
-    opacity: 0.95;
-    font-size: 1.1rem;
-}
-
-.quinnes-popup-form {
-    padding: 30px;
-}
-
-.quinnes-form-group {
-    margin-bottom: 20px;
-}
-
-.quinnes-form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.quinnes-form-group input,
-.quinnes-form-group select,
-.quinnes-form-group textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    font-family: inherit;
-}
-
-.quinnes-form-group input:focus,
-.quinnes-form-group select:focus,
-.quinnes-form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(11, 93, 80, 0.1);
-}
-
-.quinnes-form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.quinnes-form-actions {
-    margin-top: 25px;
-}
-
-.quinnes-submit-btn {
-    width: 100%;
-    padding: 15px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(11, 93, 80, 0.3);
-}
-
-.quinnes-submit-btn:hover {
-    background: #094a3f;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(11, 93, 80, 0.4);
-}
-
-.quinnes-submit-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.quinnes-form-message {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 600;
-    display: none;
-}
-
-.quinnes-form-message.success {
-    display: block;
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.quinnes-form-message.error {
-    display: block;
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+        animation: fadeInDown 0.8s ease-out;
     }
 
     .tagline {
-        font-size: 1.1rem;
-    }
-
-    .section-header h2 {
-        font-size: 1.2rem;
-    }
-
-    .icon {
-        width: 24px;
-        height: 24px;
-    }
-
-    .container {
-        padding: 40px 15px;
-    }
-
-    .section-header,
-    .section-content p,
-    .expanded-content {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .quinnes-popup-container {
-        margin: 20px;
-    }
-    
-    .quinnes-popup-header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .quinnes-popup-form {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero {
-        padding: 60px 15px;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+        font-weight: 300;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+        color: var(--white);
     }
 
     .cta-button {
-        padding: 12px 30px;
-        font-size: 1rem;
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        color: var(--black);
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(228, 178, 84, 0.4);
+        animation: fadeInUp 0.8s ease-out 0.4s both;
     }
-}
 
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(228, 178, 84, 0.5);
+        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+    }
 
+    /* ============================================ */
+    /* CONTAINER */
+    /* ============================================ */
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
 
+    /* ============================================ */
+    /* INFO SECTIONS */
+    /* ============================================ */
+    
+    .info-section {
+        background: var(--white);
+        border-radius: 12px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px var(--shadow);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
 
+    .info-section:hover {
+        box-shadow: 0 4px 16px var(--shadow);
+    }
 
+    .section-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+        padding: 25px 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        border-radius: 12px;
+    }
 
+    .section-header:hover {
+        background: var(--primary-dark);
+    }
 
+    .section-header h2 {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-weight: 600;
+        color: var(--white);
+    }
 
+    .icon {
+        width: 28px;
+        height: 28px;
+        stroke-width: 2.5;
+    }
 
-/* ===== Finance Sections ===== */
-.finance-section {
+    .toggle-icon {
+        font-size: 2rem;
+        font-weight: 300;
+        transition: transform 0.3s ease;
+        color: var(--secondary-color);
+    }
 
-    padding: 60px 20px;
-}
+    .section-header.active .toggle-icon {
+        transform: rotate(45deg);
+    }
 
-.finance-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    flex-wrap: wrap;
-}
+    .section-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
 
-.finance-card {
-    flex: 1 1 45%;
-    background: var(--primary-color);
-    color: #fff;
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .section-content.active {
+        max-height: 2000px;
+        transition: max-height 0.5s ease-in;
+    }
 
-.finance-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
+    .section-content p {
+        padding: 25px 30px 15px;
+        font-size: 1.1rem;
+        color: #555;
+    }
 
-.finance-card h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-}
+    .expanded-content {
+        padding: 0 30px 30px;
+        animation: fadeIn 0.5s ease-out;
+    }
 
-.finance-card p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
+    .expanded-content h3 {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
 
-.finance-btn {
-    display: inline-block;
-    padding: 15px 35px;
-    background-color: #fff;
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+    .expanded-content ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
 
-.finance-btn:hover {
-    background-color: var(--primary-alpha);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-}
+    .expanded-content li {
+        margin-bottom: 12px;
+        line-height: 1.7;
+        color: #555;
+    }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
+    .expanded-content strong {
+        color: var(--secondary-color);
+        font-weight: 700;
+    }
+
+    .process-list {
+        list-style: none;
+        counter-reset: step-counter;
+        margin-left: 0;
+    }
+
+    .process-list li {
+        counter-increment: step-counter;
+        position: relative;
+        padding-left: 50px;
+        margin-bottom: 25px;
+    }
+
+    .process-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: var(--secondary-color);
+        color: var(--black);
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .process-list li p {
+        padding: 5px 0 0 0;
+        margin-top: 5px;
+        font-size: 0.95rem;
+    }
+
+    .more-info-btn {
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        color: var(--black);
+        padding: 12px 30px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        box-shadow: 0 2px 8px rgba(228, 178, 84, 0.3);
+    }
+
+    .more-info-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(228, 178, 84, 0.4);
+        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+    }
+
+    /* ============================================ */
+    /* FINANCE SECTIONS */
+    /* ============================================ */
+    
+    .finance-section {
+        padding: 60px 20px;
+        background: var(--light-bg);
+    }
+
     .finance-container {
-        flex-direction: column;
-        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
     }
 
     .finance-card {
-        flex: 1 1 100%;
-        padding: 30px 20px;
+        flex: 1 1 45%;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: var(--white);
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .finance-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     }
 
     .finance-card h2 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+        margin-bottom: 15px;
     }
 
     .finance-card p {
-        font-size: 1rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 25px;
     }
 
     .finance-btn {
-        padding: 12px 25px;
+        display: inline-block;
+        padding: 15px 35px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        color: var(--black);
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(228, 178, 84, 0.3);
+    }
+
+    .finance-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(228, 178, 84, 0.4);
+        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
+    }
+
+    /* ============================================ */
+    /* FOOTER */
+    /* ============================================ */
+    
+    .footer {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 50px 20px 20px;
+        margin-top: 60px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+        color: var(--secondary-color);
+    }
+
+    .footer-section p {
+        margin-bottom: 10px;
+        line-height: 1.7;
+    }
+
+    .footer-link {
+        background: none;
+        border: none;
+        color: var(--white);
+        cursor: pointer;
+        padding: 5px 0;
+        display: block;
+        text-align: left;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .footer-link:hover {
+        color: var(--secondary-color);
+        padding-left: 5px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 0.9rem;
+    }
+
+    /* ============================================ */
+    /* POPUP STYLES */
+    /* ============================================ */
+    
+    .quinnes-popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        overflow-y: auto;
+        padding: 20px;
+        animation: quinnesFadeIn 0.3s ease;
+    }
+
+    .quinnes-popup-overlay.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quinnes-popup-container {
+        background: white;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        animation: quinnesSlideUp 0.3s ease;
+    }
+
+    .quinnes-popup-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: transparent;
+        border: none;
+        font-size: 2rem;
+        color: var(--white);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s;
+        z-index: 10;
+    }
+
+    .quinnes-popup-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .quinnes-popup-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 40px 30px 30px;
+        border-radius: 15px 15px 0 0;
+        text-align: center;
+    }
+
+    .quinnes-popup-header h2 {
+        margin: 0 0 10px 0;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .quinnes-popup-header p {
+        margin: 0;
+        opacity: 0.95;
+        font-size: 1.1rem;
+    }
+
+    .quinnes-popup-form {
+        padding: 30px;
+    }
+
+    .quinnes-form-group {
+        margin-bottom: 20px;
+    }
+
+    .quinnes-form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
         font-size: 0.95rem;
     }
+
+    .quinnes-form-group input,
+    .quinnes-form-group select,
+    .quinnes-form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s;
+        font-family: inherit;
+    }
+
+    .quinnes-form-group input:focus,
+    .quinnes-form-group select:focus,
+    .quinnes-form-group textarea:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(228, 178, 84, 0.1);
+    }
+
+    .quinnes-form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .quinnes-submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
+        color: var(--black);
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(228, 178, 84, 0.3);
+    }
+
+    .quinnes-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(228, 178, 84, 0.4);
+    }
+
+    .quinnes-submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .quinnes-form-message {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        display: none;
+    }
+
+    .quinnes-form-message.success {
+        display: block;
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .quinnes-form-message.error {
+        display: block;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* ============================================ */
+    /* ANIMATIONS */
+    /* ============================================ */
+    
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes quinnesFadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes quinnesSlideUp {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* ============================================ */
+    /* RESPONSIVE DESIGN */
+    /* ============================================ */
+    
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .container {
+            padding: 40px 15px;
+        }
+
+        .section-header,
+        .section-content p,
+        .expanded-content {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .quinnes-popup-container {
+            margin: 20px;
+        }
+        
+        .quinnes-popup-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .quinnes-popup-form {
+            padding: 20px;
+        }
+
+        .finance-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .finance-card {
+            flex: 1 1 100%;
+            padding: 30px 20px;
+        }
+
+        .finance-card h2 {
+            font-size: 1.5rem;
+        }
+
+        .finance-card p {
+            font-size: 1rem;
+        }
+
+        .finance-btn {
+            padding: 12px 25px;
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero {
+            padding: 80px 15px 60px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .cta-button {
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+    }
+
+    .navbar-logo-img {
+  height: 40px;       /* adjust as you like: 30px–50px works well */
+  width: auto;        /* keeps aspect ratio */
+  object-fit: contain;
 }
 
-</style>    
+@media (max-width: 768px) {
+  .navbar-logo-img {
+    height: 32px;
+  }
+}
+</style>
 
 <body>
-    <!-- Hero Section -->
+    <!-- ============================================ -->
+    <!-- STICKY NAVBAR -->
+    <!-- ============================================ -->
+    <nav class="quinnes-navbar" id="quinnesNavbar">
+       <div class="navbar-container">
+    <!-- Logo -->
+    <a href="/" class="navbar-logo">
+        <img 
+            src="{% static 'images/Quininsmortgage.png' %}" 
+            alt="Quinnes Mortgage Logo"
+            class="navbar-logo-img"
+        />
+       <span>Quinns Mortgage</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggle" id="navbarToggle" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+            <!-- Navigation Menu -->
+            <ul class="navbar-menu" id="navbarMenu">
+                <li class="navbar-item">
+                    <a class="navbar-link" onclick="scrollToSection('mortgage-dictionary-section')">Mortgage Dictionary</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-link" onclick="scrollToSection('home-financing-section')">Home Financing</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="tel:18329622241" class="navbar-phone">
+                        <span class="phone-icon">📞</span>
+                        <span>1(832) 962-2241</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- HERO SECTION -->
+    <!-- ============================================ -->
     <header class="hero">
         <div class="hero-content">
             <h1>Quinns Mortgage</h1>
-            <p class="tagline">{{ tagline }}</p>
+            <p class="tagline">Your Trusted Partner in Home Financing Solutions</p>
             <button class="cta-button" onclick="openQuinnesPopup()">Get Started Today</button>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================================ -->
     <main class="container">
         <!-- Pre-Qualification Section -->
-        <section class="info-section">
+        <section class="info-section" id="prequalification-section">
             <div class="section-header" onclick="toggleSection('prequalification')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -733,7 +1007,7 @@ body {
         </section>
 
         <!-- Loan Programs Section -->
-        <section class="info-section">
+        <section class="info-section" id="loanprograms-section">
             <div class="section-header" onclick="toggleSection('loanprograms')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -763,7 +1037,7 @@ body {
         </section>
 
         <!-- Refinancing Section -->
-        <section class="info-section">
+        <section class="info-section" id="refinancing-section">
             <div class="section-header" onclick="toggleSection('refinancing')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -793,7 +1067,7 @@ body {
         </section>
 
         <!-- First-Time Home Buyers Section -->
-        <section class="info-section">
+        <section class="info-section" id="firsttime-section">
             <div class="section-header" onclick="toggleSection('firsttime')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -828,7 +1102,7 @@ body {
         </section>
 
         <!-- Third Party Financing Section -->
-        <section class="info-section">
+        <section class="info-section" id="thirdparty-section">
             <div class="section-header" onclick="toggleSection('thirdparty')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -864,7 +1138,7 @@ body {
         </section>
 
         <!-- The Mortgage Process Section -->
-        <section class="info-section">
+        <section class="info-section" id="process-section">
             <div class="section-header" onclick="toggleSection('process')">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -920,7 +1194,30 @@ body {
         </section>
     </main>
 
-    <!-- QUINNES MORTGAGE CONTACT POPUP -->
+    <!-- ============================================ -->
+    <!-- HOME FINANCING & MORTGAGE DICTIONARY SECTIONS -->
+    <!-- ============================================ -->
+    <section class="finance-section" id="home-financing-section">
+        <div class="finance-container">
+            <!-- Home Financing Card -->
+            <div class="finance-card">
+                <h2>Home Financing</h2>
+                <p>Learn more about your home financing options and make informed decisions.</p>
+                <a href="{% url 'home_financing' %}" class="finance-btn">Go to Home Financing</a>
+            </div>
+
+            <!-- Mortgage Dictionary Card -->
+            <div class="finance-card" id="mortgage-dictionary-section">
+                <h2>Mortgage Dictionary</h2>
+                <p>Understand mortgage terms easily with this comprehensive guide.</p>
+                <a href="https://www.har.com/mortgagedictionary?cid=Oyelakin" class="finance-btn" target="_blank">View Mortgage Dictionary</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- CONTACT POPUP -->
+    <!-- ============================================ -->
     <div class="quinnes-popup-overlay" id="quinnesPopupOverlay">
         <div class="quinnes-popup-container">
             <button class="quinnes-popup-close" onclick="closeQuinnesPopup()">&times;</button>
@@ -935,35 +1232,17 @@ body {
                 
                 <div class="quinnes-form-group">
                     <label for="quinnes_name">Full Name *</label>
-                    <input 
-                        type="text" 
-                        id="quinnes_name" 
-                        name="name" 
-                        required
-                        placeholder="Enter your full name"
-                    >
+                    <input type="text" id="quinnes_name" name="name" required placeholder="Enter your full name">
                 </div>
                 
                 <div class="quinnes-form-group">
                     <label for="quinnes_email">Email Address *</label>
-                    <input 
-                        type="email" 
-                        id="quinnes_email" 
-                        name="email" 
-                        required
-                        placeholder="your.email@example.com"
-                    >
+                    <input type="email" id="quinnes_email" name="email" required placeholder="your.email@example.com">
                 </div>
                 
                 <div class="quinnes-form-group">
                     <label for="quinnes_phone">Phone Number *</label>
-                    <input 
-                        type="tel" 
-                        id="quinnes_phone" 
-                        name="phone" 
-                        required
-                        placeholder="(555) 123-4567"
-                    >
+                    <input type="tel" id="quinnes_phone" name="phone" required placeholder="(555) 123-4567">
                 </div>
                 
                 <div class="quinnes-form-group">
@@ -984,20 +1263,13 @@ body {
                 
                 <div class="quinnes-form-group">
                     <label for="quinnes_message">Message</label>
-                    <textarea 
-                        id="quinnes_message" 
-                        name="message" 
-                        rows="4"
-                        placeholder="Tell us about your financing needs..."
-                    ></textarea>
+                    <textarea id="quinnes_message" name="message" rows="4" placeholder="Tell us about your financing needs..."></textarea>
                 </div>
                 
                 <div class="quinnes-form-actions">
                     <button type="submit" class="quinnes-submit-btn" id="quinnesSubmitBtn">
                         <span class="btn-text">Send Message</span>
-                        <span class="btn-loader" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i> Sending...
-                        </span>
+                        <span class="btn-loader" style="display: none;">Sending...</span>
                     </button>
                 </div>
                 
@@ -1006,35 +1278,13 @@ body {
         </div>
     </div>
 
-
-
-
-
-    <!-- ===== Home Financing & Mortgage Sections ===== -->
-<section class="finance-section">
-    <div class="finance-container">
-        <!-- Section 1: Home Financing -->
-        <div class="finance-card">
-            <h2>Home Financing</h2>
-            <p>Learn more about your home financing options and make informed decisions.</p>
-            <a href="{% url 'home_financing' %}" class="finance-btn">Go to Home Financing</a>
-        </div>
-
-        <!-- Section 2: Mortgage Dictionary -->
-        <div class="finance-card">
-            <h2>Mortgage Dictionary</h2>
-            <p>Understand mortgage terms easily with this comprehensive guide.</p>
-            <a href="https://www.har.com/mortgagedictionary?cid=Oyelakin" class="finance-btn" target="_blank">View Mortgage Dictionary</a>
-        </div>
-    </div>
-</section>
-
-
-    <!-- Footer -->
+    <!-- ============================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================ -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Quinnes Mortgage</h3>
+                <h3>Quinns Mortgage</h3>
                 <p>Your trusted partner in home financing solutions. We're committed to helping you achieve your homeownership dreams with personalized service and competitive rates.</p>
             </div>
             <div class="footer-section">
@@ -1055,16 +1305,66 @@ body {
         </div>
     </footer>
 
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================ -->
     <script>
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('quinnesNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================
+        // MOBILE MENU TOGGLE
+        // ============================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navbarMenu');
+            const toggle = document.getElementById('navbarToggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.navbar-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const menu = document.getElementById('navbarMenu');
+                const toggle = document.getElementById('navbarToggle');
+                if (menu.classList.contains('active')) {
+                    menu.classList.remove('active');
+                    toggle.classList.remove('active');
+                }
+            });
+        });
+
+        // ============================================
+        // SMOOTH SCROLL TO SECTION
+        // ============================================
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const navbarHeight = 80;
+                const sectionPosition = section.offsetTop - navbarHeight;
+                window.scrollTo({
+                    top: sectionPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
         // ============================================
         // SECTION TOGGLE FUNCTIONALITY
         // ============================================
-        
         function toggleSection(sectionId) {
             const content = document.getElementById(sectionId);
             const header = content.previousElementSibling;
             
-            // Close all other sections
             document.querySelectorAll('.section-content').forEach(section => {
                 if (section.id !== sectionId && section.classList.contains('active')) {
                     section.classList.remove('active');
@@ -1072,11 +1372,9 @@ body {
                 }
             });
             
-            // Toggle current section
             content.classList.toggle('active');
             header.classList.toggle('active');
             
-            // Smooth scroll to section if opening
             if (content.classList.contains('active')) {
                 setTimeout(() => {
                     header.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1085,19 +1383,16 @@ body {
         }
 
         // ============================================
-        // QUINNES MORTGAGE POPUP FUNCTIONS
+        // POPUP FUNCTIONS
         // ============================================
-        
         function openQuinnesPopup() {
             document.getElementById('quinnesPopupOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scroll
+            document.body.style.overflow = 'hidden';
         }
 
         function closeQuinnesPopup() {
             document.getElementById('quinnesPopupOverlay').classList.remove('active');
-            document.body.style.overflow = ''; // Restore scroll
-            
-            // Reset form
+            document.body.style.overflow = '';
             document.getElementById('quinnesContactForm').reset();
             document.getElementById('quinnesFormMessage').className = 'quinnes-form-message';
             document.getElementById('quinnesFormMessage').textContent = '';
@@ -1113,7 +1408,6 @@ body {
                 }
             });
             
-            // Close with Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && overlay.classList.contains('active')) {
                     closeQuinnesPopup();
@@ -1133,17 +1427,14 @@ body {
                 const btnLoader = submitBtn.querySelector('.btn-loader');
                 const messageDiv = document.getElementById('quinnesFormMessage');
                 
-                // Disable button and show loader
                 submitBtn.disabled = true;
                 btnText.style.display = 'none';
                 btnLoader.style.display = 'inline-block';
                 messageDiv.className = 'quinnes-form-message';
                 messageDiv.textContent = '';
                 
-                // Get form data
                 const formData = new FormData(form);
                 
-                // Send AJAX request
                 fetch('/quinnes-contact-submit/', {
                     method: 'POST',
                     body: formData,
@@ -1157,8 +1448,6 @@ body {
                         messageDiv.className = 'quinnes-form-message success';
                         messageDiv.textContent = data.message;
                         form.reset();
-                        
-                        // Close popup after 3 seconds
                         setTimeout(() => {
                             closeQuinnesPopup();
                         }, 3000);
@@ -1180,26 +1469,8 @@ body {
         });
 
         // ============================================
-        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // SCROLL ANIMATION
         // ============================================
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // ============================================
-        // SCROLL ANIMATION EFFECT
-        // ============================================
-        
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1214,7 +1485,6 @@ body {
             });
         }, observerOptions);
 
-        // Observe all info sections for animation on scroll
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.info-section');
             sections.forEach(section => {
@@ -1225,3 +1495,4 @@ body {
             });
         });
     </script>
+</body>
