@@ -1,977 +1,1394 @@
-
 {% load static %}
-<style>
-    /* ============================================ */
-    /* COLOR VARIABLES - NAVY BLUE & GOLD THEME */
-    /* ============================================ */
-    
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quinns Mortgage - Your Trusted Home Financing Partner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-        --primary-color: #2a4a70;      /* Navy Blue */
-        --secondary-color: #e4b254;     /* Gold */
-        --primary-dark: #1a2f4a;        /* Darker Navy */
-        --secondary-light: #f0c97d;     /* Lighter Gold */
-        --white: #FFFFFF;
-        --black: #000000;
-        --light-bg: #f5f5f5;
-        --shadow: rgba(42, 74, 112, 0.15);
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: var(--black);
-        background-color: var(--white);
-        padding-top: 80px; /* Space for fixed navbar */
-    }
-
-    /* ============================================ */
-    /* NAVBAR STYLES */
-    /* ============================================ */
-    
-    .quinnes-navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: var(--white);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        transition: all 0.3s ease;
-    }
-
-    .quinnes-navbar.scrolled {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .navbar-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 30px;
-    }
-
-    .navbar-logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        color: var(--primary-color);
-        font-weight: 700;
-        font-size: 1.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-logo:hover {
-        color: var(--secondary-color);
-    }
-
-    .logo-icon {
-        width: 45px;
-        height: 45px;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
-        font-weight: 800;
-        font-size: 1.3rem;
-        box-shadow: 0 3px 10px rgba(42, 74, 112, 0.3);
-    }
-
-    .navbar-menu {
-        display: flex;
-        align-items: center;
-        gap: 35px;
-        list-style: none;
-    }
-
-    .navbar-item {
-        position: relative;
-    }
-
-    .navbar-link {
-        color: var(--black);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        padding: 8px 0;
-        position: relative;
-    }
-
-    .navbar-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 3px;
-        background: var(--secondary-color);
-        transition: width 0.3s ease;
-    }
-
-    .navbar-link:hover {
-        color: var(--primary-color);
-    }
-
-    .navbar-link:hover::after {
-        width: 100%;
-    }
-
-    .navbar-phone {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--white);
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 3px 10px rgba(228, 178, 84, 0.4);
-    }
-
-    .navbar-phone:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(228, 178, 84, 0.5);
-        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
-    }
-
-    .phone-icon {
-        font-size: 1.1rem;
-    }
-
-    /* Mobile Menu Toggle */
-    .navbar-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-    }
-
-    .navbar-toggle span {
-        width: 28px;
-        height: 3px;
-        background: var(--primary-color);
-        border-radius: 3px;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-toggle.active span:nth-child(1) {
-        transform: rotate(45deg) translate(8px, 8px);
-    }
-
-    .navbar-toggle.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .navbar-toggle.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -7px);
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
+        :root {
+            /* Navy Blue & Gold from Quinns branding */
+            --primary-navy: #1a3a5c;
+            --dark-navy: #0d1f35;
+            --light-navy: #2d5178;
+            --gold-primary: #c8963e;
+            --gold-light: #d4a853;
+            --gold-dark: #b8862e;
+            --white: #FFFFFF;
+            --light-bg: #f8f9fa;
+            --text-dark: #1a1a1a;
+            --text-gray: #4a5568;
+            --shadow: rgba(26, 58, 92, 0.15);
+        }
         body {
-            padding-top: 70px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+           
         }
 
-        .navbar-container {
-            padding: 12px 20px;
-        }
-
-        .navbar-toggle {
-            display: flex;
-        }
-
-        .navbar-menu {
+        /* ============================================ */
+        /* NAVBAR STYLES - EXACT MATCH TO SOLAR SITE */
+        /* ============================================ */
+        
+       .quinnes-navbar {
             position: fixed;
-            top: 70px;
-            left: -100%;
-            width: 100%;
-            background: var(--white);
-            flex-direction: column;
-            gap: 0;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            transition: left 0.3s ease;
-            align-items: flex-start;
-        }
-
-        .navbar-menu.active {
+            top: 0;
             left: 0;
+            right: 0;
+            background: transparent;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            padding: 20px 0;
+           
+           display: flex;
+        
+            
+     
         }
 
-        .navbar-item {
-            width: 100%;
-            border-bottom: 1px solid var(--light-bg);
-            padding: 15px 0;
-        }
-
-        .navbar-phone {
-            width: 100%;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 1.1rem;
+      
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px;
+            
         }
 
         .navbar-logo {
-            font-size: 1.3rem;
-        }
-    }
-
-    /* ============================================ */
-    /* HERO SECTION */
-    /* ============================================ */
-.hero {
-    background: 
-        linear-gradient(135deg, rgba(42, 74, 112, 0.9) 0%, rgba(26, 47, 74, 0.9) 100%),/* overlay gradient */
-        url("{% static 'images/mortgage.png' %}") no-repeat center center; /* image below */
-    
-    background-size: cover; /* make the image cover the hero */
-    /* ensures gradient blends nicely with the image */
-    color: var(--white);
-    padding: 120px 20px 80px;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0 50 Q 25 25, 50 50 T 100 50" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/></svg>');
-    opacity: 0.3;
-    pointer-events: none; /* ensures clicks go through */
-}
-
-
-
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 3.5rem;
-        margin-bottom: 15px;
-        font-weight: 700;
-        animation: fadeInDown 0.8s ease-out;
-    }
-
-    .tagline {
-        font-size: 1.4rem;
-        margin-bottom: 30px;
-        font-weight: 300;
-        animation: fadeInUp 0.8s ease-out 0.2s both;
-        color: var(--white);
-    }
-
-    .cta-button {
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
-        color: var(--black);
-        padding: 15px 40px;
-        font-size: 1.1rem;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(228, 178, 84, 0.4);
-        animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .cta-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(228, 178, 84, 0.5);
-        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
-    }
-
-    /* ============================================ */
-    /* CONTAINER */
-    /* ============================================ */
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 60px 20px;
-    }
-
-    /* ============================================ */
-    /* INFO SECTIONS */
-    /* ============================================ */
-    
-    .info-section {
-        background: var(--white);
-        border-radius: 12px;
-        margin-bottom: 25px;
-        box-shadow: 0 2px 8px var(--shadow);
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .info-section:hover {
-        box-shadow: 0 4px 16px var(--shadow);
-    }
-
-    .section-header {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        color: var(--white);
-        padding: 25px 30px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.3s ease;
-        border-radius: 12px;
-    }
-
-    .section-header:hover {
-        background: var(--primary-dark);
-    }
-
-    .section-header h2 {
-        font-size: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        font-weight: 600;
-        color: var(--white);
-    }
-
-    .icon {
-        width: 28px;
-        height: 28px;
-        stroke-width: 2.5;
-    }
-
-    .toggle-icon {
-        font-size: 2rem;
-        font-weight: 300;
-        transition: transform 0.3s ease;
-        color: var(--secondary-color);
-    }
-
-    .section-header.active .toggle-icon {
-        transform: rotate(45deg);
-    }
-
-    .section-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s ease-out;
-    }
-
-    .section-content.active {
-        max-height: 2000px;
-        transition: max-height 0.5s ease-in;
-    }
-
-    .section-content p {
-        padding: 25px 30px 15px;
-        font-size: 1.1rem;
-        color: #555;
-    }
-
-    .expanded-content {
-        padding: 0 30px 30px;
-        animation: fadeIn 0.5s ease-out;
-    }
-
-    .expanded-content h3 {
-        color: var(--primary-color);
-        margin-bottom: 15px;
-        font-size: 1.3rem;
-    }
-
-    .expanded-content ul {
-        margin-left: 20px;
-        margin-bottom: 20px;
-    }
-
-    .expanded-content li {
-        margin-bottom: 12px;
-        line-height: 1.7;
-        color: #555;
-    }
-
-    .expanded-content strong {
-        color: var(--secondary-color);
-        font-weight: 700;
-    }
-
-    .process-list {
-        list-style: none;
-        counter-reset: step-counter;
-        margin-left: 0;
-    }
-
-    .process-list li {
-        counter-increment: step-counter;
-        position: relative;
-        padding-left: 50px;
-        margin-bottom: 25px;
-    }
-
-    .process-list li::before {
-        content: counter(step-counter);
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: var(--secondary-color);
-        color: var(--black);
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    .process-list li p {
-        padding: 5px 0 0 0;
-        margin-top: 5px;
-        font-size: 0.95rem;
-    }
-
-    .more-info-btn {
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
-        color: var(--black);
-        padding: 12px 30px;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 700;
-        transition: all 0.3s ease;
-        margin-top: 15px;
-        box-shadow: 0 2px 8px rgba(228, 178, 84, 0.3);
-    }
-
-    .more-info-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(228, 178, 84, 0.4);
-        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
-    }
-
-    /* ============================================ */
-    /* FINANCE SECTIONS */
-    /* ============================================ */
-    
-    .finance-section {
-        padding: 60px 20px;
-        background: var(--light-bg);
-    }
-
-    .finance-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        gap: 30px;
-        flex-wrap: wrap;
-    }
-
-    .finance-card {
-        flex: 1 1 45%;
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        color: var(--white);
-        padding: 40px 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .finance-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    .finance-card h2 {
-        font-size: 2rem;
-        margin-bottom: 15px;
-    }
-
-    .finance-card p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 25px;
-    }
-
-    .finance-btn {
-        display: inline-block;
-        padding: 15px 35px;
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
-        color: var(--black);
-        font-weight: 700;
-        font-size: 1rem;
-        text-decoration: none;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(228, 178, 84, 0.3);
-    }
-
-    .finance-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(228, 178, 84, 0.4);
-        background: linear-gradient(135deg, var(--secondary-light), var(--secondary-color));
-    }
-
-    /* ============================================ */
-    /* FOOTER */
-    /* ============================================ */
-    
-    .footer {
-        background: var(--primary-color);
-        color: var(--white);
-        padding: 50px 20px 20px;
-        margin-top: 60px;
-    }
-
-    .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 40px;
-        margin-bottom: 30px;
-    }
-
-    .footer-section h3 {
-        margin-bottom: 15px;
-        font-size: 1.3rem;
-        color: var(--secondary-color);
-    }
-
-    .footer-section p {
-        margin-bottom: 10px;
-        line-height: 1.7;
-    }
-
-    .footer-link {
-        background: none;
-        border: none;
-        color: var(--white);
-        cursor: pointer;
-        padding: 5px 0;
-        display: block;
-        text-align: left;
-        font-size: 1rem;
-        transition: all 0.2s ease;
-        text-decoration: none;
-    }
-
-    .footer-link:hover {
-        color: var(--secondary-color);
-        padding-left: 5px;
-    }
-
-    .footer-bottom {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 0.9rem;
-    }
-
-    /* ============================================ */
-    /* POPUP STYLES */
-    /* ============================================ */
-    
-    .quinnes-popup-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        overflow-y: auto;
-        padding: 20px;
-        animation: quinnesFadeIn 0.3s ease;
-    }
-
-    .quinnes-popup-overlay.active {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .quinnes-popup-container {
-        background: white;
-        border-radius: 15px;
-        max-width: 600px;
-        width: 100%;
-        position: relative;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        animation: quinnesSlideUp 0.3s ease;
-    }
-
-    .quinnes-popup-close {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: transparent;
-        border: none;
-        font-size: 2rem;
-        color: var(--white);
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.3s;
-        z-index: 10;
-    }
-
-    .quinnes-popup-close:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: rotate(90deg);
-    }
-
-    .quinnes-popup-header {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-        color: white;
-        padding: 40px 30px 30px;
-        border-radius: 15px 15px 0 0;
-        text-align: center;
-    }
-
-    .quinnes-popup-header h2 {
-        margin: 0 0 10px 0;
-        font-size: 2rem;
-        font-weight: 700;
-    }
-
-    .quinnes-popup-header p {
-        margin: 0;
-        opacity: 0.95;
-        font-size: 1.1rem;
-    }
-
-    .quinnes-popup-form {
-        padding: 30px;
-    }
-
-    .quinnes-form-group {
-        margin-bottom: 20px;
-    }
-
-    .quinnes-form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #333;
-        font-weight: 600;
-        font-size: 0.95rem;
-    }
-
-    .quinnes-form-group input,
-    .quinnes-form-group select,
-    .quinnes-form-group textarea {
-        width: 100%;
-        padding: 12px 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: all 0.3s;
-        font-family: inherit;
-    }
-
-    .quinnes-form-group input:focus,
-    .quinnes-form-group select:focus,
-    .quinnes-form-group textarea:focus {
-        outline: none;
-        border-color: var(--secondary-color);
-        box-shadow: 0 0 0 3px rgba(228, 178, 84, 0.1);
-    }
-
-    .quinnes-form-group textarea {
-        resize: vertical;
-        min-height: 100px;
-    }
-
-    .quinnes-submit-btn {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(135deg, var(--secondary-color), var(--secondary-light));
-        color: var(--black);
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px rgba(228, 178, 84, 0.3);
-    }
-
-    .quinnes-submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(228, 178, 84, 0.4);
-    }
-
-    .quinnes-submit-btn:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .quinnes-form-message {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 600;
-        display: none;
-    }
-
-    .quinnes-form-message.success {
-        display: block;
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .quinnes-form-message.error {
-        display: block;
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    /* ============================================ */
-    /* ANIMATIONS */
-    /* ============================================ */
-    
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes quinnesFadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes quinnesSlideUp {
-        from {
-            transform: translateY(50px);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    /* ============================================ */
-    /* RESPONSIVE DESIGN */
-    /* ============================================ */
-    
-    @media (max-width: 768px) {
-        .hero h1 {
-            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.6rem;
+            transition: all 0.3s ease;
+            letter-spacing: -0.5px;
         }
 
-        .tagline {
-            font-size: 1.1rem;
+        .quinnes-navbar.scrolled .navbar-logo {
+            color: var(--primary-navy);
         }
 
-        .section-header h2 {
-            font-size: 1.2rem;
+        .navbar-logo:hover {
+            opacity: 0.8;
         }
 
-        .icon {
-            width: 24px;
-            height: 24px;
-        }
-
-        .container {
-            padding: 40px 15px;
-        }
-
-        .section-header,
-        .section-content p,
-        .expanded-content {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .footer-content {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        .quinnes-popup-container {
-            margin: 20px;
-        }
+       .navbar-logo-img {
+            height: 58px; /* ✅ smaller logo */
+            width: auto;
+            object-fit: contain;
         
-        .quinnes-popup-header h2 {
-            font-size: 1.5rem;
-        }
-        
-        .quinnes-popup-form {
-            padding: 20px;
+            transition: filter 0.3s ease;
         }
 
-        .finance-container {
-            flex-direction: column;
-            gap: 20px;
+        .quinnes-navbar.scrolled .navbar-logo-img {
+            filter: none;
         }
 
-        .finance-card {
-            flex: 1 1 100%;
-            padding: 30px 20px;
+         
+
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+            list-style: none;
+           padding: 15px;
+         background: rgba(255, 255, 255, 0.51);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+             backdrop-filter: blur(10px);
+           
+
         }
 
-        .finance-card h2 {
-            font-size: 1.5rem;
+        .navbar-item {
+            position: relative;
         }
 
-        .finance-card p {
+        .navbar-link {
+             color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 8px 0;
+            position: relative;
+            opacity: 0.95;
+        }
+
+        .quinnes-navbar.scrolled .navbar-link {
+            color: var(--primary-navy);
+        }
+
+        .navbar-link:hover {
+            opacity: 1;
+            color: var(--gold-primary);
+        }
+
+        .quinnes-navbar.scrolled .navbar-link:hover {
+            color: var(--gold-primary);
+        }
+
+        .navbar-phone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--white);
+     
+            padding: 12px 28px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            padding: 5px;
+        }
+
+        .quinnes-navbar.scrolled .navbar-phone {
+            background: linear-gradient(135deg, var(--primary-navy), var(--primary-navy));
+            color: var(--white);
+        }
+
+        .navbar-phone:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .phone-icon {
             font-size: 1rem;
         }
 
-        .finance-btn {
-            padding: 12px 25px;
-            font-size: 0.95rem;
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
         }
-    }
 
-    @media (max-width: 480px) {
+        .navbar-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--white);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .quinnes-navbar.scrolled .navbar-toggle span {
+            background: var(--primary-navy);
+        }
+
+        /* ============================================ */
+        /* HERO SECTION - EXACT MATCH TO SOLAR SITE */
+        /* ============================================ */
+        .quinnes-navbar.scrolled .navbar-logo-img {
+            filter: none;
+        }
+
+        /* HERO */
         .hero {
-            padding: 80px 15px 60px;
+            min-height: 100vh;
+            background:
+               
+                url("{% static 'images/mortgage.png' %}") no-repeat center center;
+            background-size: cover;
+            color: var(--white);
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(26, 58, 92, 0.76) 0%,   /* --primary-navy (strong on left) */
+    rgba(13, 31, 53, 0.45) 35%, /* --dark-navy (soften) */
+    rgba(45, 81, 120, 0.18) 55%,/* --light-navy (fade) */
+    rgba(45, 81, 120, 0.0) 70%  /* fully transparent by middle/right */
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+        
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+            top: 69px;
+        }
+
+        .hero-tag {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
         }
 
         .hero h1 {
-            font-size: 2rem;
+            font-size: 4rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+            line-height: 1.1;
+            max-width: 900px;
+            color: var(--white);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-cta-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
         }
 
         .cta-button {
-            padding: 12px 30px;
+            background: var(--white); background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            color: var(--white);
+            padding: 16px 35px;
             font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-    }
 
-    .navbar-logo-img {
-  height: 40px;       /* adjust as you like: 30px–50px works well */
-  width: auto;        /* keeps aspect ratio */
-  object-fit: contain;
-}
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: var(--gold-primary);
+            color: var(--white);
+        }
 
-@media (max-width: 768px) {
-  .navbar-logo-img {
-    height: 32px;
-  }
-}
-</style>
+        .cta-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
 
+        .cta-button:hover .cta-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Social Icons - Bottom Left */
+        .hero-social {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            display: flex;
+            gap: 15px;
+            z-index: 3;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icon:hover {
+            background: var(--gold-primary);
+            transform: translateY(-3px);
+            border-color: var(--gold-primary);
+        }
+
+        /* Carousel Indicator - Bottom Right of Hero */
+        .hero-carousel {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 3;
+        }
+
+        .carousel-text {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--white);
+            transform: scale(1.2);
+        }
+
+        /* Preview Card - Bottom Right */
+        .hero-preview-card {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            width: 380px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            background: 
+                linear-gradient(135deg, rgba(26, 58, 92, 0.3) 0%, rgba(13, 31, 53, 0.4) 100%),
+                url("{% static 'images/preview-icon.jpg' %}") no-repeat center center;
+            background-size: cover;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .preview-content h3 {
+            color: var(--primary-navy);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .preview-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-navy);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .preview-cta:hover {
+            color: var(--gold-primary);
+            gap: 12px;
+        }
+
+        .preview-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .preview-cta:hover .preview-arrow {
+            transform: translateX(3px);
+        }
+
+        /* ============================================ */
+        /* CONTAINER */
+        /* ============================================ */
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* ============================================ */
+        /* INFO SECTIONS - NEW IMAGE-BASED DESIGN */
+        /* ============================================ */
+        
+        .info-section {
+            background: var(--white);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 12px var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(200, 150, 62, 0.2);
+        }
+
+        .info-section:hover {
+            box-shadow: 0 5px 20px var(--shadow);
+            transform: translateY(-3px);
+            border-color: var(--gold-primary);
+        }
+
+        /* Section Header with Background Image */
+        .section-header {
+            position: relative;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 30px 40px;
+            overflow: hidden;
+        }
+
+        /* Dark overlay for better text readability */
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%);
+            z-index: 1;
+        }
+
+        /* Animated shine effect on hover */
+        .section-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(200, 150, 62, 0.3), transparent);
+            transition: left 0.6s ease;
+            z-index: 2;
+        }
+
+        .info-section:hover .section-header::after {
+            left: 100%;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            color: var(--white);
+            position: relative;
+            z-index: 3;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon {
+            width: 35px;
+            height: 35px;
+            stroke-width: 2.5;
+            stroke: var(--gold-primary);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Content Area - Always Visible */
+        .section-content {
+            padding: 35px 40px;
+            background: var(--white);
+        }
+
+        .section-content p {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .expanded-content h3 {
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-left: 20px;
+            font-weight: 700;
+        }
+
+        .expanded-content h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            border-radius: 3px;
+        }
+
+        .expanded-content ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+
+        .expanded-content li {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: var(--text-gray);
+            font-size: 1.05rem;
+        }
+
+        .expanded-content strong {
+            color: var(--gold-dark);
+            font-weight: 700;
+        }
+
+        .process-list {
+            list-style: none;
+            counter-reset: step-counter;
+            margin-left: 0;
+        }
+
+        .process-list li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+
+        .process-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(200, 150, 62, 0.3);
+            border: 3px solid var(--gold-light);
+        }
+
+        .process-list li strong {
+            display: block;
+            color: var(--primary-navy);
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .process-list li p {
+            padding: 0;
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-gray);
+        }
+
+        .more-info-btn {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--white);
+            padding: 14px 35px;
+            border: 2px solid var(--gold-light);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(200, 150, 62, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .more-info-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 5px 15px rgba(200, 150, 62, 0.4);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+        }
+
+        /* Specific background images for each section */
+        #prequalification-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/prequalification-bg.jpg' %}");
+        }
+
+        #loanprograms-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/loan-programs-bg.jpg' %}");
+        }
+
+        #refinancing-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/refinancing-bg.jpg' %}");
+        }
+
+        #firsttime-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/first-time-buyer-bg.jpg' %}");
+        }
+
+        #thirdparty-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/third-party-bg.jpg' %}");
+        }
+
+        #process-section .section-header {
+            background-image: linear-gradient(135deg, rgba(26, 58, 92, 0.85) 0%, rgba(13, 31, 53, 0.9) 100%),
+                              url("{% static 'images/mortgage-process-bg.jpg' %}");
+        }
+
+        /* ============================================ */
+        /* FINANCE SECTIONS */
+        /* ============================================ */
+        
+        .finance-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--light-bg) 0%, var(--white) 100%);
+            position: relative;
+        }
+
+        .finance-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+        }
+
+        .finance-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .finance-card {
+            flex: 1 1 45%;
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+            color: var(--white);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(26, 58, 92, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--gold-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(200, 150, 62, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .finance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(200, 150, 62, 0.3);
+        }
+
+        .finance-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            color: var(--gold-light);
+        }
+
+        .finance-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .finance-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(200, 150, 62, 0.3);
+            border: 2px solid var(--gold-light);
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .finance-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(200, 150, 62, 0.4);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+        }
+
+        /* ============================================ */
+        /* FOOTER */
+        /* ============================================ */
+        
+        .footer {
+            background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-navy) 100%);
+            color: var(--white);
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+            position: relative;
+            border-top: 4px solid var(--gold-primary);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .footer-link {
+            background: none;
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            padding: 5px 0;
+            display: block;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: var(--gold-primary);
+            padding-left: 8px;
+            text-shadow: 0 0 10px rgba(200, 150, 62, 0.5);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(200, 150, 62, 0.3);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================ */
+        /* POPUP STYLES */
+        /* ============================================ */
+        
+        .quinnes-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 31, 53, 0.85);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+            animation: quinnesFadeIn 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .quinnes-popup-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quinnes-popup-container {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            animation: quinnesSlideUp 0.3s ease;
+            border: 3px solid var(--gold-primary);
+        }
+
+        .quinnes-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(200, 150, 62, 0.2);
+            border: 2px solid var(--gold-primary);
+            font-size: 2rem;
+            color: var(--white);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .quinnes-popup-close:hover {
+            background: var(--gold-primary);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .quinnes-popup-header {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--dark-navy) 100%);
+            color: white;
+            padding: 40px 30px 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quinnes-popup-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(200, 150, 62, 0.2) 0%, transparent 70%);
+           
+        }
+
+    
+
+        .quinnes-popup-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            color: var(--gold-light);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .quinnes-popup-header p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quinnes-popup-form {
+            padding: 30px;
+        }
+
+        .quinnes-form-group {
+            margin-bottom: 20px;
+        }
+
+        .quinnes-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-navy);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .quinnes-form-group input,
+        .quinnes-form-group select,
+        .quinnes-form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .quinnes-form-group input:focus,
+        .quinnes-form-group select:focus,
+        .quinnes-form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.15);
+        }
+
+        .quinnes-form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .quinnes-submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+            color: var(--white);
+            border: 2px solid var(--gold-light);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(200, 150, 62, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quinnes-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200, 150, 62, 0.4);
+        }
+
+        .quinnes-submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            border-color: #999;
+        }
+
+        .quinnes-form-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .quinnes-form-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid var(--gold-primary);
+        }
+
+        .quinnes-form-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* ============================================ */
+        /* ANIMATIONS */
+        /* ============================================ */
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes quinnesFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes quinnesSlideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE DESIGN */
+        /* ============================================ */
+        
+        @media (max-width: 768px) {
+            body
+
+            .navbar-container {
+                padding: 0 20px;
+            }
+
+            .navbar-toggle {
+                display: flex;
+            }
+
+            .navbar-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .navbar-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .navbar-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+
+            .navbar-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                gap: 0;
+                padding: 20px;
+                box-shadow: 0 5px 20px rgba(26, 58, 92, 0.2);
+                transition: left 0.3s ease;
+                align-items: flex-start;
+            }
+
+            .navbar-menu.active {
+                left: 0;
+            }
+
+            .navbar-item {
+                width: 100%;
+                border-bottom: 1px solid var(--light-bg);
+                padding: 15px 0;
+            }
+
+            .navbar-link {
+                color: var(--primary-navy) !important;
+            }
+
+            .navbar-phone {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                background: linear-gradient(135deg, var(--gold-primary), var(--gold-light));
+                color: var(--white);
+            }
+
+            .navbar-logo-img {
+                height: 32px;
+            }
+
+            .navbar-logo {
+                font-size: 1.3rem;
+            }
+
+            .hero-content {
+                padding: 0 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-tag {
+                font-size: 0.9rem;
+            }
+
+            .hero-social {
+                left: 20px;
+                bottom: 120px;
+            }
+
+            .hero-carousel {
+                right: 20px;
+                bottom: 20px;
+            }
+
+            .hero-preview-card {
+                display: none;
+            }
+
+            .section-header {
+                height: 150px;
+                padding: 20px 25px;
+            }
+
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .container {
+                padding: 40px 15px;
+            }
+
+            .section-content {
+                padding: 25px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .quinnes-popup-container {
+                margin: 20px;
+            }
+            
+            .quinnes-popup-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .quinnes-popup-form {
+                padding: 20px;
+            }
+
+            .finance-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .finance-card {
+                flex: 1 1 100%;
+                padding: 30px 20px;
+            }
+
+            .finance-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .finance-card p {
+                font-size: 1rem;
+            }
+
+            .finance-btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 80px 15px 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .social-icon {
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+
+
+
+
+
+
+    </style>
+</head>
 <body>
     <!-- ============================================ -->
     <!-- STICKY NAVBAR -->
     <!-- ============================================ -->
     <nav class="quinnes-navbar" id="quinnesNavbar">
-       <div class="navbar-container">
-    <!-- Logo -->
-    <a href="/" class="navbar-logo">
-        <img 
-            src="{% static 'images/Quininsmortgage.png' %}" 
-            alt="Quinnes Mortgage Logo"
-            class="navbar-logo-img"
-        />
-       <span>Quinns Mortgage</span>
-    </a>
+        <div class="navbar-container">
+          
 
-    <!-- Mobile Toggle -->
-    <button class="navbar-toggle" id="navbarToggle" onclick="toggleMobileMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggle" id="navbarToggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
             <!-- Navigation Menu -->
             <ul class="navbar-menu" id="navbarMenu">
-                <li class="navbar-item">
-                    <a class="navbar-link" onclick="scrollToSection('mortgage-dictionary-section')">Mortgage Dictionary</a>
+                 <li class="navbar-item">
+                    <a href="{% url 'quinnes_mortgage' %}" class="navbar-link">Quinns Mortgage</a>
                 </li>
+                 <li class="navbar-item">
+                    <a class="navbar-link" href="#home-financing-section">Home Financing</a>
+                </li>
+                <li>
+                      <!-- Logo -->
+                 <a href="{% url 'quinnes_mortgage' %}" class="navbar-logo">
+                     <img 
+                         src="{% static 'images/Quininsmortgage.png' %}" 
+                          alt="Quinnes Mortgage Logo"
+                          class="navbar-logo-img"
+                        />
+                       
+                    </a>
+                </li>
+               
                 <li class="navbar-item">
-                    <a class="navbar-link" onclick="scrollToSection('home-financing-section')">Home Financing</a>
+                    <a class="navbar-link" href="#home-financing-section">Mortgage Dictionary</a>
                 </li>
                 <li class="navbar-item">
                     <a href="tel:18329622241" class="navbar-phone">
-                        <span class="phone-icon">📞</span>
+                        
                         <span>1(832) 962-2241</span>
                     </a>
                 </li>
             </ul>
         </div>
-    </nav>
+    </nav> 
 
     <!-- ============================================ -->
     <!-- HERO SECTION -->
     <!-- ============================================ -->
     <header class="hero">
         <div class="hero-content">
-            <h1>Quinns Mortgage</h1>
-            <p class="tagline">Your Trusted Partner in Home Financing Solutions</p>
-            <button class="cta-button" onclick="openQuinnesPopup()">Get Started Today</button>
+            <p class="hero-tag">More Home Financing Options</p>
+            <h1>Experience the future<br>of Home Financing.</h1>
+            
+            <div class="hero-cta-wrapper">
+                <button class="cta-button" onclick="openQuinnesPopup()">
+                    Get Started
+                    <span class="cta-arrow">→</span>
+                </button>
+            </div>
         </div>
+
+        <!-- Social Icons - Bottom Left -->
+        <div class="hero-social">
+            <a href="#" class="social-icon" aria-label="Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="LinkedIn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Carousel Indicator - Bottom Center -->
+        {% comment %} <div class="hero-carousel">
+            <span class="carousel-text">1/5</span>
+            <div class="carousel-dots">
+                <div class="carousel-dot active"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+                <div class="carousel-dot"></div>
+            </div>
+        </div> {% endcomment %}
+
+        <!-- Preview Card - Bottom Right -->
+        
     </header>
 
     <!-- ============================================ -->
@@ -980,7 +1397,7 @@
     <main class="container">
         <!-- Pre-Qualification Section -->
         <section class="info-section" id="prequalification-section">
-            <div class="section-header" onclick="toggleSection('prequalification')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M9 11l3 3L22 4"></path>
@@ -988,9 +1405,9 @@
                     </svg>
                     Get Pre-Qualified
                 </h2>
-                <span class="toggle-icon">+</span>
+                <img />
             </div>
-            <div class="section-content" id="prequalification">
+            <div class="section-content">
                 <p>Getting pre-qualified is your first step toward homeownership. It gives you a clear understanding of how much you can afford and strengthens your position when making an offer.</p>
                 <div class="expanded-content">
                     <h3>Benefits of Pre-Qualification:</h3>
@@ -1008,7 +1425,7 @@
 
         <!-- Loan Programs Section -->
         <section class="info-section" id="loanprograms-section">
-            <div class="section-header" onclick="toggleSection('loanprograms')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
@@ -1016,9 +1433,8 @@
                     </svg>
                     Loan Programs Available
                 </h2>
-                <span class="toggle-icon">+</span>
             </div>
-            <div class="section-content" id="loanprograms">
+            <div class="section-content">
                 <p>We offer a comprehensive range of mortgage programs designed to meet diverse financial situations and homeownership goals.</p>
                 <div class="expanded-content">
                     <h3>Our Loan Options:</h3>
@@ -1038,7 +1454,7 @@
 
         <!-- Refinancing Section -->
         <section class="info-section" id="refinancing-section">
-            <div class="section-header" onclick="toggleSection('refinancing')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <polyline points="23 4 23 10 17 10"></polyline>
@@ -1047,9 +1463,8 @@
                     </svg>
                     Refinancing Options
                 </h2>
-                <span class="toggle-icon">+</span>
             </div>
-            <div class="section-content" id="refinancing">
+            <div class="section-content">
                 <p>Refinancing can help you secure a lower interest rate, reduce monthly payments, or access your home's equity for important expenses.</p>
                 <div class="expanded-content">
                     <h3>Why Refinance?</h3>
@@ -1068,7 +1483,7 @@
 
         <!-- First-Time Home Buyers Section -->
         <section class="info-section" id="firsttime-section">
-            <div class="section-header" onclick="toggleSection('firsttime')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
@@ -1076,9 +1491,8 @@
                     </svg>
                     First-Time Home Buyers
                 </h2>
-                <span class="toggle-icon">+</span>
             </div>
-            <div class="section-content" id="firsttime">
+            <div class="section-content">
                 <p>Buying your first home is an exciting milestone. We specialize in guiding first-time buyers through every step of the process with patience and expertise.</p>
                 <div class="expanded-content">
                     <h3>Special Programs for First-Time Buyers:</h3>
@@ -1103,7 +1517,7 @@
 
         <!-- Third Party Financing Section -->
         <section class="info-section" id="thirdparty-section">
-            <div class="section-header" onclick="toggleSection('thirdparty')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
@@ -1111,9 +1525,8 @@
                     </svg>
                     Third Party Financing
                 </h2>
-                <span class="toggle-icon">+</span>
             </div>
-            <div class="section-content" id="thirdparty">
+            <div class="section-content">
                 <p>Beyond traditional mortgage options, we connect you with alternative financing solutions through our network of trusted third-party lenders and investors.</p>
                 <div class="expanded-content">
                     <h3>Alternative Financing Options:</h3>
@@ -1139,7 +1552,7 @@
 
         <!-- The Mortgage Process Section -->
         <section class="info-section" id="process-section">
-            <div class="section-header" onclick="toggleSection('process')">
+            <div class="section-header">
                 <h2>
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -1147,43 +1560,42 @@
                     </svg>
                     The Mortgage Process
                 </h2>
-                <span class="toggle-icon">+</span>
             </div>
-            <div class="section-content" id="process">
+            <div class="section-content">
                 <p>Understanding the mortgage process helps reduce stress and ensures a smooth path to homeownership. Here's what to expect when working with Quinnes Mortgage.</p>
                 <div class="expanded-content">
                     <h3>Step-by-Step Process:</h3>
                     <ol class="process-list">
                         <li>
-                            <strong>Pre-Qualification (1-2 days):</strong>
+                            <strong>Pre-Qualification (1-2 days)</strong>
                             <p>Submit basic financial information for an initial assessment of your buying power.</p>
                         </li>
                         <li>
-                            <strong>Pre-Approval (3-5 days):</strong>
+                            <strong>Pre-Approval (3-5 days)</strong>
                             <p>Complete application with documentation. Receive conditional approval letter for house hunting.</p>
                         </li>
                         <li>
-                            <strong>House Hunting:</strong>
+                            <strong>House Hunting</strong>
                             <p>Find your dream home within your approved budget with confidence.</p>
                         </li>
                         <li>
-                            <strong>Purchase Agreement:</strong>
+                            <strong>Purchase Agreement</strong>
                             <p>Make an offer and negotiate terms with the seller.</p>
                         </li>
                         <li>
-                            <strong>Loan Processing (10-14 days):</strong>
+                            <strong>Loan Processing (10-14 days)</strong>
                             <p>Submit final documentation. Lender orders appraisal and title search.</p>
                         </li>
                         <li>
-                            <strong>Underwriting (5-7 days):</strong>
+                            <strong>Underwriting (5-7 days)</strong>
                             <p>Final review and approval of your loan application and supporting documents.</p>
                         </li>
                         <li>
-                            <strong>Clear to Close:</strong>
+                            <strong>Clear to Close</strong>
                             <p>Receive final approval and schedule your closing date.</p>
                         </li>
                         <li>
-                            <strong>Closing Day:</strong>
+                            <strong>Closing Day</strong>
                             <p>Sign documents, receive keys, and celebrate your new home!</p>
                         </li>
                     </ol>
@@ -1344,45 +1756,6 @@
         });
 
         // ============================================
-        // SMOOTH SCROLL TO SECTION
-        // ============================================
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                const navbarHeight = 80;
-                const sectionPosition = section.offsetTop - navbarHeight;
-                window.scrollTo({
-                    top: sectionPosition,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // ============================================
-        // SECTION TOGGLE FUNCTIONALITY
-        // ============================================
-        function toggleSection(sectionId) {
-            const content = document.getElementById(sectionId);
-            const header = content.previousElementSibling;
-            
-            document.querySelectorAll('.section-content').forEach(section => {
-                if (section.id !== sectionId && section.classList.contains('active')) {
-                    section.classList.remove('active');
-                    section.previousElementSibling.classList.remove('active');
-                }
-            });
-            
-            content.classList.toggle('active');
-            header.classList.toggle('active');
-            
-            if (content.classList.contains('active')) {
-                setTimeout(() => {
-                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-            }
-        }
-
-        // ============================================
         // POPUP FUNCTIONS
         // ============================================
         function openQuinnesPopup() {
@@ -1469,30 +1842,27 @@
         });
 
         // ============================================
-        // SCROLL ANIMATION
+        // SMOOTH SCROLL
         // ============================================
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navbarHeight = 80;
+                    const targetPosition = target.offsetTop - navbarHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
                 }
-            });
-        }, observerOptions);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.info-section');
-            sections.forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
             });
         });
     </script>
+
+
+
+
+    
 </body>
+</html>
